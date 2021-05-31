@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Map Seattle, search places, and navigate around the University of Washington campus.">
     <link href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>"
           rel="icon">
     <title>Husky Maps</title>
@@ -111,18 +113,18 @@
 </head>
 <body>
 <main>
-    <img id="map">
+    <img id="map" alt="Map">
 </main>
 <nav>
     <input id="search" placeholder="Search places" type="search">
     <a id="clear">✨</a>
 </nav>
 <footer id="mapbox">
-    <a class="mapbox-wordmark" href="http://mapbox.com/about/maps" target="_blank">Mapbox</a>
+    <a class="mapbox-wordmark" href="http://mapbox.com/about/maps" target="_blank" rel="noopener">Mapbox</a>
     <div class="mapbox-attribution-container">
         <a href="https://www.mapbox.com/about/maps/">© Mapbox | </a>
         <a href="https://www.openstreetmap.org/copyright">© OpenStreetMap | </a>
-        <a href="https://www.mapbox.com/map-feedback/" target="_blank"><strong>Improve this map</strong></a>
+        <a href="https://www.mapbox.com/map-feedback/" target="_blank" rel="noopener"><strong>Improve this map</strong></a>
     </div>
 </footer>
 <script src="https://unpkg.com/autocompleter@6.1.0/autocomplete.min.js"></script>
@@ -191,6 +193,8 @@
                     .then(response => response.json())
                     .then(data => {
                         map.src = 'data:image/png;base64,' + data.image;
+                        map.width = window.innerWidth;
+                        map.height = window.innerHeight;
                         ullonBound = data.ullon;
                         ullatBound = data.ullat;
                         getInProgress = false;
