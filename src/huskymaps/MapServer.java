@@ -135,14 +135,6 @@ public class MapServer {
      */
     private static URL url(BoundingBox bbox, int width, int height, List<Location> locations)
             throws MalformedURLException {
-        String scale;
-        if (width > 1280 || height > 1280) {
-            width = (int) Math.ceil(width / 2.);
-            height = (int) Math.ceil(height / 2.);
-            scale = "@2x";
-        } else {
-            scale = "";
-        }
         String markers = "";
         if (locations != null && !locations.isEmpty()) {
             markers = locations.stream().map(location -> String.format(
@@ -157,7 +149,7 @@ public class MapServer {
                 markers,
                 bbox.ullon, bbox.lrlat, // minLon, minLat
                 bbox.lrlon, bbox.ullat, // maxLon, maxLat
-                width, height, scale,
+                (int) Math.ceil(width / 2.), (int) Math.ceil(height / 2.), "@2x",
                 System.getenv("TOKEN")
         ));
     }
