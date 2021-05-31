@@ -29,7 +29,7 @@ import java.util.zip.GZIPInputStream;
 public class MapGraph implements AStarGraph<Location> {
     private final String osmPath;
     private final String placesPath;
-    private final Map<Location, Set<NamedEdge<Location>>> neighbors;
+    private final Map<Location, Set<Edge<Location>>> neighbors;
     private final Map<String, List<Location>> locations;
     private final Autocomplete autocomplete;
     private final Map<CharSequence, Integer> importance;
@@ -138,11 +138,11 @@ public class MapGraph implements AStarGraph<Location> {
     /**
      * Adds an edge to this graph if it doesn't already exist, using distance as the weight.
      */
-    private void addEdge(Location from, Location to, String name) {
+    private void addEdge(Location from, Location to) {
         if (!neighbors.containsKey(from)) {
             neighbors.put(from, new HashSet<>());
         }
-        neighbors.get(from).add(new NamedEdge<>(from, to, from.distance(to), name));
+        neighbors.get(from).add(new Edge<>(from, to, from.distance(to)));
     }
 
     /**
@@ -153,7 +153,6 @@ public class MapGraph implements AStarGraph<Location> {
         private String state;
         private long id;
         private boolean validWay;
-        private String wayName;
         private Location.Builder builder;
         private Queue<Location> path;
 
@@ -183,7 +182,6 @@ public class MapGraph implements AStarGraph<Location> {
             state = "";
             id = Long.MIN_VALUE;
             validWay = false;
-            wayName = "";
             builder = new Location.Builder();
             path = new ArrayDeque<>();
         }
@@ -219,8 +217,6 @@ public class MapGraph implements AStarGraph<Location> {
                 String v = attributes.getValue("v");
                 if (k.equals("highway")) {
                     validWay = Constants.ALLOWED_HIGHWAY_TYPES.contains(v);
-                } else if (k.equals("name")) {
-                    wayName = v;
                 }
             } else if (state.equals("node") && qName.equals("tag") && attributes.getValue("k").equals("name")) {
                 String name = attributes.getValue("v").strip()
@@ -249,8 +245,8 @@ public class MapGraph implements AStarGraph<Location> {
                     Location from = path.remove();
                     while (!path.isEmpty()) {
                         Location to = path.remove();
-                        addEdge(from, to, wayName);
-                        addEdge(to, from, wayName);
+                        addEdge(from, to);
+                        addEdge(to, from);
                         from = to;
                     }
                 }
