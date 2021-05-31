@@ -1,0 +1,20 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="MapServer" type="Application" factoryName="Application" nameIsGenerated="true">
+    <envs>
+      <env name="USERNAME" value="mapbox" />
+      <env name="STYLE_ID" value="cj7t3i5yj0unt2rmt3y4b5e32" />
+      <env name="TOKEN" value="" />
+    </envs>
+    <option name="MAIN_CLASS_NAME" value="huskymaps.MapServer" />
+    <module name="project" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="huskymaps.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
