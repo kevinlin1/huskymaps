@@ -9,12 +9,10 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Base64;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -56,7 +54,9 @@ public class MapServer {
                 ctx.sessionAttribute("bbox", null);
                 ctx.sessionAttribute("image", null);
             }
-            ctx.json(bbox.with(image));
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            ImageIO.write(image, "png", os);
+            ctx.result(Base64.getEncoder().encode(os.toByteArray()));
         });
         app.get("/route", ctx -> {
             Location src = Location.parse(ctx.queryParam("startLat"), ctx.queryParam("startLon"));
@@ -64,13 +64,11 @@ public class MapServer {
             ctx.sessionAttribute("src", src);
             ctx.sessionAttribute("dest", dest);
             ctx.sessionAttribute("term", null);
-            ctx.json(true);
         });
         app.get("/clear", ctx -> {
             ctx.sessionAttribute("src", null);
             ctx.sessionAttribute("dest", null);
             ctx.sessionAttribute("term", null);
-            ctx.json(true);
         });
         app.get("/search", ctx -> {
             List<CharSequence> result = map.getLocationsByPrefix(ctx.queryParam("term"));
@@ -190,28 +188,6 @@ public class MapServer {
                     ctx.queryParam("ullon", Double.class).get(),
                     ctx.queryParam("lrlat", Double.class).get(),
                     ctx.queryParam("lrlon", Double.class).get()
-            );
-        }
-
-        /**
-         * Returns a new JSON-serializable {@link Map} with the base64-encoded image and all of the fields.
-         *
-         * @param image the input image to include in the result.
-         * @return a new JSON-serializable {@link Map} with the base64-encoded image and all of the fields.
-         */
-        private Map<String, Object> with(BufferedImage image) {
-            ByteArrayOutputStream os = new ByteArrayOutputStream();
-            try {
-                ImageIO.write(image, "png", os);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return Map.of(
-                    "image", Base64.getEncoder().encodeToString(os.toByteArray()),
-                    "ullat", ullat,
-                    "ullon", ullon,
-                    "lrlat", lrlat,
-                    "lrlon", lrlon
             );
         }
 

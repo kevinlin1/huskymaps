@@ -130,17 +130,15 @@
 <script src="https://unpkg.com/autocompleter@6.1.0/autocomplete.min.js"></script>
 <script>
         const map = document.getElementById('map');
+        map.addEventListener('dragstart', event => event.preventDefault());
         const search = document.getElementById('search');
-        var getInProgress = false;
-        var updatePending = false;
-        var routeParams = {};
-        var ullonBound, ullatBound;
-
-        const MAX_DEPTH = 16;
-        const MIN_DEPTH = 6;
-        var depth = 11;
-        var lat = 47.6553;
-        var lon = -122.3035;
+        let getInProgress = false;
+        let updatePending = false;
+        let routeParams = {};
+        let depth = 11;
+        let lat = 47.6553;
+        let lon = -122.3035;
+        let bounds;
 
         function lonDPP() {
             return 0.3515625 / Math.pow(2, depth);
@@ -148,22 +146,6 @@
 
         function latDPP() {
             return -0.23689728184 / Math.pow(2, depth);
-        }
-
-        function handleHashParameters() {
-            var hash = window.location.hash.substring(1).split('&');
-            for (var i = 0; i < hash.length; i += 1) {
-                var temp = hash[i].split('=');
-                if (temp[0] === 'lat') {
-                    lat = parseFloat(temp[1]);
-                } else if (temp[0] === 'lon') {
-                    lon = parseFloat(temp[1]);
-                } else if (temp[0] === 'depth') {
-                    depth = parseInt(temp[1]);
-                    console.log("new depth " + depth);
-                }
-            }
-            update();
         }
 
         function getViewBounds() {
@@ -174,29 +156,30 @@
                 lrlon: lon + (0.5 * window.innerWidth * lonDPP()),
                 width: window.innerWidth,
                 height: window.innerHeight
-            }
+            };
         }
+        bounds = getViewBounds();
 
         function translate() {
-            var viewBounds = getViewBounds();
-            var tx = (ullonBound - viewBounds.ullon) / lonDPP();
-            var ty = (ullatBound - viewBounds.ullat) / latDPP();
-            var newHash = "lat=" + lat + "&lon=" + lon + "&depth=" + depth;
-            history.replaceState(null, null, document.location.pathname + '#' + newHash);
+            const viewBounds = getViewBounds();
+            const tx = (bounds.ullon - viewBounds.ullon) / lonDPP();
+            const ty = (bounds.ullat - viewBounds.ullat) / latDPP();
+            const hash = "lat=" + lat + "&lon=" + lon + "&depth=" + depth;
+            history.replaceState(null, null, document.location.pathname + '#' + hash);
             map.style.transform = 'translateX(' + tx + 'px) translateY(' + ty + 'px)';
         }
 
         function update() {
             if (!getInProgress) {
                 getInProgress = true;
-                fetch('/raster?' + new URLSearchParams(getViewBounds()))
-                    .then(response => response.json())
-                    .then(data => {
-                        map.src = 'data:image/png;base64,' + data.image;
+                const viewBounds = getViewBounds();
+                fetch('/raster?' + new URLSearchParams(viewBounds))
+                    .then(response => response.text())
+                    .then(image => {
+                        map.src = 'data:image/png;base64,' + image;
                         map.width = window.innerWidth;
                         map.height = window.innerHeight;
-                        ullonBound = data.ullon;
-                        ullatBound = data.ullat;
+                        bounds = viewBounds;
                         getInProgress = false;
                         translate();
                         if (updatePending) {
@@ -208,12 +191,13 @@
                 updatePending = true;
             }
         }
+        document.addEventListener('onresize', update);
 
         autocomplete({
             input: search,
-            fetch: (query, update) => fetch('/search?term=' + query)
+            fetch: (text, callback) => fetch('/search?term=' + text)
                     .then(response => response.json())
-                    .then(update),
+                    .then(callback),
             render: (item, currentValue) => {
                 const div = document.createElement('div');
                 div.textContent = item;
@@ -236,9 +220,9 @@
             }
             const startX = event.pageX;
             const startY = event.pageY;
-            var startLon = lon;
-            var startLat = lat;
-            var pressed = true;
+            const startLon = lon;
+            const startLat = lat;
+            let pressed = true;
 
             document.addEventListener('mousemove', event => {
                 if (pressed) {
@@ -277,20 +261,33 @@
 
         document.addEventListener('wheel', event => {
             if (event.deltaY < 0) {
-                if (depth !== MAX_DEPTH) {
+                if (depth < 16) {
                     depth += 1;
                     update();
                 }
             } else {
-                if (depth !== MIN_DEPTH) {
+                if (depth > 6) {
                     depth -= 1;
                     update();
                 }
             }
         });
-        document.addEventListener('onresize', update);
+
+        function handleHashParameters() {
+            const hash = window.location.hash.substring(1).split('&');
+            for (let i = 0; i < hash.length; i += 1) {
+                const temp = hash[i].split('=');
+                if (temp[0] === 'lat') {
+                    lat = parseFloat(temp[1]);
+                } else if (temp[0] === 'lon') {
+                    lon = parseFloat(temp[1]);
+                } else if (temp[0] === 'depth') {
+                    depth = parseInt(temp[1]);
+                }
+            }
+            update();
+        }
         document.addEventListener('onhashchange', handleHashParameters);
-        map.addEventListener('dragstart', event => event.preventDefault());
         handleHashParameters();
 
 
