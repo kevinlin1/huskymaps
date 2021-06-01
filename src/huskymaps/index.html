@@ -164,9 +164,9 @@
             const viewBounds = getViewBounds();
             const tx = (bounds.ullon - viewBounds.ullon) / lonDPP();
             const ty = (bounds.ullat - viewBounds.ullat) / latDPP();
-            const hash = "lat=" + lat + "&lon=" + lon + "&depth=" + depth;
-            history.replaceState(null, null, document.location.pathname + '#' + hash);
-            map.style.transform = 'translateX(' + tx + 'px) translateY(' + ty + 'px)';
+            const hash = `#lat=${lat}&lon=${lon}&depth=${depth}`;
+            history.replaceState(null, null, document.location.pathname + hash);
+            map.style.transform = `translateX(${tx}px) translateY(${ty}px)`;
         }
 
         function update() {
