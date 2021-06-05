@@ -212,7 +212,10 @@
             preventSubmit: true,
         });
 
-        document.getElementById('clear').addEventListener('click', event => fetch('/clear').then(update));
+        document.getElementById('clear').addEventListener('click', event => {
+            fetch('/clear').then(update);
+            search.value = '';
+        });
 
         document.addEventListener('mousedown', event => {
             if (event.which !== 1) {
