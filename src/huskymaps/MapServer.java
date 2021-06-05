@@ -111,11 +111,9 @@ public class MapServer {
      * @return the port for communicating with the server.
      */
     private static int port() {
-        if (System.getenv("HEROKU") != null) {
-            ProcessBuilder processBuilder = new ProcessBuilder();
-            if (processBuilder.environment().get("PORT") != null) {
-                return Integer.parseInt(processBuilder.environment().get("PORT"));
-            }
+        String port = System.getenv("PORT");
+        if (port != null) {
+            return Integer.parseInt(port);
         }
         return PORT;
     }

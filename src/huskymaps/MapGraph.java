@@ -77,7 +77,7 @@ public class MapGraph implements AStarGraph<Location> {
      * @throws FileNotFoundException if there is no file at the specified path.
      */
     private static InputStream fileStream(String path) throws FileNotFoundException {
-        if (System.getenv("HEROKU") == null) {
+        if (System.getenv("PORT") == null) {
             return new FileInputStream(path);
         }
         return Thread.currentThread().getContextClassLoader().getResourceAsStream(path);
