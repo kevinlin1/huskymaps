@@ -33,8 +33,7 @@ public class MapServer {
             BoundingBox bbox = BoundingBox.from(ctx);
             int width = ctx.queryParam("width", Integer.class).get();
             int height = ctx.queryParam("height", Integer.class).get();
-            String term = ctx.sessionAttribute("term");
-            List<Location> locations = term == null ? List.of() : map.getLocations(term, bbox.center());
+            List<Location> locations = map.getLocations(ctx.sessionAttribute("term"), bbox.center());
             Location src = ctx.sessionAttribute("src");
             Location dest = ctx.sessionAttribute("dest");
             BufferedImage image = ctx.sessionAttribute("image");

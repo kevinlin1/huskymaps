@@ -112,6 +112,9 @@ public class MapGraph implements AStarGraph<Location> {
      * @return a list of locations whose name matches the location name.
      */
     public List<Location> getLocations(String locationName, Location center) {
+        if (locationName == null || !locations.containsKey(locationName)) {
+            return List.of();
+        }
         List<Location> result = new ArrayList<>(locations.get(locationName));
         result.sort(Comparator.comparingDouble(center::distance));
         return result;
