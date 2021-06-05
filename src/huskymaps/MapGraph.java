@@ -59,7 +59,7 @@ public class MapGraph implements AStarGraph<Location> {
         autocomplete = new TreeSetAutocomplete();
         autocomplete.addAll(locations.keySet());
 
-        // Parse the place-importance data using the Gson parser.
+        // Parse the place-importance data.
         importance = new HashMap<>();
         try (Scanner input = new Scanner(fileStream(placesPath))) {
             while (input.hasNextLine()) {
