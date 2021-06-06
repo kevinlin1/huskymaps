@@ -2,8 +2,6 @@ package huskymaps;
 
 import graphs.AStarSolver;
 import io.javalin.Javalin;
-import io.javalin.http.Context;
-import org.apache.commons.math3.util.Precision;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -13,10 +11,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Base64;
 import java.util.List;
-import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
-
-import static huskymaps.Constants.*;
 
 /**
  * Run the {@code huskymaps} server.
@@ -24,50 +21,94 @@ import static huskymaps.Constants.*;
  * @see MapGraph
  */
 public class MapServer {
+    /**
+     * Default port for serving the application locally.
+     */
+    private static final int PORT = 8080;
+    /**
+     * The OpenStreetMap XML file path. Downloaded from <a href="http://download.bbbike.org/osm/">BBBike</a>
+     * using custom region selection.
+     */
+    private static final String OSM_DB_PATH = "data/huskymaps/seattle-small.osm.gz";
+    /**
+     * The place-importance TSV data file path from OpenStreetMap.
+     */
+    private static final String PLACES_PATH = "data/huskymaps/places.tsv";
+    /**
+     * Only allow for non-service roads. This prevents going on pedestrian streets.
+     */
+    private static final Set<String> ALLOWED_HIGHWAY_TYPES = Set.of(
+            "motorway",
+            "trunk",
+            "primary",
+            "secondary",
+            "tertiary",
+            "unclassified",
+            "residential",
+            "living_street",
+            "motorway_link",
+            "trunk_link",
+            "primary_link",
+            "secondary_link",
+            "tertiary_link"
+    );
+    /**
+     * Maximum number of autocomplete search results.
+     */
+    private static final int MAX_MATCHES = 10;
+    /**
+     * The longitudinal distance per pixel when the map is centered on Seattle.
+     */
+    private static final double SEATTLE_ROOT_LONDPP = 0.3515625;
+    /**
+     * The latitudinal distance per pixel when the map is centered on Seattle.
+     */
+    private static final double SEATTLE_ROOT_LATDPP = 0.23689728184;
+
     public static void main(String[] args) throws Exception {
-        MapGraph map = new MapGraph(OSM_DB_PATH, PLACES_PATH);
+        MapGraph map = new MapGraph(OSM_DB_PATH, ALLOWED_HIGHWAY_TYPES, PLACES_PATH);
         Javalin app = Javalin.create(config -> {
             config.addSinglePageRoot("/", "huskymaps/index.html");
         }).start(port());
-        app.get("/raster", ctx -> {
-            BoundingBox bbox = BoundingBox.from(ctx);
-            int width = ctx.queryParam("width", Integer.class).get();
-            int height = ctx.queryParam("height", Integer.class).get();
-            List<Location> locations = map.getLocations(ctx.sessionAttribute("term"), bbox.center());
-            Location src = ctx.sessionAttribute("src");
-            Location dest = ctx.sessionAttribute("dest");
-            BufferedImage image = ctx.sessionAttribute("image");
-            // Only make an API call if the image is not clean, the bboxes don't match, or locations are requested.
-            if (image == null || !bbox.equals(ctx.sessionAttribute("bbox")) || !locations.isEmpty()) {
-                image = ImageIO.read(url(bbox, width, height, locations));
+        ConcurrentHashMap<String, BufferedImage> cache = new ConcurrentHashMap<>();
+        app.get("/map/:coordinates/:dimensions", ctx -> {
+            String[] coordinates = ctx.pathParam("coordinates").split(",");
+            String[] dimensions = ctx.pathParam("dimensions").split("x");
+            Location center = Location.parse(coordinates);
+            int zoom = Integer.parseInt(coordinates[2]);
+            int width = Integer.parseInt(dimensions[0]);
+            int height = Integer.parseInt(dimensions[1]);
+            BufferedImage image = cache.get(ctx.path());
+            List<Location> locations = map.getLocations(ctx.queryParam("term"), center);
+            if (image == null || !locations.isEmpty()) {
+                // Only make an API call if the cached image is not available/matches or locations are requested.
+                image = ImageIO.read(url(center, zoom, width, height, locations));
+                if (locations.isEmpty()) {
+                    cache.putIfAbsent(ctx.path(), image);
+                }
             }
-            // Overlay the route if there were no locations and the route source and destination are defined.
-            if (locations.isEmpty() && src != null && dest != null) {
-                overlay(image, new AStarSolver<>(map, map.closest(src), map.closest(dest)).solution(), bbox);
-            }
-            // Cache the bbox and image if this request was served without modification.
-            if (locations.isEmpty() && src == null && dest == null) {
-                ctx.sessionAttribute("bbox", bbox);
-                ctx.sessionAttribute("image", image);
-            } else {
-                ctx.sessionAttribute("bbox", null);
-                ctx.sessionAttribute("image", null);
+            String start = ctx.queryParam("start");
+            String goal = ctx.queryParam("goal");
+            if (locations.isEmpty() && start != null && goal != null) {
+                // Overlay route if there are no locations and the route start and goal are defined.
+                double lonDPP = SEATTLE_ROOT_LONDPP / Math.pow(2, zoom);
+                double latDPP = SEATTLE_ROOT_LATDPP / Math.pow(2, zoom);
+                Location startLocation = map.closest(Location.parse(start.split(",")));
+                Location goalLocation = map.closest(Location.parse(goal.split(",")));
+                List<Location> route = new AStarSolver<>(map, startLocation, goalLocation).solution();
+                int[] xPoints = new int[route.size()];
+                int[] yPoints = new int[route.size()];
+                int i = 0;
+                for (Location location : route) {
+                    xPoints[i] = (int) ((location.lon - center.lon) * (1 / lonDPP)) + (width / 2);
+                    yPoints[i] = (int) ((center.lat - location.lat) * (1 / latDPP)) + (height / 2);
+                    i += 1;
+                }
+                image = withPolyline(image, xPoints, yPoints);
             }
             ByteArrayOutputStream os = new ByteArrayOutputStream();
             ImageIO.write(image, "png", os);
             ctx.result(Base64.getEncoder().encode(os.toByteArray()));
-        });
-        app.get("/route", ctx -> {
-            Location src = Location.parse(ctx.queryParam("startLat"), ctx.queryParam("startLon"));
-            Location dest = Location.parse(ctx.queryParam("endLat"), ctx.queryParam("endLon"));
-            ctx.sessionAttribute("src", src);
-            ctx.sessionAttribute("dest", dest);
-            ctx.sessionAttribute("term", null);
-        });
-        app.get("/clear", ctx -> {
-            ctx.sessionAttribute("src", null);
-            ctx.sessionAttribute("dest", null);
-            ctx.sessionAttribute("term", null);
         });
         app.get("/search", ctx -> {
             List<CharSequence> result = map.getLocationsByPrefix(ctx.queryParam("term"));
@@ -76,32 +117,6 @@ public class MapServer {
             } else {
                 ctx.json(result);
             }
-        });
-        app.get("/locations", ctx -> ctx.sessionAttribute("term", ctx.queryParam("term")));
-    }
-
-    /**
-     * Overlay the route on the image using the bounding box parameters.
-     *
-     * @param image the input image.
-     * @param route the input route.
-     * @param bbox  the bounding box.
-     */
-    private static void overlay(BufferedImage image, List<Location> route, BoundingBox bbox) {
-        double widthDPP = (bbox.lrlon - bbox.ullon) / image.getWidth();
-        double heightDPP = (bbox.ullat - bbox.lrlat) / image.getHeight();
-        Graphics2D g2d = (Graphics2D) image.getGraphics();
-        g2d.setColor(ROUTE_STROKE_COLOR);
-        g2d.setStroke(new BasicStroke(ROUTE_STROKE_WIDTH_PX, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        route.stream().reduce((v, w) -> {
-            g2d.drawLine(
-                    (int) ((v.lon - bbox.ullon) * (1 / widthDPP)),
-                    (int) ((bbox.ullat - v.lat) * (1 / heightDPP)),
-                    (int) ((w.lon - bbox.ullon) * (1 / widthDPP)),
-                    (int) ((bbox.ullat - w.lat) * (1 / heightDPP))
-            );
-            return w;
         });
     }
 
@@ -121,105 +136,63 @@ public class MapServer {
     /**
      * Return the API URL for retrieving the map image.
      *
-     * @param bbox      the bounding box.
+     * @param center    the center of the map image.
      * @param width     the width of the window.
      * @param height    the height of the window.
      * @param locations the list of locations (or null).
      * @return the URL for retrieving the map image.
      * @throws MalformedURLException if the URL is invalid.
      */
-    private static URL url(BoundingBox bbox, int width, int height, List<Location> locations)
+    private static URL url(Location center, int zoom, int width, int height, List<Location> locations)
             throws MalformedURLException {
         String markers = "";
         if (locations != null && !locations.isEmpty()) {
             markers = locations.stream().map(location -> String.format(
-                    MARKER_OVERLAY, location.lon, location.lat
+                    "pin-s(%f,%f)", location.lon, location.lat
             )).collect(Collectors.joining(","));
             markers += "/";
         }
         return new URL(String.format(
-                STATIC_IMAGES_API,
+                "https://api.mapbox.com/"
+                        // {username}/{style_id} and {overlay} (must include trailing slash)
+                        + "styles/v1/%s/%s/static/%s"
+                        // {lon},{lat},{zoom}/{width}x{height}{@2x}
+                        + "%f,%f,%d/%dx%d%s"
+                        // Access token and optional parameters
+                        + "?access_token=%s&logo=false&attribution=false",
                 System.getenv().getOrDefault("USERNAME", "mapbox"),
                 System.getenv().getOrDefault("STYLE_ID", "streets-v11"),
                 markers,
-                bbox.ullon, bbox.lrlat, // minLon, minLat
-                bbox.lrlon, bbox.ullat, // maxLon, maxLat
+                center.lon, center.lat, zoom,
                 (int) Math.ceil(width / 2.), (int) Math.ceil(height / 2.), "@2x",
                 System.getenv("TOKEN")
         ));
     }
 
     /**
-     * A bounding box represented by the upper-left and lower-right corners' latitudes and longitudes.
+     * Returns a new image identical to the given image except for an additional polyline defined by the points.
+     *
+     * @param image   the input image.
+     * @param xPoints the x-coordinates for the points on the polyline.
+     * @param yPoints the y-coordinates for the points on the polyline.
+     * @return a new image identical to the given image except for an additional polyline defined by the points.
      */
-    private static class BoundingBox {
-        private final double ullat;
-        private final double ullon;
-        private final double lrlat;
-        private final double lrlon;
-
-        /**
-         * Constructs a new bounding box from the given parameters.
-         *
-         * @param ullat upper-left latitude.
-         * @param ullon upper-left longitude.
-         * @param lrlat lower-right latitude.
-         * @param lrlon lower-right longitude.
-         */
-        private BoundingBox(double ullat, double ullon, double lrlat, double lrlon) {
-            this.ullat = ullat;
-            this.ullon = ullon;
-            this.lrlat = lrlat;
-            this.lrlon = lrlon;
-        }
-
-        /**
-         * Returns a new bounding box from the given {@link Context}.
-         *
-         * @param ctx the {@link Context}.
-         * @return a new bounding box with the corresponding context parameters.
-         */
-        private static BoundingBox from(Context ctx) {
-            return new BoundingBox(
-                    ctx.queryParam("ullat", Double.class).get(),
-                    ctx.queryParam("ullon", Double.class).get(),
-                    ctx.queryParam("lrlat", Double.class).get(),
-                    ctx.queryParam("lrlon", Double.class).get()
-            );
-        }
-
-        /**
-         * Returns the location representing the center of this bounding box.
-         *
-         * @return the location representing the center of this bounding box.
-         */
-        private Location center() {
-            return new Location(ullat / 2 + lrlat / 2, ullon / 2 + lrlon / 2, null);
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) {
-                return true;
-            }
-            if (o == null || getClass() != o.getClass()) {
-                return false;
-            }
-            BoundingBox that = (BoundingBox) o;
-            return Precision.equals(this.ullat, that.ullat, EPSILON)
-                    && Precision.equals(this.ullon, that.ullon, EPSILON)
-                    && Precision.equals(this.lrlat, that.lrlat, EPSILON)
-                    && Precision.equals(this.lrlon, that.lrlon, EPSILON);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(
-                    Precision.round(ullat, DECIMAL_PLACES),
-                    Precision.round(ullon, DECIMAL_PLACES),
-                    Precision.round(lrlat, DECIMAL_PLACES),
-                    Precision.round(lrlon, DECIMAL_PLACES)
-            );
-        }
+    private static BufferedImage withPolyline(BufferedImage image, int[] xPoints, int[] yPoints) {
+        BufferedImage clone = new BufferedImage(
+                image.getColorModel(),
+                image.copyData(null),
+                image.isAlphaPremultiplied(),
+                null
+        );
+        Graphics2D g2d = clone.createGraphics();
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setColor(new Color(255, 255, 255));
+        g2d.setStroke(new BasicStroke(10.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+        g2d.drawPolyline(xPoints, yPoints, xPoints.length);
+        g2d.setColor(new Color(108, 181, 230));
+        g2d.setStroke(new BasicStroke(5.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+        g2d.drawPolyline(xPoints, yPoints, xPoints.length);
+        g2d.dispose();
+        return clone;
     }
 }

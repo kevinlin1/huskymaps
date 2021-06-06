@@ -4,50 +4,60 @@ import org.apache.commons.math3.util.Precision;
 
 import java.util.Objects;
 
-import static huskymaps.Constants.*;
-
 /**
- * A physical place in the world represented as latitude, longitude, and (optionally) a name.
+ * A physical place in the world represented as longitude, latitude, and (optionally) a name.
  *
  * @see Builder
  * @see MapGraph
  */
 public class Location {
+    private static final int DECIMAL_PLACES = 5;
     /**
-     * The latitude of this location.
+     * Error tolerance for latitudes and longitudes.
      */
-    public final double lat;
+    private static final double EPSILON = 0.000001;
+    /**
+     * Radius of the Earth in miles.
+     */
+    private static final int R = 3963;
+
     /**
      * The longitude of this location.
      */
     public final double lon;
+    /**
+     * The latitude of this location.
+     */
+    public final double lat;
     /**
      * The name of this location (or null).
      */
     public final String name;
 
     /**
-     * Constructs a new location from the given latitude, longitude, and name.
+     * Constructs a new location from the given longitude, latitude, and name.
      *
-     * @param lat  the latitude.
      * @param lon  the longitude.
+     * @param lat  the latitude.
      * @param name the name.
      */
-    public Location(double lat, double lon, String name) {
-        this.lat = lat;
+    public Location(double lon, double lat, String name) {
         this.lon = lon;
+        this.lat = lat;
         this.name = name;
     }
 
     /**
-     * Returns a new location from parsing the string latitude and string longitude.
+     * Returns a new location from parsing the first two elements of the given array of strings.
      *
-     * @param lat the numeric {@link String} representing the latitude.
-     * @param lon the numeric {@link String} representing the longitude.
-     * @return a new location from parsing the string latitude and string longitude.
+     * @param lonLat an array of strings where the first two elements represent the longitude and latitude.
+     * @return a new location from parsing the string longitude and string latitude.
      */
-    public static Location parse(String lat, String lon) {
-        return new Location(Double.parseDouble(lat), Double.parseDouble(lon), null);
+    public static Location parse(String... lonLat) {
+        if (lonLat == null || lonLat.length < 2) {
+            return null;
+        }
+        return new Location(Double.parseDouble(lonLat[0]), Double.parseDouble(lonLat[1]), null);
     }
 
     /**
@@ -77,16 +87,16 @@ public class Location {
             return false;
         }
         Location location = (Location) o;
-        return Precision.equals(location.lat, lat, EPSILON) &&
-                Precision.equals(location.lon, lon, EPSILON) &&
+        return Precision.equals(location.lon, lon, EPSILON) &&
+                Precision.equals(location.lat, lat, EPSILON) &&
                 Objects.equals(name, location.name);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(
-                Precision.round(lat, DECIMAL_PLACES),
                 Precision.round(lon, DECIMAL_PLACES),
+                Precision.round(lat, DECIMAL_PLACES),
                 name
         );
     }
@@ -94,8 +104,8 @@ public class Location {
     @Override
     public String toString() {
         return "Location{" +
-                "lat=" + lat +
-                ", lon=" + lon +
+                "lon=" + lon +
+                ", lat=" + lat +
                 ", name='" + name + '\'' +
                 '}';
     }
@@ -104,8 +114,8 @@ public class Location {
      * Interactively constructs a new location when the fields are not all immediately available.
      * <pre>
      *     Location.Builder builder = new Location.Builder()
-     *             .setLat(...)
-     *             .setLon(...);
+     *             .setLon(...)
+     *             .setLat(...);
      *     ...
      *     builder.setName(...);
      *     Location result = builder.build();
@@ -114,20 +124,9 @@ public class Location {
      * @see Location
      */
     public static class Builder {
-        private double lat;
         private double lon;
+        private double lat;
         private String name;
-
-        /**
-         * Sets the latitude for this builder.
-         *
-         * @param lat the latitude.
-         * @return this builder.
-         */
-        public Builder setLat(double lat) {
-            this.lat = lat;
-            return this;
-        }
 
         /**
          * Sets the longitude for this builder.
@@ -137,6 +136,17 @@ public class Location {
          */
         public Builder setLon(double lon) {
             this.lon = lon;
+            return this;
+        }
+
+        /**
+         * Sets the latitude for this builder.
+         *
+         * @param lat the latitude.
+         * @return this builder.
+         */
+        public Builder setLat(double lat) {
+            this.lat = lat;
             return this;
         }
 
@@ -157,7 +167,7 @@ public class Location {
          * @return Returns a new {@link Location} from the fields of this builder.
          */
         public Location build() {
-            return new Location(lat, lon, name);
+            return new Location(lon, lat, name);
         }
     }
 }

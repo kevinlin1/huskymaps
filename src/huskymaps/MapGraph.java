@@ -43,14 +43,14 @@ public class MapGraph implements AStarGraph<Location> {
      * @throws SAXException                 for SAX errors.
      * @throws IOException                  if a file is not found or if the file is not gzipped.
      */
-    public MapGraph(String osmPath, String placesPath)
+    public MapGraph(String osmPath, Collection<String> allowedHighwayTypes, String placesPath)
             throws ParserConfigurationException, SAXException, IOException {
         this.osmPath = osmPath;
         this.placesPath = placesPath;
 
         // Parse the OpenStreetMap (OSM) data using the SAXParser XML tree walker.
         neighbors = new HashMap<>();
-        Handler handler = new Handler();
+        Handler handler = new Handler(allowedHighwayTypes);
         SAXParser saxParser = SAXParserFactory.newInstance().newSAXParser();
         saxParser.parse(new GZIPInputStream(fileStream(osmPath)), handler);
 
@@ -152,6 +152,7 @@ public class MapGraph implements AStarGraph<Location> {
      * Parses OSM XML files to construct a StreetMapGraph.
      */
     private class Handler extends DefaultHandler {
+        private final Collection<String> allowedHighwayTypes;
         private final Map<Long, Location> nodes;
         private String state;
         private long id;
@@ -159,8 +160,9 @@ public class MapGraph implements AStarGraph<Location> {
         private Location.Builder builder;
         private Queue<Location> path;
 
-        Handler() {
-            nodes = new HashMap<>();
+        Handler(Collection<String> allowedHighwayTypes) {
+            this.allowedHighwayTypes = allowedHighwayTypes;
+            this.nodes = new HashMap<>();
             reset();
         }
 
@@ -219,7 +221,7 @@ public class MapGraph implements AStarGraph<Location> {
                 String k = attributes.getValue("k");
                 String v = attributes.getValue("v");
                 if (k.equals("highway")) {
-                    validWay = Constants.ALLOWED_HIGHWAY_TYPES.contains(v);
+                    validWay = allowedHighwayTypes.contains(v);
                 }
             } else if (state.equals("node") && qName.equals("tag") && attributes.getValue("k").equals("name")) {
                 String name = attributes.getValue("v").strip()

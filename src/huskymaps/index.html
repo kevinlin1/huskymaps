@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Map Seattle, search places, and navigate around the University of Washington campus.">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta content="Map Seattle, search places, and navigate around the University of Washington campus."
+          name="description">
     <link href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>"
           rel="icon">
     <title>Husky Maps</title>
@@ -109,22 +110,23 @@
     }
 
 
+
     </style>
 </head>
 <body>
 <main>
-    <img id="map" alt="">
+    <img alt="" id="map">
 </main>
 <nav>
     <input id="search" placeholder="Search places" type="search">
     <a id="clear">✨</a>
 </nav>
 <footer id="mapbox">
-    <a class="mapbox-wordmark" href="http://mapbox.com/about/maps" target="_blank" rel="noopener">Mapbox</a>
+    <a class="mapbox-wordmark" href="http://mapbox.com/about/maps" rel="noopener" target="_blank">Mapbox</a>
     <div class="mapbox-attribution-container">
         <a href="https://www.mapbox.com/about/maps/">© Mapbox | </a>
         <a href="https://www.openstreetmap.org/copyright">© OpenStreetMap | </a>
-        <a href="https://www.mapbox.com/map-feedback/" target="_blank" rel="noopener"><strong>Improve this map</strong></a>
+        <a href="https://www.mapbox.com/map-feedback/" rel="noopener" target="_blank"><strong>Improve this map</strong></a>
     </div>
 </footer>
 <script src="https://unpkg.com/autocompleter@6.1.0/autocomplete.min.js"></script>
@@ -134,54 +136,39 @@
         const search = document.getElementById('search');
         let getInProgress = false;
         let updatePending = false;
-        let routeParams = {};
-        let depth = 11;
-        let lat = 47.6553;
         let lon = -122.3035;
-        let bounds;
+        let lat = 47.6553;
+        let zoom = 11;
+        let params = {};
 
         function lonDPP() {
-            return 0.3515625 / Math.pow(2, depth);
+            return 0.3515625 / Math.pow(2, zoom);
         }
 
         function latDPP() {
-            return -0.23689728184 / Math.pow(2, depth);
+            return 0.23689728184 / Math.pow(2, zoom);
         }
 
-        function getViewBounds() {
-            return {
-                ullat: lat - (0.5 * window.innerHeight * latDPP()),
-                ullon: lon - (0.5 * window.innerWidth * lonDPP()),
-                lrlat: lat + (0.5 * window.innerHeight * latDPP()),
-                lrlon: lon + (0.5 * window.innerWidth * lonDPP()),
-                width: window.innerWidth,
-                height: window.innerHeight
-            };
-        }
-        bounds = getViewBounds();
-
-        function translate() {
-            const viewBounds = getViewBounds();
-            const tx = (bounds.ullon - viewBounds.ullon) / lonDPP();
-            const ty = (bounds.ullat - viewBounds.ullat) / latDPP();
-            const hash = `#lat=${lat}&lon=${lon}&depth=${depth}`;
+        function rehash() {
+            const hash = `#lon=${lon}&lat=${lat}&zoom=${zoom}`;
             history.replaceState(null, null, document.location.pathname + hash);
-            map.style.transform = `translateX(${tx}px) translateY(${ty}px)`;
         }
 
         function update() {
             if (!getInProgress) {
                 getInProgress = true;
-                const viewBounds = getViewBounds();
-                fetch('/raster?' + new URLSearchParams(viewBounds))
+                const width = window.innerWidth;
+                const height = window.innerHeight;
+                fetch(`/map/${lon},${lat},${zoom}/${width}x${height}?`
+                    + new URLSearchParams(params))
                     .then(response => response.text())
                     .then(image => {
                         map.src = 'data:image/png;base64,' + image;
-                        map.width = viewBounds.width;
-                        map.height = viewBounds.height;
-                        bounds = viewBounds;
+                        map.width = width;
+                        map.height = height;
                         getInProgress = false;
-                        translate();
+                        rehash();
+                        map.style.transform = '';
                         if (updatePending) {
                             updatePending = false;
                             update();
@@ -205,16 +192,18 @@
                 return div;
             },
             onSelect: item => {
-                fetch('/locations?term=' + item).then(update);
+                params.term = item;
                 search.value = item;
+                update();
             },
             debounceWaitMs: 300,
             preventSubmit: true,
         });
 
         document.getElementById('clear').addEventListener('click', event => {
-            fetch('/clear').then(update);
+            params = {};
             search.value = '';
+            update();
         });
 
         document.addEventListener('mousedown', event => {
@@ -232,8 +221,9 @@
                     const dx = event.pageX - startX;
                     const dy = event.pageY - startY;
                     lon = startLon - (dx * lonDPP());
-                    lat = startLat - (dy * latDPP());
-                    translate();
+                    lat = startLat + (dy * latDPP());
+                    rehash();
+                    map.style.transform = `translateX(${dx}px) translateY(${dy}px)`;
                 }
             });
 
@@ -246,52 +236,46 @@
         });
 
         document.addEventListener('dblclick', event => {
-            if (routeParams.startLon && routeParams.endLon) {
-                routeParams = {};
-            }
-            const viewBounds = getViewBounds();
-            const clickLon = event.pageX * lonDPP() + viewBounds.ullon;
-            const clickLat = event.pageY * latDPP() + viewBounds.ullat;
-            if (routeParams.startLon) {
-                routeParams.endLon = clickLon;
-                routeParams.endLat = clickLat;
-                fetch('/route?' + new URLSearchParams(routeParams)).then(update);
+            const clickLon = lon + (event.pageX - window.innerWidth / 2) * lonDPP();
+            const clickLat = lat - (event.pageY - window.innerHeight / 2) * latDPP();
+            if (params.start) {
+                params.goal = `${clickLon},${clickLat}`;
+                update();
             } else {
-                routeParams.startLon = clickLon;
-                routeParams.startLat = clickLat;
+                params.start = `${clickLon},${clickLat}`;
             }
         });
 
         document.addEventListener('wheel', event => {
             if (event.deltaY < 0) {
-                if (depth < 16) {
-                    depth += 1;
+                if (zoom < 16) {
+                    zoom += 1;
                     update();
                 }
             } else {
-                if (depth > 6) {
-                    depth -= 1;
+                if (zoom > 8) {
+                    zoom -= 1;
                     update();
                 }
             }
         });
 
         function handleHashParameters() {
-            const hash = window.location.hash.substring(1).split('&');
-            for (let i = 0; i < hash.length; i += 1) {
-                const temp = hash[i].split('=');
-                if (temp[0] === 'lat') {
-                    lat = parseFloat(temp[1]);
-                } else if (temp[0] === 'lon') {
-                    lon = parseFloat(temp[1]);
-                } else if (temp[0] === 'depth') {
-                    depth = parseInt(temp[1]);
+            window.location.hash.substring(1).split('&').forEach(pair => {
+                const [key, value] = pair.split('=');
+                if (key === 'lon') {
+                    lon = parseFloat(value);
+                } else if (key === 'lat') {
+                    lat = parseFloat(value);
+                } else if (key === 'zoom') {
+                    zoom = parseInt(value);
                 }
-            }
+            });
             update();
         }
         document.addEventListener('onhashchange', handleHashParameters);
         handleHashParameters();
+
 
 
 </script>
