@@ -89,8 +89,8 @@ public class MapServer {
             }
             String start = ctx.queryParam("start");
             String goal = ctx.queryParam("goal");
-            if (locations.isEmpty() && start != null && goal != null) {
-                // Overlay route if there are no locations and the route start and goal are defined.
+            if (start != null && goal != null) {
+                // Overlay route if the route start and goal are defined.
                 double lonDPP = SEATTLE_ROOT_LONDPP / Math.pow(2, zoom);
                 double latDPP = SEATTLE_ROOT_LATDPP / Math.pow(2, zoom);
                 Location startLocation = map.closest(Location.parse(start.split(",")));
