@@ -2,6 +2,8 @@ package huskymaps;
 
 import graphs.AStarSolver;
 import io.javalin.Javalin;
+import org.locationtech.spatial4j.context.SpatialContext;
+import org.locationtech.spatial4j.shape.Point;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -66,20 +68,21 @@ public class MapServer {
     private static final double SEATTLE_ROOT_LATDPP = 0.23689728184;
 
     public static void main(String[] args) throws Exception {
-        MapGraph map = new MapGraph(OSM_DB_PATH, ALLOWED_HIGHWAY_TYPES, PLACES_PATH);
+        SpatialContext geo = SpatialContext.GEO;
+        MapGraph map = new MapGraph(OSM_DB_PATH, ALLOWED_HIGHWAY_TYPES, PLACES_PATH, geo);
         Javalin app = Javalin.create(config -> {
             config.addSinglePageRoot("/", "huskymaps/index.html");
         }).start(port());
         ConcurrentHashMap<String, BufferedImage> cache = new ConcurrentHashMap<>();
         app.get("/map/:coordinates/:dimensions", ctx -> {
             String[] coordinates = ctx.pathParam("coordinates").split(",");
-            String[] dimensions = ctx.pathParam("dimensions").split("x");
-            Location center = Location.parse(coordinates);
+            Point center = pointLonLat(geo, coordinates);
             int zoom = Integer.parseInt(coordinates[2]);
+            String[] dimensions = ctx.pathParam("dimensions").split("x");
             int width = Integer.parseInt(dimensions[0]);
             int height = Integer.parseInt(dimensions[1]);
             BufferedImage image = cache.get(ctx.path());
-            List<Location> locations = map.getLocations(ctx.queryParam("term"), center);
+            List<Point> locations = map.getLocations(ctx.queryParam("term"), center);
             if (image == null || !locations.isEmpty()) {
                 // Only make an API call if the cached image is not available/matches or locations are requested.
                 image = ImageIO.read(url(center, zoom, width, height, locations));
@@ -93,13 +96,15 @@ public class MapServer {
                 // Overlay route if the route start and goal are defined.
                 double lonDPP = SEATTLE_ROOT_LONDPP / Math.pow(2, zoom);
                 double latDPP = SEATTLE_ROOT_LATDPP / Math.pow(2, zoom);
-                Location startLocation = map.closest(Location.parse(start.split(",")));
-                Location goalLocation = map.closest(Location.parse(goal.split(",")));
-                List<Location> route = new AStarSolver<>(map, startLocation, goalLocation).solution();
+                List<Point> route = new AStarSolver<>(
+                        map,
+                        map.closest(pointLonLat(geo, start.split(","))),
+                        map.closest(pointLonLat(geo, goal.split(",")))
+                ).solution();
                 int[] xPoints = new int[route.size()];
                 int[] yPoints = new int[route.size()];
                 int i = 0;
-                for (Location location : route) {
+                for (Point location : route) {
                     xPoints[i] = (int) ((location.getLon() - center.getLon()) * (1 / lonDPP)) + (width / 2);
                     yPoints[i] = (int) ((center.getLat() - location.getLat()) * (1 / latDPP)) + (height / 2);
                     i += 1;
@@ -134,6 +139,22 @@ public class MapServer {
     }
 
     /**
+     * Returns a new {@link Point} from parsing the given longitude and latitude strings.
+     *
+     * @param context the spatial context.
+     * @param lonLat  the strings representing the longitude and latitude.
+     * @return a new {@link Point} from parsing the given longitude and latitude strings.
+     */
+    private static Point pointLonLat(SpatialContext context, String... lonLat) {
+        if (lonLat == null || lonLat.length < 2) {
+            return null;
+        }
+        double lon = Double.parseDouble(lonLat[0]);
+        double lat = Double.parseDouble(lonLat[1]);
+        return context.getShapeFactory().pointLatLon(lat, lon);
+    }
+
+    /**
      * Return the API URL for retrieving the map image.
      *
      * @param center    the center of the map image.
@@ -143,7 +164,7 @@ public class MapServer {
      * @return the URL for retrieving the map image.
      * @throws MalformedURLException if the URL is invalid.
      */
-    private static URL url(Location center, int zoom, int width, int height, List<Location> locations)
+    private static URL url(Point center, int zoom, int width, int height, List<Point> locations)
             throws MalformedURLException {
         String markers = "";
         if (locations != null && !locations.isEmpty()) {

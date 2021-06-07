@@ -4,6 +4,8 @@ import autocomplete.Autocomplete;
 import autocomplete.TreeSetAutocomplete;
 import graphs.AStarGraph;
 import graphs.Edge;
+import org.locationtech.spatial4j.context.SpatialContext;
+import org.locationtech.spatial4j.shape.Point;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -19,18 +21,17 @@ import java.util.*;
 import java.util.zip.GZIPInputStream;
 
 /**
- * {@link AStarGraph} of places as {@link Location} vertices and streets edges weighted by physical distance. Estimated
- * distance is defined by {@link Location#distance(Location)}.
+ * {@link AStarGraph} of places as {@link Point} vertices and streets edges weighted by physical distance.
  *
  * @see AStarGraph
- * @see Location
  * @see MapServer
  */
-public class MapGraph implements AStarGraph<Location> {
+public class MapGraph implements AStarGraph<Point> {
     private final String osmPath;
     private final String placesPath;
-    private final Map<Location, Set<Edge<Location>>> neighbors;
-    private final Map<String, List<Location>> locations;
+    private final SpatialContext context;
+    private final Map<Point, Set<Edge<Point>>> neighbors;
+    private final Map<String, List<Point>> locations;
     private final Autocomplete autocomplete;
     private final Map<CharSequence, Integer> importance;
 
@@ -43,10 +44,11 @@ public class MapGraph implements AStarGraph<Location> {
      * @throws SAXException                 for SAX errors.
      * @throws IOException                  if a file is not found or if the file is not gzipped.
      */
-    public MapGraph(String osmPath, Collection<String> allowedHighwayTypes, String placesPath)
+    public MapGraph(String osmPath, Collection<String> allowedHighwayTypes, String placesPath, SpatialContext context)
             throws ParserConfigurationException, SAXException, IOException {
         this.osmPath = osmPath;
         this.placesPath = placesPath;
+        this.context = context;
 
         // Parse the OpenStreetMap (OSM) data using the SAXParser XML tree walker.
         neighbors = new HashMap<>();
@@ -55,7 +57,7 @@ public class MapGraph implements AStarGraph<Location> {
         saxParser.parse(new GZIPInputStream(fileStream(osmPath)), handler);
 
         // Add reachable locations to the Autocomplete engine.
-        locations = handler.locations();
+        locations = handler.byName;
         autocomplete = new TreeSetAutocomplete();
         autocomplete.addAll(locations.keySet());
 
@@ -89,8 +91,10 @@ public class MapGraph implements AStarGraph<Location> {
      * @param target the target location.
      * @return the id of the location closest to the target.
      */
-    public Location closest(Location target) {
-        return Collections.min(neighbors.keySet(), Comparator.comparingDouble(target::distance));
+    public Point closest(Point target) {
+        return Collections.min(neighbors.keySet(), Comparator.comparingDouble(
+                location -> context.calcDistance(target, location)
+        ));
     }
 
     /**
@@ -111,23 +115,23 @@ public class MapGraph implements AStarGraph<Location> {
      * @param locationName a full name of a valid location.
      * @return a list of locations whose name matches the location name.
      */
-    public List<Location> getLocations(String locationName, Location center) {
+    public List<Point> getLocations(String locationName, Point center) {
         if (locationName == null || !locations.containsKey(locationName)) {
             return List.of();
         }
-        List<Location> result = new ArrayList<>(locations.get(locationName));
-        result.sort(Comparator.comparingDouble(center::distance));
+        List<Point> result = new ArrayList<>(locations.get(locationName));
+        result.sort(Comparator.comparingDouble(location -> context.calcDistance(center, location)));
         return result;
     }
 
     @Override
-    public List<Edge<Location>> neighbors(Location v) {
+    public List<Edge<Point>> neighbors(Point v) {
         return new ArrayList<>(neighbors.getOrDefault(v, Set.of()));
     }
 
     @Override
-    public double estimatedDistance(Location start, Location end) {
-        return start.distance(end);
+    public double estimatedDistance(Point start, Point end) {
+        return context.calcDistance(start, end);
     }
 
     @Override
@@ -141,11 +145,11 @@ public class MapGraph implements AStarGraph<Location> {
     /**
      * Adds an edge to this graph if it doesn't already exist, using distance as the weight.
      */
-    private void addEdge(Location from, Location to) {
+    private void addEdge(Point from, Point to) {
         if (!neighbors.containsKey(from)) {
             neighbors.put(from, new HashSet<>());
         }
-        neighbors.get(from).add(new Edge<>(from, to, from.distance(to)));
+        neighbors.get(from).add(new Edge<>(from, to, estimatedDistance(from, to)));
     }
 
     /**
@@ -153,31 +157,20 @@ public class MapGraph implements AStarGraph<Location> {
      */
     private class Handler extends DefaultHandler {
         private final Collection<String> allowedHighwayTypes;
-        private final Map<Long, Location> nodes;
+        private final Map<Long, Point> byId;
+        private final Map<String, List<Point>> byName;
         private String state;
         private long id;
+        private String name;
         private boolean validWay;
-        private Location.Builder builder;
-        private Queue<Location> path;
+        private Point location;
+        private Queue<Point> path;
 
         Handler(Collection<String> allowedHighwayTypes) {
             this.allowedHighwayTypes = allowedHighwayTypes;
-            this.nodes = new HashMap<>();
+            this.byId = new HashMap<>();
+            this.byName = new HashMap<>();
             reset();
-        }
-
-        Map<String, List<Location>> locations() {
-            Map<String, List<Location>> result = new HashMap<>();
-            for (Location location : nodes.values()) {
-                String name = location.getName();
-                if (name != null) {
-                    if (!result.containsKey(name)) {
-                        result.put(name, new ArrayList<>());
-                    }
-                    result.get(name).add(location);
-                }
-            }
-            return result;
         }
 
         /**
@@ -186,8 +179,9 @@ public class MapGraph implements AStarGraph<Location> {
         private void reset() {
             state = "";
             id = Long.MIN_VALUE;
+            name = "";
             validWay = false;
-            builder = new Location.Builder();
+            location = null;
             path = new ArrayDeque<>();
         }
 
@@ -209,14 +203,15 @@ public class MapGraph implements AStarGraph<Location> {
             if (qName.equals("node")) {
                 state = "node";
                 id = Long.parseLong(attributes.getValue("id"));
-                double lat = Double.parseDouble(attributes.getValue("lat"));
-                double lon = Double.parseDouble(attributes.getValue("lon"));
-                builder.setLat(lat).setLon(lon);
+                location = context.getShapeFactory().pointLatLon(
+                        Double.parseDouble(attributes.getValue("lat")),
+                        Double.parseDouble(attributes.getValue("lon"))
+                );
             } else if (qName.equals("way")) {
                 state = "way";
             } else if (state.equals("way") && qName.equals("nd")) {
                 long ref = Long.parseLong(attributes.getValue("ref"));
-                path.add(nodes.get(ref));
+                path.add(byId.get(ref));
             } else if (state.equals("way") && qName.equals("tag")) {
                 String k = attributes.getValue("k");
                 String v = attributes.getValue("v");
@@ -224,12 +219,11 @@ public class MapGraph implements AStarGraph<Location> {
                     validWay = allowedHighwayTypes.contains(v);
                 }
             } else if (state.equals("node") && qName.equals("tag") && attributes.getValue("k").equals("name")) {
-                String name = attributes.getValue("v").strip()
+                name = attributes.getValue("v").strip()
                         .replace('“', '"')
                         .replace('”', '"')
                         .replace('‘', '\'')
                         .replace('’', '\'');
-                builder.setName(name);
             }
         }
 
@@ -247,9 +241,9 @@ public class MapGraph implements AStarGraph<Location> {
         public void endElement(String uri, String localName, String qName) {
             if (qName.equals("way")) {
                 if (validWay && !path.isEmpty()) {
-                    Location from = path.remove();
+                    Point from = path.remove();
                     while (!path.isEmpty()) {
-                        Location to = path.remove();
+                        Point to = path.remove();
                         addEdge(from, to);
                         addEdge(to, from);
                         from = to;
@@ -257,7 +251,11 @@ public class MapGraph implements AStarGraph<Location> {
                 }
                 reset();
             } else if (qName.equals("node")) {
-                nodes.put(id, builder.build());
+                byId.put(id, location);
+                if (!name.isBlank()) {
+                    byName.putIfAbsent(name, new ArrayList<>());
+                    byName.get(name).add(location);
+                }
                 reset();
             }
         }
