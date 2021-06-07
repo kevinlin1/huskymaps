@@ -169,7 +169,7 @@ public class MapGraph implements AStarGraph<Location> {
         Map<String, List<Location>> locations() {
             Map<String, List<Location>> result = new HashMap<>();
             for (Location location : nodes.values()) {
-                String name = location.name;
+                String name = location.getName();
                 if (name != null) {
                     if (!result.containsKey(name)) {
                         result.put(name, new ArrayList<>());

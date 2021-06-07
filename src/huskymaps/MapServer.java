@@ -100,8 +100,8 @@ public class MapServer {
                 int[] yPoints = new int[route.size()];
                 int i = 0;
                 for (Location location : route) {
-                    xPoints[i] = (int) ((location.lon - center.lon) * (1 / lonDPP)) + (width / 2);
-                    yPoints[i] = (int) ((center.lat - location.lat) * (1 / latDPP)) + (height / 2);
+                    xPoints[i] = (int) ((location.getLon() - center.getLon()) * (1 / lonDPP)) + (width / 2);
+                    yPoints[i] = (int) ((center.getLat() - location.getLat()) * (1 / latDPP)) + (height / 2);
                     i += 1;
                 }
                 image = withPolyline(image, xPoints, yPoints);
@@ -148,7 +148,7 @@ public class MapServer {
         String markers = "";
         if (locations != null && !locations.isEmpty()) {
             markers = locations.stream().map(location -> String.format(
-                    "pin-s(%f,%f)", location.lon, location.lat
+                    "pin-s(%f,%f)", location.getLon(), location.getLat()
             )).collect(Collectors.joining(","));
             markers += "/";
         }
@@ -163,7 +163,7 @@ public class MapServer {
                 System.getenv().getOrDefault("USERNAME", "mapbox"),
                 System.getenv().getOrDefault("STYLE_ID", "streets-v11"),
                 markers,
-                center.lon, center.lat, zoom,
+                center.getLon(), center.getLat(), zoom,
                 (int) Math.ceil(width / 2.), (int) Math.ceil(height / 2.), "@2x",
                 System.getenv("TOKEN")
         ));

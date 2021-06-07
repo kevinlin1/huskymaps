@@ -2,7 +2,6 @@ package seamcarving;
 
 import graphs.DijkstraSolver;
 import graphs.ToposortDAGSolver;
-import org.apache.commons.math3.util.Precision;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -88,13 +87,13 @@ class SeamFinderMultiTest {
             List<Integer> horzSeam = horzSeamCarver.removeHorizontal();
             double horzSeamEnergy = getSeamEnergy(picture, horzSeam, false);
             double horzExpectedEnergy = getExpectedSeamEnergy(fileName, false);
-            boolean horzPassed = Precision.equals(horzSeamEnergy, horzExpectedEnergy, EPSILON);
+            boolean horzPassed = Math.abs(horzSeamEnergy - horzExpectedEnergy) < EPSILON;
 
             SeamCarver vertSeamCarver = new SeamCarver(new File(BASE_PATH + fileName + ".png"), f, seamFinder);
             List<Integer> vertSeam = vertSeamCarver.removeVertical();
             double vertSeamEnergy = getSeamEnergy(picture, vertSeam, true);
             double vertExpectedEnergy = getExpectedSeamEnergy(fileName, true);
-            boolean vertPassed = Precision.equals(vertSeamEnergy, vertExpectedEnergy, EPSILON);
+            boolean vertPassed = Math.abs(vertSeamEnergy - vertExpectedEnergy) < EPSILON;
 
             System.out.printf(
                     "%-30.30s  %-30.30s  %-30.30s%n",

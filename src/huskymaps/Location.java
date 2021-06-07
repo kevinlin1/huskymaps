@@ -1,6 +1,8 @@
 package huskymaps;
 
-import org.apache.commons.math3.util.Precision;
+import org.locationtech.spatial4j.context.SpatialContext;
+import org.locationtech.spatial4j.shape.Point;
+import org.locationtech.spatial4j.shape.ShapeFactory;
 
 import java.util.Objects;
 
@@ -11,28 +13,15 @@ import java.util.Objects;
  * @see MapGraph
  */
 public class Location {
-    private static final int DECIMAL_PLACES = 5;
+    private static final ShapeFactory factory = SpatialContext.GEO.getShapeFactory();
     /**
-     * Error tolerance for latitudes and longitudes.
+     * The geospatial point for this location.
      */
-    private static final double EPSILON = 0.000001;
-    /**
-     * Radius of the Earth in miles.
-     */
-    private static final int R = 3963;
-
-    /**
-     * The longitude of this location.
-     */
-    public final double lon;
-    /**
-     * The latitude of this location.
-     */
-    public final double lat;
+    private final Point point;
     /**
      * The name of this location (or null).
      */
-    public final String name;
+    private final String name;
 
     /**
      * Constructs a new location from the given longitude, latitude, and name.
@@ -41,9 +30,8 @@ public class Location {
      * @param lat  the latitude.
      * @param name the name.
      */
-    public Location(double lon, double lat, String name) {
-        this.lon = lon;
-        this.lat = lat;
+    public Location(Point point, String name) {
+        this.point = point;
         this.name = name;
     }
 
@@ -57,7 +45,21 @@ public class Location {
         if (lonLat == null || lonLat.length < 2) {
             return null;
         }
-        return new Location(Double.parseDouble(lonLat[0]), Double.parseDouble(lonLat[1]), null);
+        double lon = Double.parseDouble(lonLat[0]);
+        double lat = Double.parseDouble(lonLat[1]);
+        return new Location(factory.pointLatLon(lat, lon), null);
+    }
+
+    public double getLon() {
+        return point.getLon();
+    }
+
+    public double getLat() {
+        return point.getLat();
+    }
+
+    public String getName() {
+        return name;
     }
 
     /**
@@ -65,17 +67,9 @@ public class Location {
      *
      * @param other The other location.
      * @return The great-circle distance between the two vertices.
-     * @see <a href="https://www.movable-type.co.uk/scripts/latlong.html">https://www.movable-type.co.uk/scripts/latlong.html</a>
      */
     public double distance(Location other) {
-        double phi1 = Math.toRadians(this.lat);
-        double phi2 = Math.toRadians(other.lat);
-        double dphi = Math.toRadians(other.lat - this.lat);
-        double dlambda = Math.toRadians(other.lon - this.lon);
-        double a = Math.sin(dphi / 2.0) * Math.sin(dphi / 2.0);
-        a += Math.cos(phi1) * Math.cos(phi2) * Math.sin(dlambda / 2.0) * Math.sin(dlambda / 2.0);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return R * c;
+        return SpatialContext.GEO.calcDistance(this.point, other.point);
     }
 
     @Override
@@ -86,26 +80,19 @@ public class Location {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Location location = (Location) o;
-        return Precision.equals(location.lon, lon, EPSILON) &&
-                Precision.equals(location.lat, lat, EPSILON) &&
-                Objects.equals(name, location.name);
+        Location other = (Location) o;
+        return point.equals(other.point) && Objects.equals(name, other.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(
-                Precision.round(lon, DECIMAL_PLACES),
-                Precision.round(lat, DECIMAL_PLACES),
-                name
-        );
+        return Objects.hash(point, name);
     }
 
     @Override
     public String toString() {
         return "Location{" +
-                "lon=" + lon +
-                ", lat=" + lat +
+                "point=" + point +
                 ", name='" + name + '\'' +
                 '}';
     }
@@ -167,7 +154,7 @@ public class Location {
          * @return Returns a new {@link Location} from the fields of this builder.
          */
         public Location build() {
-            return new Location(lon, lat, name);
+            return new Location(factory.pointLatLon(lat, lon), name);
         }
     }
 }
