@@ -13,7 +13,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Base64;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -37,24 +36,6 @@ public class MapServer {
      */
     private static final String PLACES_PATH = "data/huskymaps/places.tsv";
     /**
-     * Only allow for non-service roads. This prevents going on pedestrian streets.
-     */
-    private static final Set<String> ALLOWED_HIGHWAY_TYPES = Set.of(
-            "motorway",
-            "trunk",
-            "primary",
-            "secondary",
-            "tertiary",
-            "unclassified",
-            "residential",
-            "living_street",
-            "motorway_link",
-            "trunk_link",
-            "primary_link",
-            "secondary_link",
-            "tertiary_link"
-    );
-    /**
      * Maximum number of autocomplete search results.
      */
     private static final int MAX_MATCHES = 10;
@@ -68,15 +49,15 @@ public class MapServer {
     private static final double SEATTLE_ROOT_LATDPP = 0.23689728184;
 
     public static void main(String[] args) throws Exception {
-        SpatialContext geo = SpatialContext.GEO;
-        MapGraph map = new MapGraph(OSM_DB_PATH, ALLOWED_HIGHWAY_TYPES, PLACES_PATH, geo);
+        SpatialContext context = SpatialContext.GEO;
+        MapGraph map = new MapGraph(OSM_DB_PATH, PLACES_PATH, context);
         Javalin app = Javalin.create(config -> {
             config.addSinglePageRoot("/", "huskymaps/index.html");
         }).start(port());
         ConcurrentHashMap<String, BufferedImage> cache = new ConcurrentHashMap<>();
         app.get("/map/:coordinates/:dimensions", ctx -> {
             String[] coordinates = ctx.pathParam("coordinates").split(",");
-            Point center = pointLonLat(geo, coordinates);
+            Point center = pointLonLat(context, coordinates);
             int zoom = Integer.parseInt(coordinates[2]);
             String[] dimensions = ctx.pathParam("dimensions").split("x");
             int width = Integer.parseInt(dimensions[0]);
@@ -98,8 +79,8 @@ public class MapServer {
                 double latDPP = SEATTLE_ROOT_LATDPP / Math.pow(2, zoom);
                 List<Point> route = new AStarSolver<>(
                         map,
-                        map.closest(pointLonLat(geo, start.split(","))),
-                        map.closest(pointLonLat(geo, goal.split(",")))
+                        map.closest(pointLonLat(context, start.split(","))),
+                        map.closest(pointLonLat(context, goal.split(",")))
                 ).solution();
                 int[] xPoints = new int[route.size()];
                 int[] yPoints = new int[route.size()];

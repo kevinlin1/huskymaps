@@ -44,7 +44,7 @@ public class MapGraph implements AStarGraph<Point> {
      * @throws SAXException                 for SAX errors.
      * @throws IOException                  if a file is not found or if the file is not gzipped.
      */
-    public MapGraph(String osmPath, Collection<String> allowedHighwayTypes, String placesPath, SpatialContext context)
+    public MapGraph(String osmPath, String placesPath, SpatialContext context)
             throws ParserConfigurationException, SAXException, IOException {
         this.osmPath = osmPath;
         this.placesPath = placesPath;
@@ -52,7 +52,21 @@ public class MapGraph implements AStarGraph<Point> {
 
         // Parse the OpenStreetMap (OSM) data using the SAXParser XML tree walker.
         neighbors = new HashMap<>();
-        Handler handler = new Handler(allowedHighwayTypes);
+        Handler handler = new Handler(Set.of(
+                "motorway",
+                "trunk",
+                "primary",
+                "secondary",
+                "tertiary",
+                "unclassified",
+                "residential",
+                "living_street",
+                "motorway_link",
+                "trunk_link",
+                "primary_link",
+                "secondary_link",
+                "tertiary_link"
+        ));
         SAXParser saxParser = SAXParserFactory.newInstance().newSAXParser();
         saxParser.parse(new GZIPInputStream(fileStream(osmPath)), handler);
 
@@ -156,7 +170,7 @@ public class MapGraph implements AStarGraph<Point> {
      * Parses OSM XML files to construct a StreetMapGraph.
      */
     private class Handler extends DefaultHandler {
-        private final Collection<String> allowedHighwayTypes;
+        private final Set<String> allowedHighwayTypes;
         private final Map<Long, Point> byId;
         private final Map<String, List<Point>> byName;
         private String state;
@@ -166,7 +180,7 @@ public class MapGraph implements AStarGraph<Point> {
         private Point location;
         private Queue<Point> path;
 
-        Handler(Collection<String> allowedHighwayTypes) {
+        Handler(Set<String> allowedHighwayTypes) {
             this.allowedHighwayTypes = allowedHighwayTypes;
             this.byId = new HashMap<>();
             this.byName = new HashMap<>();
