@@ -153,6 +153,7 @@ public class MapGraph implements AStarGraph<Point> {
         return "MapGraph{" +
                 "osmPath='" + osmPath + '\'' +
                 ", placesPath='" + placesPath + '\'' +
+                ", context='" + context + '\'' +
                 '}';
     }
 
