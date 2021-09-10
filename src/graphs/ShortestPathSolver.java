@@ -3,7 +3,7 @@ package graphs;
 import java.util.List;
 
 /**
- * Single-source shortest paths from a start defined in {@link Constructor#run(Graph, V)} to all reachable vertices.
+ * Single-source shortest paths from a start vertex to all reachable vertices.
  *
  * @param <V> the type of vertices.
  * @see Constructor
@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface ShortestPathSolver<V> {
     /**
-     * Returns the single-pair shortest path from a start defined in {@link Constructor#run(Graph, V)} to the goal.
+     * Returns the single-pair shortest path from a start vertex to the goal.
      *
      * @param goal the goal vertex.
      * @return a list of vertices representing the shortest path.
