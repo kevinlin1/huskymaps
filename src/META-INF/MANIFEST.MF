@@ -1,3 +1,16 @@
 Manifest-Version: 1.0
 Main-Class: huskymaps.MapServer
+Class-Path: slf4j-simple-1.7.31.jar slf4j-api-1.7.31.jar jackson-databin
+ d-2.12.4.jar jackson-annotations-2.12.4.jar jackson-core-2.12.4.jar spa
+ tial4j-0.8.jar javalin-4.0.0.RC3.jar slf4j-api-1.7.31.jar jetty-server-
+ 9.4.43.v20210629.jar javax.servlet-api-3.1.0.jar jetty-http-9.4.43.v202
+ 10629.jar jetty-util-9.4.43.v20210629.jar jetty-io-9.4.43.v20210629.jar
+  jetty-webapp-9.4.43.v20210629.jar jetty-xml-9.4.43.v20210629.jar jetty
+ -servlet-9.4.43.v20210629.jar jetty-security-9.4.43.v20210629.jar jetty
+ -util-ajax-9.4.43.v20210629.jar websocket-server-9.4.43.v20210629.jar w
+ ebsocket-common-9.4.43.v20210629.jar websocket-api-9.4.43.v20210629.jar
+  websocket-client-9.4.43.v20210629.jar jetty-client-9.4.43.v20210629.ja
+ r websocket-servlet-9.4.43.v20210629.jar kotlin-stdlib-jdk8-1.5.30.jar 
+ kotlin-stdlib-1.5.30.jar annotations-13.0.jar kotlin-stdlib-common-1.5.
+ 30.jar kotlin-stdlib-jdk7-1.5.30.jar
 

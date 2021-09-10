@@ -55,7 +55,7 @@ public class MapServer {
             config.addSinglePageRoot("/", "huskymaps/index.html");
         }).start(port());
         ConcurrentHashMap<String, BufferedImage> cache = new ConcurrentHashMap<>();
-        app.get("/map/:coordinates/:dimensions", ctx -> {
+        app.get("/map/{coordinates}/{dimensions}", ctx -> {
             String[] coordinates = ctx.pathParam("coordinates").split(",");
             Point center = pointLonLat(context, coordinates);
             int zoom = Integer.parseInt(coordinates[2]);
