@@ -2,6 +2,8 @@ package huskymaps;
 
 import graphs.AStarSolver;
 import io.javalin.Javalin;
+import io.javalin.core.validation.JavalinValidation;
+import io.javalin.core.validation.Validator;
 import org.locationtech.spatial4j.context.SpatialContext;
 import org.locationtech.spatial4j.shape.Point;
 
@@ -13,6 +15,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Base64;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -55,13 +58,13 @@ public class MapServer {
             config.addSinglePageRoot("/", "huskymaps/index.html");
         }).start(port());
         ConcurrentHashMap<String, BufferedImage> cache = new ConcurrentHashMap<>();
-        app.get("/map/{coordinates}/{dimensions}", ctx -> {
-            String[] coordinates = ctx.pathParam("coordinates").split(",");
-            Point center = pointLonLat(context, coordinates);
-            int zoom = Integer.parseInt(coordinates[2]);
-            String[] dimensions = ctx.pathParam("dimensions").split("x");
-            int width = Integer.parseInt(dimensions[0]);
-            int height = Integer.parseInt(dimensions[1]);
+        app.get("/map/{lon},{lat},{zoom}/{width}x{height}", ctx -> {
+            double lon = ctx.pathParamAsClass("lon", Double.class).get();
+            double lat = ctx.pathParamAsClass("lat", Double.class).get();
+            int zoom = ctx.pathParamAsClass("zoom", Integer.class).get();
+            int width = ctx.pathParamAsClass("width", Integer.class).get();
+            int height = ctx.pathParamAsClass("height", Integer.class).get();
+            Point center = context.getShapeFactory().pointLatLon(lat, lon);
             BufferedImage image = cache.get(ctx.path());
             List<Point> locations = map.getLocations(ctx.queryParam("term"), center);
             if (image == null || !locations.isEmpty()) {
@@ -71,17 +74,18 @@ public class MapServer {
                     cache.putIfAbsent(ctx.path(), image);
                 }
             }
-            String start = ctx.queryParam("start");
-            String goal = ctx.queryParam("goal");
-            if (start != null && goal != null) {
+            Validator<Double> startLon = ctx.queryParamAsClass("startLon", Double.class);
+            Validator<Double> startLat = ctx.queryParamAsClass("startLat", Double.class);
+            Validator<Double> goalLon = ctx.queryParamAsClass("goalLon", Double.class);
+            Validator<Double> goalLat = ctx.queryParamAsClass("goalLat", Double.class);
+            if (JavalinValidation.collectErrors(startLon, startLat, goalLon, goalLat).isEmpty()) {
                 // Overlay route if the route start and goal are defined.
+                Point start = context.getShapeFactory().pointLatLon(startLat.get(), startLon.get());
+                Point goal = context.getShapeFactory().pointLatLon(goalLat.get(), goalLon.get());
+                List<Point> route = new AStarSolver<>(map, map.closest(start), map.closest(goal)).solution();
+                // Convert route to xPoints and yPoints for Graphics2D.drawPolyline
                 double lonDPP = SEATTLE_ROOT_LONDPP / Math.pow(2, zoom);
                 double latDPP = SEATTLE_ROOT_LATDPP / Math.pow(2, zoom);
-                List<Point> route = new AStarSolver<>(
-                        map,
-                        map.closest(pointLonLat(context, start.split(","))),
-                        map.closest(pointLonLat(context, goal.split(",")))
-                ).solution();
                 int[] xPoints = new int[route.size()];
                 int[] yPoints = new int[route.size()];
                 int i = 0;
@@ -90,7 +94,24 @@ public class MapServer {
                     yPoints[i] = (int) ((center.getLat() - location.getLat()) * (1 / latDPP)) + (height / 2);
                     i += 1;
                 }
-                image = withPolyline(image, xPoints, yPoints);
+                // Create a copy of the image to avoid modifying cached image
+                image = new BufferedImage(
+                        image.getColorModel(),
+                        image.copyData(null),
+                        image.isAlphaPremultiplied(),
+                        null
+                );
+                Graphics2D g2d = image.createGraphics();
+                // Draw route outline
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2d.setColor(new Color(255, 255, 255));
+                g2d.setStroke(new BasicStroke(10.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+                g2d.drawPolyline(xPoints, yPoints, xPoints.length);
+                // Draw route on top of outline
+                g2d.setColor(new Color(108, 181, 230));
+                g2d.setStroke(new BasicStroke(5.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+                g2d.drawPolyline(xPoints, yPoints, xPoints.length);
+                g2d.dispose();
             }
             ByteArrayOutputStream os = new ByteArrayOutputStream();
             ImageIO.write(image, "png", os);
@@ -117,22 +138,6 @@ public class MapServer {
             return Integer.parseInt(port);
         }
         return PORT;
-    }
-
-    /**
-     * Returns a new {@link Point} from parsing the given longitude and latitude strings.
-     *
-     * @param context the spatial context.
-     * @param lonLat  the strings representing the longitude and latitude.
-     * @return a new {@link Point} from parsing the given longitude and latitude strings.
-     */
-    private static Point pointLonLat(SpatialContext context, String... lonLat) {
-        if (lonLat == null || lonLat.length < 2) {
-            return null;
-        }
-        double lon = Double.parseDouble(lonLat[0]);
-        double lat = Double.parseDouble(lonLat[1]);
-        return context.getShapeFactory().pointLatLon(lat, lon);
     }
 
     /**
@@ -169,32 +174,5 @@ public class MapServer {
                 (int) Math.ceil(width / 2.), (int) Math.ceil(height / 2.), "@2x",
                 System.getenv("TOKEN")
         ));
-    }
-
-    /**
-     * Returns a new image identical to the given image except for an additional polyline defined by the points.
-     *
-     * @param image   the input image.
-     * @param xPoints the x-coordinates for the points on the polyline.
-     * @param yPoints the y-coordinates for the points on the polyline.
-     * @return a new image identical to the given image except for an additional polyline defined by the points.
-     */
-    private static BufferedImage withPolyline(BufferedImage image, int[] xPoints, int[] yPoints) {
-        BufferedImage clone = new BufferedImage(
-                image.getColorModel(),
-                image.copyData(null),
-                image.isAlphaPremultiplied(),
-                null
-        );
-        Graphics2D g2d = clone.createGraphics();
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.setColor(new Color(255, 255, 255));
-        g2d.setStroke(new BasicStroke(10.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-        g2d.drawPolyline(xPoints, yPoints, xPoints.length);
-        g2d.setColor(new Color(108, 181, 230));
-        g2d.setStroke(new BasicStroke(5.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-        g2d.drawPolyline(xPoints, yPoints, xPoints.length);
-        g2d.dispose();
-        return clone;
     }
 }

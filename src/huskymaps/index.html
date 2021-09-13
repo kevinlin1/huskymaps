@@ -235,11 +235,13 @@
         document.addEventListener('dblclick', event => {
             const clickLon = lon + (event.pageX - window.innerWidth / 2) * lonDPP();
             const clickLat = lat - (event.pageY - window.innerHeight / 2) * latDPP();
-            if (params.start) {
-                params.goal = `${clickLon},${clickLat}`;
+            if (params.startLon && params.startLat) {
+                params.goalLon = clickLon;
+                params.goalLat = clickLat;
                 update();
             } else {
-                params.start = `${clickLon},${clickLat}`;
+                params.startLon = clickLon;
+                params.startLat = clickLat;
             }
         });
 
