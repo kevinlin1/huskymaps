@@ -43,9 +43,9 @@ public class TernarySearchTreeAutocomplete implements Autocomplete {
         private Node mid;
         private Node right;
 
-        public Node(char data, boolean isTerm) {
+        public Node(char data) {
             this.data = data;
-            this.isTerm = isTerm;
+            this.isTerm = false;
             this.left = null;
             this.mid = null;
             this.right = null;
