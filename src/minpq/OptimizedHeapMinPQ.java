@@ -17,10 +17,6 @@ public class OptimizedHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
      * {@link Map} of each item to its associated index in the {@code items} heap.
      */
     private final Map<T, Integer> itemToIndex;
-    /**
-     * The number of elements in the heap.
-     */
-    private int size;
 
     /**
      * Constructs an empty instance.
