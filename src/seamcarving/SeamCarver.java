@@ -1,6 +1,10 @@
 package seamcarving;
 
-import graphs.DijkstraSolver;
+import graphs.shortestpaths.DijkstraSolver;
+import seamcarving.energy.DualGradientEnergyFunction;
+import seamcarving.energy.EnergyFunction;
+import seamcarving.seamfinding.AdjacencyListSeamFinder;
+import seamcarving.seamfinding.SeamFinder;
 
 import java.io.File;
 import java.io.IOException;

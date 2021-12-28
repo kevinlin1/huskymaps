@@ -1,6 +1,8 @@
-package seamcarving;
+package seamcarving.seamfinding;
 
 import graphs.Edge;
+import seamcarving.Picture;
+import seamcarving.energy.EnergyFunction;
 
 import java.util.List;
 
@@ -11,7 +13,7 @@ import java.util.List;
  * @see AdjacencyListSeamFinder
  * @see GenerativeSeamFinder
  */
-interface Node {
+public interface Node {
     /**
      * Returns the {@link List} of right-up, right-middle, and right-down neighbors (if they exist) for this node.
      *

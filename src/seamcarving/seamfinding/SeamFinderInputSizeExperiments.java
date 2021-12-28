@@ -1,7 +1,10 @@
-package seamcarving;
+package seamcarving.seamfinding;
 
-import graphs.DijkstraSolver;
-import graphs.ToposortDAGSolver;
+import graphs.shortestpaths.DijkstraSolver;
+import graphs.shortestpaths.ToposortDAGSolver;
+import seamcarving.Picture;
+import seamcarving.energy.DualGradientEnergyFunction;
+import seamcarving.energy.EnergyFunction;
 
 import java.io.File;
 import java.io.IOException;

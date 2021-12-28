@@ -1,8 +1,11 @@
-package seamcarving;
+package seamcarving.seamfinding;
 
 import graphs.Edge;
 import graphs.Graph;
-import graphs.ShortestPathSolver;
+import graphs.shortestpaths.ShortestPathSolver;
+import seamcarving.Picture;
+import seamcarving.SeamCarver;
+import seamcarving.energy.EnergyFunction;
 
 import java.util.ArrayList;
 import java.util.List;

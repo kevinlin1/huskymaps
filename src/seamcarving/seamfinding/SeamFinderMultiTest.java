@@ -1,7 +1,12 @@
-package seamcarving;
+package seamcarving.seamfinding;
 
-import graphs.DijkstraSolver;
-import graphs.ToposortDAGSolver;
+import graphs.shortestpaths.DijkstraSolver;
+import graphs.shortestpaths.ToposortDAGSolver;
+import graphs.shortestpaths.ShortestPathSolver;
+import seamcarving.Picture;
+import seamcarving.SeamCarver;
+import seamcarving.energy.DualGradientEnergyFunction;
+import seamcarving.energy.EnergyFunction;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,7 +21,7 @@ import java.util.Scanner;
  * @see AdjacencyListSeamFinder
  * @see GenerativeSeamFinder
  * @see DynamicProgrammingSeamFinder
- * @see graphs.ShortestPathSolver
+ * @see ShortestPathSolver
  * @see DijkstraSolver
  * @see ToposortDAGSolver
  */

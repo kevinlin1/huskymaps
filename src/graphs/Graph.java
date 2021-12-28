@@ -1,5 +1,7 @@
 package graphs;
 
+import graphs.shortestpaths.ShortestPathSolver;
+
 import java.util.List;
 
 /**

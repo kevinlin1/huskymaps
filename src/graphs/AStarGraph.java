@@ -1,5 +1,7 @@
 package graphs;
 
+import graphs.shortestpaths.AStarSolver;
+
 /**
  * Directed, edge-weighted graph with a heuristic function to estimate distances between vertices.
  *

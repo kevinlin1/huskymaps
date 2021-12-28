@@ -1,5 +1,7 @@
-package graphs;
+package graphs.shortestpaths;
 
+import graphs.AStarGraph;
+import graphs.Edge;
 import minpq.DoubleMapMinPQ;
 import minpq.ExtrinsicMinPQ;
 

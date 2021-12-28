@@ -1,4 +1,8 @@
-package seamcarving;
+package seamcarving.seamfinding;
+
+import seamcarving.Picture;
+import seamcarving.SeamCarver;
+import seamcarving.energy.EnergyFunction;
 
 import java.util.List;
 

@@ -1,4 +1,6 @@
-package graphs;
+package graphs.shortestpaths;
+
+import graphs.Graph;
 
 import java.util.List;
 

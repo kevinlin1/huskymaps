@@ -1,4 +1,6 @@
-package seamcarving;
+package seamcarving.energy;
+
+import seamcarving.Picture;
 
 /**
  * Dual-gradient implementation of the {@link EnergyFunction} interface for {@link Picture} objects.

@@ -1,6 +1,6 @@
 package huskymaps;
 
-import graphs.AStarSolver;
+import graphs.shortestpaths.AStarSolver;
 import io.javalin.Javalin;
 import io.javalin.core.validation.JavalinValidation;
 import io.javalin.core.validation.Validator;
@@ -15,7 +15,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Base64;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
