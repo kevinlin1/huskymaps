@@ -23,5 +23,5 @@ public interface SeamFinder {
      * @param f       the {@link EnergyFunction}.
      * @return a {@link List} of integers representing the vertical pixels to remove.
      */
-    List<Integer> findSeam(Picture picture, EnergyFunction f);
+    List<Integer> findHorizontal(Picture picture, EnergyFunction f);
 }

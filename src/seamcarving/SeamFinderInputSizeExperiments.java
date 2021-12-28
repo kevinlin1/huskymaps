@@ -65,7 +65,7 @@ class SeamFinderInputSizeExperiments {
                 for (int i = 0; i < NUM_TRIALS; i += 1) {
                     // Measure findSeam.
                     long start = System.nanoTime();
-                    seamFinder.findSeam(picture, f);
+                    seamFinder.findHorizontal(picture, f);
                     long time = System.nanoTime() - start;
 
                     // Convert from nanoseconds to seconds and add to total time.

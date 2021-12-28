@@ -98,7 +98,7 @@ public class SeamCarver {
      * @return a minimum-cost horizontal seam.
      */
     public List<Integer> removeHorizontal() {
-        List<Integer> seam = seamFinder.findSeam(picture, f);
+        List<Integer> seam = seamFinder.findHorizontal(picture, f);
         validate(picture, seam);
         Picture result = new Picture(picture.width(), picture.height() - 1);
         for (int x = 0; x < picture.width(); x += 1) {
@@ -146,7 +146,7 @@ public class SeamCarver {
                 throw new UnsupportedOperationException("Transposed picture cannot be saved");
             }
         };
-        List<Integer> seam = seamFinder.findSeam(transposed, f);
+        List<Integer> seam = seamFinder.findHorizontal(transposed, f);
         validate(transposed, seam);
         Picture result = new Picture(picture.width() - 1, picture.height());
         for (int y = 0; y < picture.height(); y += 1) {

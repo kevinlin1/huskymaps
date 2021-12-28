@@ -32,7 +32,7 @@ public class AdjacencyListSeamFinder implements SeamFinder {
     }
 
     @Override
-    public List<Integer> findSeam(Picture picture, EnergyFunction f) {
+    public List<Integer> findHorizontal(Picture picture, EnergyFunction f) {
         PixelGraph graph = new PixelGraph(picture, f);
         List<Node> seam = sps.run(graph, graph.source).solution(graph.sink);
         seam = seam.subList(1, seam.size() - 1); // Skip the source and sink nodes
