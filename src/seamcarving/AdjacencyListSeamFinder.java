@@ -37,8 +37,10 @@ public class AdjacencyListSeamFinder implements SeamFinder {
         List<Node> seam = sps.run(graph, graph.source).solution(graph.sink);
         seam = seam.subList(1, seam.size() - 1); // Skip the source and sink nodes
         List<Integer> result = new ArrayList<>(seam.size());
-        for (Node pixel : seam) {
-            result.add(((PixelGraph.Pixel) pixel).y);
+        for (Node node : seam) {
+            // All remaining nodes must be Pixels
+            PixelGraph.Pixel pixel = (PixelGraph.Pixel) node;
+            result.add(pixel.y);
         }
         return result;
     }
