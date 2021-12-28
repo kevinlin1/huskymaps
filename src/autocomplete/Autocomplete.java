@@ -25,4 +25,19 @@ public interface Autocomplete {
      * @param prefix search query.
      */
     List<CharSequence> allMatches(CharSequence prefix);
+
+    /**
+     * Returns true if and only if the given term matches the given prefix.
+     *
+     * @param prefix prefix template.
+     * @param term term to check against the prefix.
+     * @return true if and only if the given term matches the given prefix.
+     */
+    static boolean isPrefixOf(CharSequence prefix, CharSequence term) {
+        if (prefix.length() <= term.length()) {
+            CharSequence part = term.subSequence(0, prefix.length());
+            return CharSequence.compare(prefix, part) == 0;
+        }
+        return false;
+    }
 }

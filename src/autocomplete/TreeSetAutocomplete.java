@@ -36,13 +36,10 @@ public class TreeSetAutocomplete implements Autocomplete {
             return result;
         }
         for (CharSequence term : terms.tailSet(start)) {
-            if (prefix.length() <= term.length()) {
-                CharSequence part = term.subSequence(0, prefix.length());
-                if (CharSequence.compare(prefix, part) == 0) {
-                    result.add(term);
-                } else {
-                    return result;
-                }
+            if (Autocomplete.isPrefixOf(prefix, term)) {
+                result.add(term);
+            } else {
+                return result;
             }
         }
         return result;
