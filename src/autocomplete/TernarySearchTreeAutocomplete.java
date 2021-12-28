@@ -37,7 +37,7 @@ public class TernarySearchTreeAutocomplete implements Autocomplete {
      * A search tree node representing a single character in an autocompletion term.
      */
     private static class Node {
-        private char data;
+        private final char data;
         private boolean isTerm;
         private Node left;
         private Node mid;
