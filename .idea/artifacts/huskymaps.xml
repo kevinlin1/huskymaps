@@ -1,7 +1,7 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="project:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/project_jar</output-path>
-    <root id="archive" name="project.jar">
+  <artifact type="jar" name="huskymaps">
+    <output-path>$PROJECT_DIR$/out/artifacts/huskymaps</output-path>
+    <root id="archive" name="huskymaps.jar">
       <element id="module-output" name="project" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/spatial4j-0.8.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/slf4j-simple-1.7.31.jar" path-in-jar="/" />
@@ -9,7 +9,6 @@
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/jackson-databind-2.12.4.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/jackson-annotations-2.12.4.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/jackson-core-2.12.4.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/javalin-4.1.1.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/jetty-server-9.4.44.v20210927.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/javax.servlet-api-3.1.0.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/jetty-http-9.4.44.v20210927.jar" path-in-jar="/" />
@@ -37,6 +36,7 @@
           <element id="file-copy" path="$PROJECT_DIR$/data/huskymaps/seattle-small.osm.gz" />
         </element>
       </element>
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/javalin-4.3.0.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
