@@ -60,7 +60,7 @@ After a few seconds, IntelliJ will open a new screen for working on the Husky Ma
 
 [main] INFO org.eclipse.jetty.util.log - Logging initialized @5374ms to org.eclipse.jetty.util.log.Slf4jLog
 [main] INFO io.javalin.Javalin - Starting Javalin ...
-[main] INFO io.javalin.Javalin - You are running Javalin 4.3.0 (released January 13, 2022).
+[main] INFO io.javalin.Javalin - You are running Javalin 4.6.4 (released July 8, 2022).
 [main] INFO io.javalin.Javalin - Listening on http://localhost:8080/
 [main] INFO io.javalin.Javalin - Javalin started in 306ms \o/
 ```
