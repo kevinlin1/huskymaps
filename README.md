@@ -8,19 +8,21 @@ The app is designed to support [**Critical Comparative Data Structures and Algor
 
 Most of the time when we're writing code in a computer, we're using a specially-designed software called a **code editor**. IntelliJ is the most recommended code editor for Java programmers. It's also the editor that we'll be using in this course.
 
-Download and install the latest version of IntelliJ IDEA Community Edition (2021.3.2) according to your computer's operating system. The default options for everything should work fine.
+Download and install the latest version of IntelliJ IDEA Community Edition (2022.2) according to your computer's operating system. The default options for everything should work fine.
 
-* [**Windows**](https://download.jetbrains.com/idea/ideaIC-2021.3.2.exe)
-* [**macOS Intel**](https://download.jetbrains.com/idea/ideaIC-2021.3.2.dmg) or [**macOS Apple Silicon**](https://download.jetbrains.com/idea/ideaIC-2021.3.2-aarch64.dmg) ([Mac computers with Apple silicon](https://support.apple.com/en-us/HT211814))
-* [**Linux and Chrome OS**](https://download.jetbrains.com/idea/ideaIC-2021.3.2.tar.gz) ([Linux setup for Chrome OS](https://chromeos.dev/en/linux/setup))
+* [**Windows**](https://download.jetbrains.com/idea/ideaIC-2022.2.exe)
+* [**macOS Intel**](https://download.jetbrains.com/idea/ideaIC-2022.2.dmg) or [**macOS Apple Silicon**](https://download.jetbrains.com/idea/ideaIC-2022.2-aarch64.dmg) ([Mac computers with Apple silicon](https://support.apple.com/en-us/HT211814))
+* [**Linux and Chrome OS**](https://download.jetbrains.com/idea/ideaIC-2022.2.tar.gz) ([Linux setup for Chrome OS](https://chromeos.dev/en/linux/setup))
 
-> ✨ If you're not sure how to install the file you just downloaded, follow the steps for [Standalone installation](https://www.jetbrains.com/help/idea/installation-guide.html#standalone) according to your computer's operating system.
+> ✨ Once the download finishes, follow the steps for [Standalone installation](https://www.jetbrains.com/help/idea/installation-guide.html#standalone) according to your computer's operating system.
 
 Once IntelliJ is installed, [run IntelliJ IDEA](https://www.jetbrains.com/help/idea/run-for-the-first-time.html) and select **Skip Remaining and Set Defaults**. You should see the **Welcome to IntelliJ IDEA** screen.
 
-![Welcome to IntelliJ IDEA screen](https://resources.jetbrains.com/help/img/idea/2021.3/ij_welcome_window.png)
+![Welcome to IntelliJ IDEA screen](https://resources.jetbrains.com/help/img/idea/2022.2/ij_welcome_window.png)
 
-IntelliJ was designed for professional programmers so it includes many productivity features, such as code completion and code refactoring. These features can be a bit confusing at times because the software is new to you. If you're confused about how to do something in IntelliJ, please let us know. In this class, we'll mostly focus only on the basics of editing, running, and debugging code—we're here to learn data structures and algorithms, not IntelliJ—but you're welcome to search online or ask us about how to do something in IntelliJ. Chances are, if there's something tedious or repetitive, there's a feature in IntelliJ to make the experience less frustrating.
+Now that you've installed IntelliJ, look toward the bottom of the screen and **Take a quick onboarding tour** by clicking **Start Tour**. This short tour will help familiarize yourself with some of the most frequently-used buttons and features. In this class, we'll mostly focus only on the basics of editing, running, and debugging code that are taught in this short tour—we're here to learn data structures and algorithms, not IntelliJ. You're welcome to search online or ask us about how to do something in IntelliJ. Chances are, if there's something tedious or repetitive, there's a feature in IntelliJ to make the experience less frustrating.
+
+Once you finish the onboarding tour, return to the **Welcome to IntelliJ IDEA** screen.
 
 ## Download, extract, and open the project scaffold
 
@@ -40,15 +42,11 @@ You can rename the top-level folder (**huskymaps-main**) however you like.
 
 From the **Welcome to IntelliJ IDEA** screen, click **Open** and select the "huskymaps-main" folder. The first time you open the project, IntelliJ will ask you whether to [trust the project](https://www.jetbrains.com/help/idea/project-security.html). You'll need to trust the project so that you can run Husky Maps later.
 
-After a few seconds, IntelliJ will launch a new interface containing several rectangular elements, some of which are labeled below. (Your IntelliJ interface probably won't have all the elements.) It will also download code and optimize things in the background, so it's normal if your computer feels a bit slow at first.
-
-![Overview of the IntelliJ user interface](https://resources.jetbrains.com/help/img/idea/2021.3/ij_mainWindow_default.png)
-
-We'll introduce the interface elements later. For now, note the **navigation bar** at the top and the **status bar** at the bottom. The status bar will show the progress of any code that's being downloaded or optimized in the background. Wait a minute for the processing to complete before moving on.
+After a few seconds, IntelliJ will open a new screen for working on the Husky Maps code. As you learned in the onboarding tour, IntelliJ will optimize things in the background when you start a new project, so it's normal if your computer feels a bit slow at first.
 
 ## Finalize the setup and run Husky Maps
 
-[Execute the run configuration](https://resources.jetbrains.com/help/img/idea/2021.1/jt-run-jar.animated.gif) by clicking the green ▶️ Run button by the right side of the navigation bar or using the keyboard combination <kbd>Shift + F10</kbd>. The **run tool window** will appear at the bottom. Ideally, we'd like to see the following output.
+[Execute the run configuration](https://resources.jetbrains.com/help/img/idea/2022.2/jt-run-jar.animated.gif) by clicking the green ▶️ Run button by the right side of the navigation bar or using the keyboard combination <kbd>Shift + F10</kbd>. The **run tool window** will appear at the bottom. Ideally, we'd like to see the following output.
 
 ```
 [main] INFO io.javalin.Javalin -
@@ -69,9 +67,9 @@ We'll introduce the interface elements later. For now, note the **navigation bar
 
 > ✅ If you see this in the run tool window, you're done! Your computer happened to already have Java installed and IntelliJ was able to find it automatically. You can visit [localhost:8080](http://localhost:8080) to use Husky Maps, but the map images won't load without following the optional steps at the bottom.
 
-But it's very likely you won't see this because your computer probably doesn't already have the exact version of Java installed. Instead, you might see a "Cannot start compiler" notification with a suggestion to configure the **Project SDK**. Follow the link in the notification or select **File | Project Structure** from the main menu. In the **Project Structure** window, open the **Project SDK** dropdown.
+But it's very likely you won't see this because your computer probably doesn't already have the exact version of Java installed. Instead, you might see a "Cannot start compiler" notification with a suggestion to configure the Project SDK. Follow the link in the notification or select **File | Project Structure** from the main menu. In the **Project Structure** window, open the **SDK** dropdown.
 
-![Project SDK dropdown in the Project Structure window](https://resources.jetbrains.com/help/img/idea/2021.3/sdks_project_structure_project.png)
+![Project SDK dropdown in the Project Structure window](https://resources.jetbrains.com/help/img/idea/2022.2/sdks_project_structure_project.png)
 
 If IntelliJ detected an existing Java SDK, it will be listed under **Detected SDKs**.
 
