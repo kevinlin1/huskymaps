@@ -25,7 +25,7 @@ import java.util.Scanner;
  * @see DijkstraSolver
  * @see ToposortDAGSolver
  */
-class SeamFinderMultiTest {
+class SeamFinderMultiTests {
     /**
      * Error tolerance for the minimum-cost seam.
      */
