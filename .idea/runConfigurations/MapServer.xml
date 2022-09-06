@@ -6,7 +6,7 @@
       <env name="TOKEN" value="" />
     </envs>
     <option name="MAIN_CLASS_NAME" value="huskymaps.MapServer" />
-    <module name="project" />
+    <module name="huskymaps" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="huskymaps.*" />
