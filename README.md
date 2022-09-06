@@ -79,36 +79,42 @@ If IntelliJ detected an existing Java SDK, it will be listed under **Detected SD
 
 Click **OK** and try running Husky Maps again. At this point, Husky Maps should run and print the expected output in the run tool window.
 
-> Optionally, if you want to see the map images in Husky Maps, [sign up for a free MapBox account](https://account.mapbox.com/auth/signup/?route-to=%22https://account.mapbox.com/access-tokens/%22) to get an access token. MapBox is a company that offers maps and location for developers. Access tokens are the way that they track and bill developers for their map usage, but MapBox offers a generous free tier—you don't even need to provide payment information. Once you have your access token, in the IntelliJ toolbar, select the "MapServer" dropdown, **Edit Configurations...**, and under **Environment variables** paste your token after the `TOKEN=` text. Click **OK**, re-run Husky Maps, and your map should now load images from MapBox.
+> Optionally, if you want to see the map images in Husky Maps, [sign up for a free MapBox account](https://account.mapbox.com/auth/signup/?route-to=%22https://account.mapbox.com/access-tokens/%22) to get an access token. MapBox is a company that offers maps and location for developers. Access tokens are the way that they track and bill developers for their map usage, but MapBox offers a generous free tier—you don't even need to provide payment information. Once you have your access token, in the IntelliJ toolbar, select the "MapServer" dropdown, **Edit Configurations...**, and under **Environment variables** write `TOKEN=` and then paste your token after the equals sign. Click **OK**, re-run Husky Maps, and your map should now load images from MapBox.
 
-## Deploying Husky Maps to the web
+## Deploy Husky Maps to the web
 
-An easy way to deploy apps to the web is by distributing them as a **JAR**: a file that bundles all of your code so that it can run on anyone else's machine even without installing IntelliJ. The project is already configured to make it easy for you to create a JAR that runs on Heroku.
+An easy way to deploy apps to the web is by distributing them as a **JAR**: a file that bundles all of your code so that it can run on anyone else's machine even without installing IntelliJ. This project is already configured to make it easy for you to create a JAR that runs anywhere.
 
-### Bundling your program so that it can run anywhere
+### Bundling your program
 
 Open IntelliJ. From the **Build** menu, select **Build Artifacts** and build the **huskymaps**. This will create a `huskymaps.jar` file in the `out/artifacts/huskymaps` directory containing all the code needed to run the Husky Maps web app.
 
-Test your JAR by running it from the terminal. In IntelliJ, [open the terminal](https://www.jetbrains.com/help/idea/terminal-emulator.html#open-terminal), and run the following command. If everything works, you should see the Javalin welcome message.
+Test your JAR by running it from the terminal. In IntelliJ, [open the terminal](https://www.jetbrains.com/help/idea/terminal-emulator.html#open-terminal), and run the following command. If everything works, you should see the Javalin welcome message. Map images will also show up if you enter your token into the command.
 
 ```
-java -jar out/artifacts/huskymaps/huskymaps.jar
+TOKEN=... java -jar out/artifacts/huskymaps/huskymaps.jar
 ```
 
-Once you have a runnable JAR file, we need to configure Heroku so it's able to accept your JAR.
+The included `Dockerfile` tells web hosting providers where to find your JAR and how to run it.
 
-### Telling Heroku how to run your app
+### Launching on fly.io
 
-1. Create a free [Heroku account](https://signup.heroku.com/dc).
-1. Set up [Heroku Command Line Interface](https://devcenter.heroku.com/articles/getting-started-with-java#set-up) and open the terminal.
-1. In the terminal, run `heroku login` and sign into Heroku.
-1. In the terminal, run `heroku create huskymaps-...` where `...` is your name. This will create a Heroku app with the name `huskymaps-...` visible in your [Heroku Dashboard](https://dashboard.heroku.com/apps).
-1. Set the [config variable](https://devcenter.heroku.com/articles/config-vars#managing-config-vars) for your MapBox token by running `heroku config:set TOKEN=...` in the terminal, where `...` is your MapBox access token. Alternatively, you can set `TOKEN` in the Heroku dashboard settings for your app.
+Any web hosting provider that accepts a `Dockerfile` can now run Husky Maps. We'll set it up using [fly.io](https://fly.io), which offers a free tier. Start by [installing flyctl](https://fly.io/docs/hands-on/install-flyctl/) and [signing up](https://fly.io/docs/hands-on/sign-up/) for the service.
 
-Then, install the Heroku Java plugin: run `heroku plugins:install java` in the terminal and deploy your JAR to your `huskymaps-...` app.
+Next, we'll want to start (but not yet complete) the process for [deploying your application via Dockerfile](https://fly.io/docs/hands-on/sign-up/). For the app name, use the name `huskymaps-...` where you enter your UW net ID after the dash. When it asks you to deploy, don't do so just yet!
+
+Before deploying, we will want to edit the `fly.toml` file that was just generated and set the `force_https` option to false.
 
 ```
-heroku deploy:jar out/artifacts/huskymaps/huskymaps.jar --app huskymaps-... --jdk 11
+  [[services.ports]]
+    force_https = false
 ```
 
-Finally, you can visit the link in the terminal to try out the app in your browser. Your app is running on Heroku's servers and can be reached by anyone on the internet! In the future, if you want to update the code for the app, make your changes in IntelliJ, rebuild the JAR, and then re-deploy it to Heroku.
+Finally, let's securely share our MapBox API token with fly as an app secret using the following command, and then deploy the app.
+
+```sh
+fly secrets set TOKEN=...
+fly deploy
+```
+
+Finally, you can try out the app in your browser by exiting the `fly deploy` command using <kbd>Ctrl + C</kbd> and then `fly open`. Your app is running on fly's servers and can be reached by anyone on the internet! In the future, if you want to update the code for the app, make your changes in IntelliJ, rebuild the JAR, and then re-deploy it to fly.
