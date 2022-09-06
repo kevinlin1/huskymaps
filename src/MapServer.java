@@ -164,8 +164,8 @@ public class MapServer {
                         + "%f,%f,%d/%dx%d%s"
                         // Access token and optional parameters
                         + "?access_token=%s&logo=false&attribution=false",
-                System.getenv().getOrDefault("USERNAME", "mapbox"),
-                System.getenv().getOrDefault("STYLE_ID", "streets-v11"),
+                "mapbox",
+                "cj7t3i5yj0unt2rmt3y4b5e32",
                 markers,
                 center.getLon(), center.getLat(), zoom,
                 (int) Math.ceil(width / 2.), (int) Math.ceil(height / 2.), "@2x",
