@@ -31,10 +31,11 @@ Download the [huskymaps-main.zip](https://github.com/kevinlin1/huskymaps/archive
 | 📂 huskymaps-main |
 | ----------------- |
 | data              |
+| resources         |
 | src               |
 | LICENSE           |
 | README.md         |
-| project.iml       |
+| huskymaps.iml     |
 
 > ⚠️ Many computers automatically extract the "huskymaps-main" into another folder also called "huskymaps-main" (the name of the zip file). We won't use the outer folder, so move the inner folder wherever you want and then remove the (now empty) outer folder.
 
@@ -91,7 +92,7 @@ Open IntelliJ. From the **Build** menu, select **Build Artifacts** and build the
 Test your JAR by running it from the terminal. In IntelliJ, [open the terminal](https://www.jetbrains.com/help/idea/terminal-emulator.html#open-terminal), and run the following command. If everything works, you should see the Javalin welcome message.
 
 ```
-PORT=8080 java -jar out/artifacts/project_jar/project.jar
+java -jar out/artifacts/huskymaps/huskymaps.jar
 ```
 
 Once you have a runnable JAR file, we need to configure Heroku so it's able to accept your JAR.
@@ -107,7 +108,7 @@ Once you have a runnable JAR file, we need to configure Heroku so it's able to a
 Then, install the Heroku Java plugin: run `heroku plugins:install java` in the terminal and deploy your JAR to your `huskymaps-...` app.
 
 ```
-heroku deploy:jar out/artifacts/project_jar/project.jar --app huskymaps-... --jdk 11
+heroku deploy:jar out/artifacts/huskymaps/huskymaps.jar --app huskymaps-... --jdk 11
 ```
 
 Finally, you can visit the link in the terminal to try out the app in your browser. Your app is running on Heroku's servers and can be reached by anyone on the internet! In the future, if you want to update the code for the app, make your changes in IntelliJ, rebuild the JAR, and then re-deploy it to Heroku.
