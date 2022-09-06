@@ -43,6 +43,13 @@ public abstract class AutocompleteTests {
      */
     private final Autocomplete testing = createAutocomplete();
 
+    /**
+     * Returns an empty {@link Autocomplete} instance.
+     *
+     * @return an empty {@link Autocomplete} instance
+     */
+    public abstract Autocomplete createAutocomplete();
+
     @BeforeAll
     void setup() throws IOException {
         Scanner input = new Scanner(new FileInputStream(PATH));
@@ -54,27 +61,6 @@ public abstract class AutocompleteTests {
         }
         reference.addAll(cities);
         testing.addAll(cities);
-    }
-
-    /**
-     * Returns an empty {@link Autocomplete} instance.
-     *
-     * @return an empty {@link Autocomplete} instance
-     */
-    public abstract Autocomplete createAutocomplete();
-
-    /**
-     * Asserts that the reference and testing implementations' {@code allMatches} methods produce
-     * the same results ignoring order.
-     *
-     * @param prefix the prefix string to pass to {@code allMatches}
-     */
-    void assertAllMatches(String prefix) {
-        List<CharSequence> expected = reference.allMatches(prefix);
-        List<CharSequence> actual = testing.allMatches(prefix);
-        assertEquals(expected.size(), actual.size());
-        assertTrue(expected.containsAll(actual));
-        assertTrue(actual.containsAll(expected));
     }
 
     @Test
@@ -96,5 +82,19 @@ public abstract class AutocompleteTests {
                 assertAllMatches(prefix);
             }
         }
+    }
+
+    /**
+     * Asserts that the reference and testing implementations' {@code allMatches} methods produce
+     * the same results ignoring order.
+     *
+     * @param prefix the prefix string to pass to {@code allMatches}
+     */
+    void assertAllMatches(String prefix) {
+        List<CharSequence> expected = reference.allMatches(prefix);
+        List<CharSequence> actual = testing.allMatches(prefix);
+        assertEquals(expected.size(), actual.size());
+        assertTrue(expected.containsAll(actual));
+        assertTrue(actual.containsAll(expected));
     }
 }
