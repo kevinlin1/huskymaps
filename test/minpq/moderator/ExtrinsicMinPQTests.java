@@ -1,6 +1,7 @@
 package minpq.moderator;
 
-import minpq.*;
+import minpq.DoubleMapMinPQ;
+import minpq.ExtrinsicMinPQ;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -12,13 +13,9 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Compare different {@link ExtrinsicMinPQ} implementations to check that they compute the same values.
+ * Abstract class providing test cases for all {@link ExtrinsicMinPQ} implementations.
  *
  * @see ExtrinsicMinPQ
- * @see DoubleMapMinPQ
- * @see UnsortedArrayMinPQ
- * @see HeapMinPQ
- * @see OptimizedHeapMinPQ
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public abstract class ExtrinsicMinPQTests {

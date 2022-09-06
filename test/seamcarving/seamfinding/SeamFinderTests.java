@@ -1,8 +1,5 @@
 package seamcarving.seamfinding;
 
-import graphs.shortestpaths.DijkstraSolver;
-import graphs.shortestpaths.ToposortDAGSolver;
-import graphs.shortestpaths.ShortestPathSolver;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -20,15 +17,9 @@ import java.util.Scanner;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Compare different {@link SeamFinder} implementations to check that they compute the same values.
+ * Abstract class providing test cases for all implementations of the {@link SeamFinder} interface.
  *
  * @see SeamFinder
- * @see AdjacencyListSeamFinder
- * @see GenerativeSeamFinder
- * @see DynamicProgrammingSeamFinder
- * @see ShortestPathSolver
- * @see DijkstraSolver
- * @see ToposortDAGSolver
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public abstract class SeamFinderTests {
