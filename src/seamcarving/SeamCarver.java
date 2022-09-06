@@ -39,6 +39,10 @@ public class SeamCarver {
      * The {@link Picture}.
      */
     private Picture picture;
+    /**
+     * The energy for the last-removed seam, or NaN if no seam has been removed.
+     */
+    private double lastRemovedSeamEnergy = Double.NaN;
 
     /**
      * Constructs a seam carver by reading the {@link Picture} from the file, using the given {@link EnergyFunction} and
@@ -105,6 +109,7 @@ public class SeamCarver {
         List<Integer> seam = seamFinder.findHorizontal(picture, f);
         validate(picture, seam);
         Picture result = new Picture(picture.width(), picture.height() - 1);
+        lastRemovedSeamEnergy = 0.0;
         for (int x = 0; x < picture.width(); x += 1) {
             for (int y = 0; y < seam.get(x); y += 1) {
                 result.set(x, y, picture.get(x, y));
@@ -112,6 +117,7 @@ public class SeamCarver {
             for (int y = seam.get(x); y < picture.height() - 1; y += 1) {
                 result.set(x, y, picture.get(x, y + 1));
             }
+            lastRemovedSeamEnergy += f.apply(picture, x, seam.get(x));
         }
         picture = result;
         return seam;
@@ -153,6 +159,7 @@ public class SeamCarver {
         List<Integer> seam = seamFinder.findHorizontal(transposed, f);
         validate(transposed, seam);
         Picture result = new Picture(picture.width() - 1, picture.height());
+        lastRemovedSeamEnergy = 0.0;
         for (int y = 0; y < picture.height(); y += 1) {
             for (int x = 0; x < seam.get(y); x += 1) {
                 result.set(x, y, picture.get(x, y));
@@ -160,8 +167,18 @@ public class SeamCarver {
             for (int x = seam.get(y); x < picture.width() - 1; x += 1) {
                 result.set(x, y, picture.get(x + 1, y));
             }
+            lastRemovedSeamEnergy += f.apply(picture, seam.get(y), y);
         }
         picture = result;
         return seam;
+    }
+
+    /**
+     * Returns the energy of the last-removed seam, or NaN if no seam has been removed yet.
+     *
+     * @return the energy of the last-removed seam, or NaN if no seam has been removed yet.
+     */
+    public double lastRemovedSeamEnergy() {
+        return lastRemovedSeamEnergy;
     }
 }
