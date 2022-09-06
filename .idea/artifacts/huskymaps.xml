@@ -2,41 +2,35 @@
   <artifact type="jar" name="huskymaps">
     <output-path>$PROJECT_DIR$/out/artifacts/huskymaps</output-path>
     <root id="archive" name="huskymaps.jar">
-      <element id="module-output" name="project" />
+      <element id="module-output" name="huskymaps" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jackson-databind-2.13.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jackson-annotations-2.13.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jackson-core-2.13.3.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/spatial4j-0.8.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/slf4j-simple-1.7.31.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/slf4j-api-1.7.31.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jackson-databind-2.12.4.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jackson-annotations-2.12.4.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jackson-core-2.12.4.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jetty-server-9.4.44.v20210927.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/javalin-4.6.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/slf4j-api-1.7.36.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jetty-server-9.4.48.v20220622.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/javax.servlet-api-3.1.0.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jetty-http-9.4.44.v20210927.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jetty-util-9.4.44.v20210927.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jetty-io-9.4.44.v20210927.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jetty-webapp-9.4.44.v20210927.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jetty-xml-9.4.44.v20210927.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jetty-servlet-9.4.44.v20210927.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jetty-security-9.4.44.v20210927.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jetty-util-ajax-9.4.44.v20210927.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/websocket-server-9.4.44.v20210927.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/websocket-common-9.4.44.v20210927.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/websocket-api-9.4.44.v20210927.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/websocket-client-9.4.44.v20210927.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jetty-client-9.4.44.v20210927.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/websocket-servlet-9.4.44.v20210927.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/kotlin-stdlib-jdk8-1.5.31.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/kotlin-stdlib-1.5.31.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jetty-http-9.4.48.v20220622.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jetty-util-9.4.48.v20220622.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jetty-io-9.4.48.v20220622.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jetty-webapp-9.4.48.v20220622.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jetty-xml-9.4.48.v20220622.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jetty-servlet-9.4.48.v20220622.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jetty-security-9.4.48.v20220622.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jetty-util-ajax-9.4.48.v20220622.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/websocket-server-9.4.48.v20220622.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/websocket-common-9.4.48.v20220622.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/websocket-api-9.4.48.v20220622.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/websocket-client-9.4.48.v20220622.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jetty-client-9.4.48.v20220622.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/websocket-servlet-9.4.48.v20220622.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/kotlin-stdlib-jdk8-1.5.32.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/kotlin-stdlib-1.5.32.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/annotations-13.0.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/kotlin-stdlib-common-1.5.31.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/kotlin-stdlib-jdk7-1.5.31.jar" path-in-jar="/" />
-      <element id="directory" name="data">
-        <element id="directory" name="huskymaps">
-          <element id="file-copy" path="$PROJECT_DIR$/data/huskymaps/places.tsv.gz" />
-          <element id="file-copy" path="$PROJECT_DIR$/data/huskymaps/seattle-small.osm.gz" />
-        </element>
-      </element>
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/javalin-4.3.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/kotlin-stdlib-common-1.5.32.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/kotlin-stdlib-jdk7-1.5.32.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/slf4j-simple-1.7.36.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

@@ -5,11 +5,11 @@
       <env name="STYLE_ID" value="cj7t3i5yj0unt2rmt3y4b5e32" />
       <env name="TOKEN" value="" />
     </envs>
-    <option name="MAIN_CLASS_NAME" value="huskymaps.MapServer" />
+    <option name="MAIN_CLASS_NAME" value="MapServer" />
     <module name="huskymaps" />
     <extension name="coverage">
       <pattern>
-        <option name="PATTERN" value="huskymaps.*" />
+        <option name="PATTERN" value=".*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>
