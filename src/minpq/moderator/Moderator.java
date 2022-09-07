@@ -13,15 +13,11 @@ import java.util.Scanner;
  */
 class Moderator {
     /**
-     * Hide the content if true.
-     */
-    private static final boolean SAFE_FOR_WORK = true;
-    /**
      * Path to the toxic content.
      */
     private static final String PATH = "data/toxic.tsv";
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(new FileInputStream(PATH));
         scanner.nextLine(); // Skip header
 
@@ -31,11 +27,7 @@ class Moderator {
         Scanner stdin = new Scanner(System.in);
         while (!pq.isEmpty()) {
             System.out.println();
-            if (SAFE_FOR_WORK) {
-                System.out.println(pq.removeMin().replaceAll("\\B[a-zA-Z]", "*"));
-            } else {
-                System.out.println(pq.removeMin());
-            }
+            System.out.println(pq.removeMin());
             System.out.print("[Y]es/[N]o: ");
             String response = null;
             while (response == null && stdin.hasNextLine()) {
@@ -71,7 +63,8 @@ class Moderator {
         for (; i < n && scanner.hasNextLine(); i += 1) {
             Scanner line = new Scanner(scanner.nextLine()).useDelimiter("\t");
             double toxicity = line.nextDouble();
-            String comment = line.next();
+            // Replace all but the first letter in each word.
+            String comment = line.next().replaceAll("\\B[a-zA-Z]", "*");
             // Prioritize most toxic content first by negating the weight.
             pq.add(comment, -toxicity);
         }
