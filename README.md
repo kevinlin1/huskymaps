@@ -33,6 +33,8 @@ Download the [huskymaps-main.zip](https://github.com/kevinlin1/huskymaps/archive
 | data              |
 | resources         |
 | src               |
+| test              |
+| Dockerfile        |
 | LICENSE           |
 | README.md         |
 | huskymaps.iml     |
