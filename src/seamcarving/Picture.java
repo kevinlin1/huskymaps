@@ -4,7 +4,6 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.SplittableRandom;
 
 /**
  * A digital picture represented as red-green-blue color {@code int} pixels.
@@ -24,7 +23,7 @@ public class Picture {
      *
      * @param image the input image.
      */
-    private Picture(BufferedImage image) {
+    public Picture(BufferedImage image) {
         this.image = image;
     }
 
@@ -63,24 +62,6 @@ public class Picture {
      */
     public Picture(File file) throws IOException {
         image = ImageIO.read(file);
-    }
-
-    /**
-     * Returns a new picture with the given width and height dimensions filled with randomly-generated colors.
-     *
-     * @param width  the horizontal dimension for the picture.
-     * @param height the vertical dimension for the picture.
-     * @return a new picture with the given width and height dimensions filled with randomly-generated colors.
-     */
-    public static Picture random(int width, int height) {
-        // https://codereview.stackexchange.com/a/244139
-        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        long bytesPerPixel = 4L;
-        for (int y = 0; y < height; y += 1) {
-            int[] row = new SplittableRandom().ints(bytesPerPixel * width, 0, 256).toArray();
-            image.getRaster().setPixels(0, y, width, 1, row);
-        }
-        return new Picture(image);
     }
 
     /**
