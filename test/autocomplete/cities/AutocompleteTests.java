@@ -2,9 +2,9 @@ package autocomplete.cities;
 
 import autocomplete.Autocomplete;
 import autocomplete.TreeSetAutocomplete;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -30,7 +30,7 @@ public abstract class AutocompleteTests {
     /**
      * Associating each city name to the importance weight of that city.
      */
-    private final Set<String> cities = new HashSet<>(MAX_CITIES, 1.0f);
+    private final List<String> cities = new ArrayList<>(MAX_CITIES);
     /**
      * Reference implementation of the {@link Autocomplete} interface for comparison.
      */
@@ -93,5 +93,60 @@ public abstract class AutocompleteTests {
         assertEquals(expected.size(), actual.size());
         assertTrue(expected.containsAll(actual));
         assertTrue(actual.containsAll(expected));
+    }
+
+    @Nested
+    class RuntimeExperiments {
+        /**
+         * Number of trials per implementation run. Making this smaller means experiments run faster.
+         */
+        private static final int NUM_TRIALS = 1000;
+        /**
+         * Maximum number of elements to add.
+         */
+        public static final int MAX_SIZE = 20000;
+        /**
+         * Step size increment. Making this smaller means experiments run slower.
+         */
+        private static final int STEP = 1000;
+
+        @ParameterizedTest
+        @ValueSource(strings = {"Sea"})
+        void addAllAllMatches(String prefix) {
+            for (int size = STEP; size <= MAX_SIZE; size += STEP) {
+                System.out.print(size);
+                System.out.print(',');
+
+                // Make a new test input dataset containing the first size cities
+                List<String> dataset = cities.subList(0, size);
+
+                // Record the total runtimes accumulated across all trials
+                double totalAddAllTime = 0.0;
+                double totalMatchesTime = 0.0;
+
+                for (int i = 0; i < NUM_TRIALS; i += 1) {
+                    Autocomplete autocomplete = createAutocomplete();
+
+                    // Measure the time to add all cities
+                    long addStart = System.nanoTime();
+                    autocomplete.addAll(dataset);
+                    long addTime = System.nanoTime() - addStart;
+                    // Convert from nanoseconds to seconds and add to total time
+                    totalAddAllTime += (double) addTime / 1_000_000_000;
+
+                    // Measure the time to find all matches
+                    long matchesStart = System.nanoTime();
+                    autocomplete.allMatches(prefix);
+                    long matchesTime = System.nanoTime() - matchesStart;
+                    totalMatchesTime += (double) matchesTime / 1_000_000_000;
+                }
+
+                // Output the averages to 10 decimal places.
+                System.out.printf("%.10f", totalAddAllTime / NUM_TRIALS);
+                System.out.print(',');
+                System.out.printf("%.10f", totalMatchesTime / NUM_TRIALS);
+                System.out.println();
+            }
+        }
     }
 }
