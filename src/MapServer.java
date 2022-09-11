@@ -54,7 +54,6 @@ public class MapServer {
         Javalin app = Javalin.create(config -> {
             config.addSinglePageRoot("/", "index.html");
         }).start(port());
-        ConcurrentHashMap<String, BufferedImage> cache = new ConcurrentHashMap<>();
         app.get("/map/{lon},{lat},{zoom}/{width}x{height}", ctx -> {
             double lon = ctx.pathParamAsClass("lon", Double.class).get();
             double lat = ctx.pathParamAsClass("lat", Double.class).get();
@@ -62,15 +61,8 @@ public class MapServer {
             int width = ctx.pathParamAsClass("width", Integer.class).get();
             int height = ctx.pathParamAsClass("height", Integer.class).get();
             Point center = context.getShapeFactory().pointLatLon(lat, lon);
-            BufferedImage image = cache.get(ctx.path());
             List<Point> locations = map.getLocations(ctx.queryParam("term"), center);
-            if (image == null || !locations.isEmpty()) {
-                // Only make an API call if the cached image is not available/matches or locations are requested.
-                image = ImageIO.read(url(center, zoom, width, height, locations));
-                if (locations.isEmpty()) {
-                    cache.putIfAbsent(ctx.path(), image);
-                }
-            }
+            BufferedImage image = ImageIO.read(url(center, zoom, width, height, locations));
             Validator<Double> startLon = ctx.queryParamAsClass("startLon", Double.class);
             Validator<Double> startLat = ctx.queryParamAsClass("startLat", Double.class);
             Validator<Double> goalLon = ctx.queryParamAsClass("goalLon", Double.class);
@@ -91,13 +83,6 @@ public class MapServer {
                     yPoints[i] = (int) ((center.getLat() - location.getLat()) * (1 / latDPP)) + (height / 2);
                     i += 1;
                 }
-                // Create a copy of the image to avoid modifying cached image
-                image = new BufferedImage(
-                        image.getColorModel(),
-                        image.copyData(null),
-                        image.isAlphaPremultiplied(),
-                        null
-                );
                 Graphics2D g2d = image.createGraphics();
                 // Draw route outline
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
