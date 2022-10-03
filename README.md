@@ -4,119 +4,27 @@ An educational web app for mapping the world, searching for places, and navigati
 
 The app is designed to support [**Critical Comparative Data Structures and Algorithms**](https://kevinl.info/cs-education-for-the-socially-just-worlds-we-need/), a justice-centered approach to teaching undergraduate data structures and algorithms. The latest courses to use this repository can be found in the [**Releases**](https://github.com/kevinlin1/huskymaps/releases).
 
-## Install IntelliJ IDEA Community Edition
+## Setup
 
-Most of the time when we're writing code in a computer, we're using a specially-designed software called a **code editor**. IntelliJ is the most recommended code editor for Java programmers. It's also the editor that we'll be using in this course.
+This project is pre-configured for IntelliJ IDEA.
 
-Download and install the latest version of IntelliJ IDEA Community Edition (2022.2) according to your computer's operating system. The default options for everything should work fine.
+1. Install [IntelliJ IDEA](https://www.jetbrains.com/idea/download/).
+1. Download or clone this project and open it in IntelliJ.
+1. Run the `MapServer` class to start the web app.
 
-* [**Windows**](https://download.jetbrains.com/idea/ideaIC-2022.2.exe)
-* [**macOS Intel**](https://download.jetbrains.com/idea/ideaIC-2022.2.dmg) or [**macOS Apple Silicon**](https://download.jetbrains.com/idea/ideaIC-2022.2-aarch64.dmg) ([Mac computers with Apple silicon](https://support.apple.com/en-us/HT211814))
-* [**Linux and Chrome OS**](https://download.jetbrains.com/idea/ideaIC-2022.2.tar.gz) ([Linux setup for Chrome OS](https://chromeos.dev/en/linux/setup))
+To see the map images, [sign up for a free MapBox account](https://account.mapbox.com/auth/signup/?route-to=%22https://account.mapbox.com/access-tokens/%22) to get an access token. Once you have your access token, in the IntelliJ toolbar, select the "MapServer" dropdown, **Edit Configurations...**, under **Environment variables** write `TOKEN=` and then paste your token. Re-run the `MapServer` class to launch the web app and enjoy the ["Ice Cream" map style by Maya Gao](https://www.mapbox.com/gallery/).
 
-> ✨ Once the download finishes, follow the steps for [Standalone installation](https://www.jetbrains.com/help/idea/installation-guide.html#standalone) according to your computer's operating system.
+## Deployment
 
-Once IntelliJ is installed, [run IntelliJ IDEA](https://www.jetbrains.com/help/idea/run-for-the-first-time.html) and select **Skip Remaining and Set Defaults**. You should see the **Welcome to IntelliJ IDEA** screen.
+One way to share Java apps is by distributing them as a **JAR** that bundles all your code together into a single file. This project is already configured to make it easy for you to create a JAR that runs anywhere.
 
-![Welcome to IntelliJ IDEA screen](https://resources.jetbrains.com/help/img/idea/2022.2/ij_welcome_window.png)
+1. Open IntelliJ. From the **Build** menu, select **Build Artifacts** and build **huskymaps**.
+1. Test your JAR by running it from the terminal. In IntelliJ, [open the terminal](https://www.jetbrains.com/help/idea/terminal-emulator.html#open-terminal), and run `TOKEN=... java -jar out/artifacts/huskymaps/huskymaps.jar`.
 
-Now that you've installed IntelliJ, look toward the bottom of the screen and **Take a quick onboarding tour** by clicking **Start Tour**. This short tour will help familiarize yourself with some of the most frequently-used buttons and features. In this class, we'll mostly focus only on the basics of editing, running, and debugging code that are taught in this short tour—we're here to learn data structures and algorithms, not IntelliJ. You're welcome to search online or ask us about how to do something in IntelliJ. Chances are, if there's something tedious or repetitive, there's a feature in IntelliJ to make the experience less frustrating.
+To deploy the app to the web, we'll share this JAR file with a web hosting provider such as [fly.io](https://fly.io).
 
-Once you finish the onboarding tour, return to the **Welcome to IntelliJ IDEA** screen.
-
-## Download, extract, and open the project scaffold
-
-Download the [huskymaps-main.zip](https://github.com/kevinlin1/huskymaps/archive/refs/heads/main.zip) with the code and resources for all the projects. Then, extract (unzip) the contents anywhere on your computer. Take a look inside the extracted folder and make sure you have the following folders and files.
-
-| 📂 huskymaps-main |
-| ----------------- |
-| data              |
-| resources         |
-| src               |
-| test              |
-| Dockerfile        |
-| LICENSE           |
-| README.md         |
-| huskymaps.iml     |
-
-> ⚠️ Many computers automatically extract the "huskymaps-main" into another folder also called "huskymaps-main" (the name of the zip file). We won't use the outer folder, so move the inner folder wherever you want and then remove the (now empty) outer folder.
-
-You can rename the top-level folder (**huskymaps-main**) however you like.
-
-From the **Welcome to IntelliJ IDEA** screen, click **Open** and select the "huskymaps-main" folder. The first time you open the project, IntelliJ will ask you whether to [trust the project](https://www.jetbrains.com/help/idea/project-security.html). You'll need to trust the project so that you can run Husky Maps later.
-
-After a few seconds, IntelliJ will open a new screen for working on the Husky Maps code. As you learned in the onboarding tour, IntelliJ will optimize things in the background when you start a new project, so it's normal if your computer feels a bit slow at first.
-
-## Finalize the setup and run Husky Maps
-
-[Execute the run configuration](https://resources.jetbrains.com/help/img/idea/2022.2/jt-run-jar.animated.gif) by clicking the green ▶️ Run button by the right side of the navigation bar or using the keyboard combination <kbd>Shift + F10</kbd>. The **run tool window** will appear at the bottom. Ideally, we'd like to see the following output.
-
-```
-[main] INFO io.javalin.Javalin -
-       __                      __ _            __ __
-      / /____ _ _   __ ____ _ / /(_)____      / // /
- __  / // __ `/| | / // __ `// // // __ \    / // /_
-/ /_/ // /_/ / | |/ // /_/ // // // / / /   /__  __/
-\____/ \__,_/  |___/ \__,_//_//_//_/ /_/      /_/
-
-          https://javalin.io/documentation
-
-[main] INFO org.eclipse.jetty.util.log - Logging initialized @5374ms to org.eclipse.jetty.util.log.Slf4jLog
-[main] INFO io.javalin.Javalin - Starting Javalin ...
-[main] INFO io.javalin.Javalin - You are running Javalin 4.6.4 (released July 8, 2022).
-[main] INFO io.javalin.Javalin - Listening on http://localhost:8080/
-[main] INFO io.javalin.Javalin - Javalin started in 306ms \o/
-```
-
-> ✅ If you see this in the run tool window, you're done! Your computer happened to already have Java installed and IntelliJ was able to find it automatically. You can visit [localhost:8080](http://localhost:8080) to use Husky Maps, but the map images won't load without following the optional steps at the bottom.
-
-But it's very likely you won't see this because your computer probably doesn't already have the exact version of Java installed. Instead, you might see a "Cannot start compiler" notification with a suggestion to configure the Project SDK. Follow the link in the notification or select **File | Project Structure** from the main menu. In the **Project Structure** window, open the **SDK** dropdown.
-
-![Project SDK dropdown in the Project Structure window](https://resources.jetbrains.com/help/img/idea/2022.2/sdks_project_structure_project.png)
-
-If IntelliJ detected an existing Java SDK, it will be listed under **Detected SDKs**.
-
-* If an SDK version 11 or greater is available, select it.
-* If there are no SDKs or the SDKs are below version 11, select **Add SDK | Download JDK** and choose the latest from any vendor. We like _Eclipse Temurin (AdoptOpenJDK HotSpot)_.
-
-Click **OK** and try running Husky Maps again. At this point, Husky Maps should run and print the expected output in the run tool window.
-
-> Optionally, if you want to see the map images in Husky Maps, [sign up for a free MapBox account](https://account.mapbox.com/auth/signup/?route-to=%22https://account.mapbox.com/access-tokens/%22) to get an access token. MapBox is a company that offers maps and location for developers. Access tokens are the way that they track and bill developers for their map usage, but MapBox offers a generous free tier—you don't even need to provide payment information. Once you have your access token, in the IntelliJ toolbar, select the "MapServer" dropdown, **Edit Configurations...**, and under **Environment variables** write `TOKEN=` and then paste your token after the equals sign. Click **OK**, re-run Husky Maps, and your map should now load images from MapBox.
-
-## Deploy Husky Maps to the web
-
-An easy way to deploy apps to the web is by distributing them as a **JAR**: a file that bundles all of your code so that it can run on anyone else's machine even without installing IntelliJ. This project is already configured to make it easy for you to create a JAR that runs anywhere.
-
-### Bundling your program
-
-Open IntelliJ. From the **Build** menu, select **Build Artifacts** and build the **huskymaps**. This will create a `huskymaps.jar` file in the `out/artifacts/huskymaps` directory containing all the code needed to run the Husky Maps web app.
-
-Test your JAR by running it from the terminal. In IntelliJ, [open the terminal](https://www.jetbrains.com/help/idea/terminal-emulator.html#open-terminal), and run the following command. If everything works, you should see the Javalin welcome message. Map images will also show up if you enter your token into the command.
-
-```
-TOKEN=... java -jar out/artifacts/huskymaps/huskymaps.jar
-```
-
-The included `Dockerfile` tells web hosting providers where to find your JAR and how to run it.
-
-### Launching on fly.io
-
-Any web hosting provider that accepts a `Dockerfile` can now run Husky Maps. We'll set it up using [fly.io](https://fly.io), which offers a free tier. Start by [installing flyctl](https://fly.io/docs/hands-on/install-flyctl/) and [signing up](https://fly.io/docs/hands-on/sign-up/) for the service.
-
-Next, we'll want to start (but not yet complete) the process for [deploying your application via Dockerfile](https://fly.io/docs/hands-on/sign-up/). For the app name, use the name `huskymaps-...` where you enter your UW net ID after the dash. When it asks you to deploy, don't do so just yet!
-
-Before deploying, we will want to edit the `fly.toml` file that was just generated and set the `force_https` option to false.
-
-```
-  [[services.ports]]
-    force_https = false
-```
-
-Finally, let's securely share our MapBox API token with fly as an app secret using the following command, and then deploy the app.
-
-```sh
-fly secrets set TOKEN=...
-fly deploy
-```
-
-Finally, you can try out the app in your browser by exiting the `fly deploy` command using <kbd>Ctrl + C</kbd> and then `fly open`. Your app is running on fly's servers and can be reached by anyone on the internet! In the future, if you want to update the code for the app, make your changes in IntelliJ, rebuild the JAR, and then re-deploy it to fly.
+1. [Install flyctl](https://fly.io/docs/hands-on/install-flyctl/) and [sign up](https://fly.io/docs/hands-on/sign-up/).
+1. Start (but don't complete!) the process for [deploying your application via Dockerfile](https://fly.io/docs/hands-on/sign-up/). For the app name, use the name `huskymaps-` with your UW NetID after the dash. When it asks you to deploy, don't do so just yet!
+1. Open the `fly.toml` file in a text editor and set the `force_https` option to false.
+1. Share your MapBox access token with fly as an app secret with the terminal command `fly secrets set TOKEN=...`.
+1. Finally, deploy the app with the terminal command `fly deploy`.
