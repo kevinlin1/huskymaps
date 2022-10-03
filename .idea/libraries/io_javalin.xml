@@ -1,30 +1,38 @@
 <component name="libraryTable">
   <library name="io.javalin" type="repository">
-    <properties maven-id="io.javalin:javalin:4.6.4" />
+    <properties maven-id="io.javalin:javalin:5.0.1" />
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/lib/javalin-4.6.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javalin-5.0.1.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/slf4j-api-1.7.36.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/jetty-server-9.4.48.v20220622.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/javax.servlet-api-3.1.0.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/jetty-http-9.4.48.v20220622.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/jetty-util-9.4.48.v20220622.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/jetty-io-9.4.48.v20220622.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/jetty-webapp-9.4.48.v20220622.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/jetty-xml-9.4.48.v20220622.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/jetty-servlet-9.4.48.v20220622.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/jetty-security-9.4.48.v20220622.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/jetty-util-ajax-9.4.48.v20220622.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/websocket-server-9.4.48.v20220622.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/websocket-common-9.4.48.v20220622.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/websocket-api-9.4.48.v20220622.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/websocket-client-9.4.48.v20220622.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/jetty-client-9.4.48.v20220622.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/websocket-servlet-9.4.48.v20220622.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/kotlin-stdlib-jdk8-1.5.32.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/kotlin-stdlib-1.5.32.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jetty-server-11.0.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jetty-jakarta-servlet-api-5.0.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jetty-http-11.0.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jetty-util-11.0.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jetty-io-11.0.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jetty-webapp-11.0.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jetty-servlet-11.0.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jetty-security-11.0.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jetty-xml-11.0.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/websocket-jetty-server-11.0.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/websocket-jetty-common-11.0.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/websocket-core-common-11.0.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/websocket-servlet-11.0.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/websocket-core-server-11.0.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jetty-annotations-11.0.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jetty-plus-11.0.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jakarta.transaction-api-2.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jetty-jndi-11.0.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jakarta.annotation-api-2.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/asm-9.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/asm-commons-9.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/asm-tree-9.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/asm-analysis-9.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/websocket-jetty-api-11.0.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/kotlin-stdlib-jdk8-1.7.10.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/kotlin-stdlib-1.7.10.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/kotlin-stdlib-common-1.7.10.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/annotations-13.0.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/kotlin-stdlib-common-1.5.32.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/kotlin-stdlib-jdk7-1.5.32.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/kotlin-stdlib-jdk7-1.7.10.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
