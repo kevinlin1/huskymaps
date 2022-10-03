@@ -1,7 +1,7 @@
 import graphs.shortestpaths.AStarSolver;
 import io.javalin.Javalin;
-import io.javalin.core.validation.JavalinValidation;
-import io.javalin.core.validation.Validator;
+import io.javalin.validation.JavalinValidation;
+import io.javalin.validation.Validator;
 import org.locationtech.spatial4j.context.SpatialContext;
 import org.locationtech.spatial4j.shape.Point;
 
@@ -52,7 +52,7 @@ public class MapServer {
         SpatialContext context = SpatialContext.GEO;
         MapGraph map = new MapGraph(OSM_DB_PATH, PLACES_PATH, context);
         Javalin app = Javalin.create(config -> {
-            config.addSinglePageRoot("/", "index.html");
+            config.spaRoot.addFile("/", "index.html");
         }).start(port());
         app.get("/map/{lon},{lat},{zoom}/{width}x{height}", ctx -> {
             double lon = ctx.pathParamAsClass("lon", Double.class).get();
