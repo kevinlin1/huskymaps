@@ -9,6 +9,7 @@ import seamcarving.seamfinding.SeamFinder;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * Seam carving, an approach for content-aware image resizing. Given a {@link Picture}, an {@link EnergyFunction}, and a
@@ -26,7 +27,7 @@ public class SeamCarver {
     /**
      * Path to the output image.
      */
-    private static final String OUTPUT_PATH = "result.png";
+    private static final String OUTPUT_PATH = "data/seamcarving/result.png";
     /**
      * The {@link EnergyFunction} for determining the minimum-cost seam.
      */
@@ -66,8 +67,48 @@ public class SeamCarver {
         EnergyFunction f = new DualGradientEnergyFunction();
         SeamFinder seamFinder = new AdjacencyListSeamFinder(DijkstraSolver::new);
         SeamCarver seamCarver = new SeamCarver(new File(INPUT_PATH), f, seamFinder);
-        System.out.println(seamCarver.removeVertical());
+
+        int originalWidth = seamCarver.picture.width();
+        int originalHeight = seamCarver.picture.height();
+        System.out.println("Current size is " + originalWidth + "x" + originalHeight);
+        int newWidth = promptForSize("width", originalWidth);
+        int newHeight = promptForSize("height", originalHeight);
+
+        System.out.print("Reducing width... ");
+        for (int i = 0; i < originalWidth - newWidth; i++) {
+            seamCarver.removeVertical();
+            if (i % 10 == 0) {
+                System.out.print(originalWidth - i + " ");
+            }
+        }
+        System.out.println();
+
+        System.out.print("Reducing height... ");
+        for (int i = 0; i < originalHeight - newHeight; i++) {
+            seamCarver.removeHorizontal();
+            if (i % 10 == 0) {
+                System.out.print(originalHeight - i  + " ");
+            }
+        }
         seamCarver.picture().save(new File(OUTPUT_PATH));
+    }
+
+    /**
+     * Gets new size for resizing image.
+     *
+     * @param dimension the type of dimension ("width" or "height").
+     * @param max       the current dimension of this type.
+     * @return          the new dimension to resize to.
+     */
+    private static int promptForSize(String dimension, int max) {
+        Scanner console = new Scanner(System.in);
+        while (true) {
+            System.out.print("Enter a new " + dimension + " in [3, " + max + "]: ");
+            int size = console.nextInt();
+            if (3 <= size && size <= max) {
+                return size;
+            }
+        }
     }
 
     /**
