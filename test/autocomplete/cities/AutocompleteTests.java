@@ -3,8 +3,6 @@ package autocomplete.cities;
 import autocomplete.Autocomplete;
 import autocomplete.TreeSetAutocomplete;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -110,9 +108,8 @@ public abstract class AutocompleteTests {
          */
         private static final int STEP = 1000;
 
-        @ParameterizedTest
-        @ValueSource(strings = {"Sea"})
-        void addAllAllMatches(String prefix) {
+        @Test
+        void addAllAllMatches() {
             for (int size = STEP; size <= MAX_SIZE; size += STEP) {
                 System.out.print(size);
                 System.out.print(',');
@@ -122,29 +119,33 @@ public abstract class AutocompleteTests {
 
                 // Record the total runtimes accumulated across all trials
                 double totalAddAllTime = 0.0;
-                double totalMatchesTime = 0.0;
 
+                Autocomplete autocomplete = null;
                 for (int i = 0; i < NUM_TRIALS; i += 1) {
-                    Autocomplete autocomplete = createAutocomplete();
-
+                    autocomplete = createAutocomplete();
                     // Measure the time to add all cities
                     long addStart = System.nanoTime();
                     autocomplete.addAll(dataset);
                     long addTime = System.nanoTime() - addStart;
                     // Convert from nanoseconds to seconds and add to total time
                     totalAddAllTime += (double) addTime / 1_000_000_000;
-
-                    // Measure the time to find all matches
-                    long matchesStart = System.nanoTime();
-                    autocomplete.allMatches(prefix);
-                    long matchesTime = System.nanoTime() - matchesStart;
-                    totalMatchesTime += (double) matchesTime / 1_000_000_000;
                 }
-
-                // Output the averages to 10 decimal places.
+                // Output the average to 10 decimal places.
                 System.out.printf("%.10f", totalAddAllTime / NUM_TRIALS);
-                System.out.print(',');
-                System.out.printf("%.10f", totalMatchesTime / NUM_TRIALS);
+
+                for (String prefix : new String[]{"Sea"}) {
+                    double totalMatchesTime = 0.0;
+                    for (int i = 0; i < NUM_TRIALS; i += 1) {
+                        // Measure the time to find all matches
+                        long matchesStart = System.nanoTime();
+                        autocomplete.allMatches(prefix);
+                        long matchesTime = System.nanoTime() - matchesStart;
+                        totalMatchesTime += (double) matchesTime / 1_000_000_000;
+                    }
+                    // Output the average to 10 decimal places.
+                    System.out.print(',');
+                    System.out.printf("%.10f", totalMatchesTime / NUM_TRIALS);
+                }
                 System.out.println();
             }
         }
