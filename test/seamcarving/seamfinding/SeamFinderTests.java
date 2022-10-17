@@ -123,19 +123,18 @@ public abstract class SeamFinderTests {
                 Picture picture = randomPicture(size, size, spRandom);
 
                 // Record the total runtimes accumulated across all trials
-                double totalTime = 0.0;
+                long totalTime = 0;
 
                 for (int i = 0; i < NUM_TRIALS; i += 1) {
                     // Measure the time to find a horizontal seam
                     long start = System.nanoTime();
                     seamFinder.findHorizontal(picture, f);
                     long time = System.nanoTime() - start;
-                    // Convert from nanoseconds to seconds and add to total time
-                    totalTime += (double) time / 1_000_000_000;
+                    totalTime += time;
                 }
 
                 // Output the averages to 10 decimal places.
-                System.out.printf("%.10f", totalTime / NUM_TRIALS);
+                System.out.printf("%.10f", totalTime / (double) NUM_TRIALS);
                 System.out.println();
             }
         }

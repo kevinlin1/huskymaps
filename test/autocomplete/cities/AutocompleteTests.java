@@ -118,7 +118,7 @@ public abstract class AutocompleteTests {
                 List<String> dataset = cities.subList(0, size);
 
                 // Record the total runtimes accumulated across all trials
-                double totalAddAllTime = 0.0;
+                long totalAddAllTime = 0;
 
                 Autocomplete autocomplete = null;
                 for (int i = 0; i < NUM_TRIALS; i += 1) {
@@ -127,24 +127,23 @@ public abstract class AutocompleteTests {
                     long addStart = System.nanoTime();
                     autocomplete.addAll(dataset);
                     long addTime = System.nanoTime() - addStart;
-                    // Convert from nanoseconds to seconds and add to total time
-                    totalAddAllTime += (double) addTime / 1_000_000_000;
+                    totalAddAllTime += addTime;
                 }
                 // Output the average to 10 decimal places.
-                System.out.printf("%.10f", totalAddAllTime / NUM_TRIALS);
+                System.out.printf("%.10f", totalAddAllTime / (double) NUM_TRIALS);
 
                 for (String prefix : new String[]{"Sea"}) {
-                    double totalMatchesTime = 0.0;
+                    long totalMatchesTime = 0;
                     for (int i = 0; i < NUM_TRIALS; i += 1) {
                         // Measure the time to find all matches
                         long matchesStart = System.nanoTime();
                         autocomplete.allMatches(prefix);
                         long matchesTime = System.nanoTime() - matchesStart;
-                        totalMatchesTime += (double) matchesTime / 1_000_000_000;
+                        totalMatchesTime += matchesTime;
                     }
                     // Output the average to 10 decimal places.
                     System.out.print(',');
-                    System.out.printf("%.10f", totalMatchesTime / NUM_TRIALS);
+                    System.out.printf("%.10f", totalMatchesTime / (double) NUM_TRIALS);
                 }
                 System.out.println();
             }
