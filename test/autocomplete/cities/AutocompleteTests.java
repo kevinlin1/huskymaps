@@ -130,7 +130,7 @@ public abstract class AutocompleteTests {
                     totalAddAllTime += addTime;
                 }
                 // Output the average to 10 decimal places.
-                System.out.printf("%.10f", totalAddAllTime / (double) NUM_TRIALS);
+                System.out.print(totalAddAllTime / (double) NUM_TRIALS);
 
                 for (String prefix : new String[]{"Sea"}) {
                     long totalMatchesTime = 0;
@@ -143,7 +143,7 @@ public abstract class AutocompleteTests {
                     }
                     // Output the average to 10 decimal places.
                     System.out.print(',');
-                    System.out.printf("%.10f", totalMatchesTime / (double) NUM_TRIALS);
+                    System.out.print(totalMatchesTime / (double) NUM_TRIALS);
                 }
                 System.out.println();
             }

@@ -134,7 +134,7 @@ public abstract class SeamFinderTests {
                 }
 
                 // Output the averages to 10 decimal places.
-                System.out.printf("%.10f", totalTime / (double) NUM_TRIALS);
+                System.out.print(totalTime / (double) NUM_TRIALS);
                 System.out.println();
             }
         }
