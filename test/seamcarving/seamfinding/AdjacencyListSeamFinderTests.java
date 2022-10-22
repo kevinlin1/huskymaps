@@ -20,6 +20,11 @@ public class AdjacencyListSeamFinderTests {
         public SeamFinder createSeamFinder() {
             return new AdjacencyListSeamFinder(DijkstraSolver::new);
         }
+
+        @Override
+        void precomputedImages(String basename) {
+            // Disable this inherited test for the reference implementation
+        }
     }
 
     /**
