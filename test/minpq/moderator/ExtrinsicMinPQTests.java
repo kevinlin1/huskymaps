@@ -42,7 +42,7 @@ public abstract class ExtrinsicMinPQTests {
         while (scanner.hasNextLine()) {
             Scanner line = new Scanner(scanner.nextLine()).useDelimiter("\t");
             double toxicity = line.nextDouble();
-            String comment = line.next();
+            String comment = line.next().replaceAll("\\B[a-zA-Z]", "*");
             toxic.put(toxicity, comment);
         }
     }
