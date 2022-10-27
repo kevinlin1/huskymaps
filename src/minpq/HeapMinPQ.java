@@ -5,12 +5,12 @@ import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
 
 /**
- * {@link PriorityQueue} implementation of the {@link ExtrinsicMinPQ} interface.
+ * {@link PriorityQueue} implementation of the {@link MinPQ} interface.
  *
  * @param <T> the type of elements in this priority queue.
- * @see ExtrinsicMinPQ
+ * @see MinPQ
  */
-public class HeapMinPQ<T> implements ExtrinsicMinPQ<T> {
+public class HeapMinPQ<T> implements MinPQ<T> {
     /**
      * {@link PriorityQueue} storing {@link PriorityNode} objects representing each item-priority pair.
      */

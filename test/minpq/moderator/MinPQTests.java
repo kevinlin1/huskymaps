@@ -1,7 +1,7 @@
 package minpq.moderator;
 
 import minpq.DoubleMapMinPQ;
-import minpq.ExtrinsicMinPQ;
+import minpq.MinPQ;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -13,12 +13,12 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Abstract class providing test cases for all {@link ExtrinsicMinPQ} implementations.
+ * Abstract class providing test cases for all {@link MinPQ} implementations.
  *
- * @see ExtrinsicMinPQ
+ * @see MinPQ
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public abstract class ExtrinsicMinPQTests {
+public abstract class MinPQTests {
     /**
      * Path to the toxic content.
      */
@@ -29,11 +29,11 @@ public abstract class ExtrinsicMinPQTests {
     private final Map<Double, String> toxic = new LinkedHashMap<>();
 
     /**
-     * Returns an empty {@link ExtrinsicMinPQ}.
+     * Returns an empty {@link MinPQ}.
      *
-     * @return an empty {@link ExtrinsicMinPQ}
+     * @return an empty {@link MinPQ}
      */
-    public abstract ExtrinsicMinPQ<String> createExtrinsicMinPQ();
+    public abstract MinPQ<String> createMinPQ();
 
     @BeforeAll
     void setup() throws IOException {
@@ -49,9 +49,9 @@ public abstract class ExtrinsicMinPQTests {
 
     @Test
     void complicatedTest() {
-        ExtrinsicMinPQ<String> reference = new DoubleMapMinPQ<>();
+        MinPQ<String> reference = new DoubleMapMinPQ<>();
         addAllComments(reference, toxic);
-        ExtrinsicMinPQ<String> testing = createExtrinsicMinPQ();
+        MinPQ<String> testing = createMinPQ();
         addAllComments(testing, toxic);
 
         // Test 1: Basic test that contains is working.
@@ -100,7 +100,7 @@ public abstract class ExtrinsicMinPQTests {
      * @param pq    destination priority queue.
      * @param toxic {@link Map} of toxicity values to comments (since comments can share the same toxicity value).
      */
-    private static void addAllComments(ExtrinsicMinPQ<String> pq, Map<Double, String> toxic) {
+    private static void addAllComments(MinPQ<String> pq, Map<Double, String> toxic) {
         for (double toxicity : toxic.keySet()) {
             String comment = toxic.get(toxicity);
             pq.add(comment, -toxicity);
@@ -114,7 +114,7 @@ public abstract class ExtrinsicMinPQTests {
      * @param test the testing priority queue.
      * @return true if the order of removals are the same.
      */
-    private static boolean sameRemoveOrder(ExtrinsicMinPQ<String> ref, ExtrinsicMinPQ<String> test) {
+    private static boolean sameRemoveOrder(MinPQ<String> ref, MinPQ<String> test) {
         int numItems = ref.size();
         List<String> refOutput = new ArrayList<>();
         List<String> testOutput = new ArrayList<>();

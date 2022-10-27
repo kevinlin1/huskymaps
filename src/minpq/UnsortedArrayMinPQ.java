@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
- * Unsorted array (or {@link ArrayList}) implementation of the {@link ExtrinsicMinPQ} interface.
+ * Unsorted array (or {@link ArrayList}) implementation of the {@link MinPQ} interface.
  *
  * @param <T> the type of elements in this priority queue.
- * @see ExtrinsicMinPQ
+ * @see MinPQ
  */
-public class UnsortedArrayMinPQ<T> implements ExtrinsicMinPQ<T> {
+public class UnsortedArrayMinPQ<T> implements MinPQ<T> {
     /**
      * {@link List} of {@link PriorityNode} objects representing the item-priority pairs in no specific order.
      */

@@ -3,7 +3,7 @@ package graphs.shortestpaths;
 import graphs.AStarGraph;
 import graphs.Edge;
 import minpq.DoubleMapMinPQ;
-import minpq.ExtrinsicMinPQ;
+import minpq.MinPQ;
 
 import java.util.*;
 
@@ -31,7 +31,7 @@ public class AStarSolver<V> {
         this.distTo = new HashMap<>();
         this.start = start;
         this.goal = goal;
-        ExtrinsicMinPQ<V> pq = new DoubleMapMinPQ<>();
+        MinPQ<V> pq = new DoubleMapMinPQ<>();
         pq.add(start, 0.0);
         edgeTo.put(start, null);
         distTo.put(start, 0.0);

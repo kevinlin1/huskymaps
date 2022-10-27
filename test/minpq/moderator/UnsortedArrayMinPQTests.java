@@ -1,6 +1,6 @@
 package minpq.moderator;
 
-import minpq.ExtrinsicMinPQ;
+import minpq.MinPQ;
 import minpq.UnsortedArrayMinPQ;
 
 /**
@@ -8,9 +8,9 @@ import minpq.UnsortedArrayMinPQ;
  *
  * @see UnsortedArrayMinPQ
  */
-public class UnsortedArrayMinPQTests extends ExtrinsicMinPQTests {
+public class UnsortedArrayMinPQTests extends MinPQTests {
     @Override
-    public ExtrinsicMinPQ<String> createExtrinsicMinPQ() {
+    public MinPQ<String> createMinPQ() {
         return new UnsortedArrayMinPQ<>();
     }
 }

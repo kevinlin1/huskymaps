@@ -3,12 +3,12 @@ package minpq;
 import java.util.*;
 
 /**
- * {@link TreeMap} and {@link HashMap} implementation of the {@link ExtrinsicMinPQ} interface.
+ * {@link TreeMap} and {@link HashMap} implementation of the {@link MinPQ} interface.
  *
  * @param <T> the type of elements in this priority queue.
- * @see ExtrinsicMinPQ
+ * @see MinPQ
  */
-public class DoubleMapMinPQ<T> implements ExtrinsicMinPQ<T> {
+public class DoubleMapMinPQ<T> implements MinPQ<T> {
     /**
      * {@link NavigableMap} of priority values to all items that share the same priority values.
      */

@@ -1,6 +1,6 @@
 package minpq.moderator;
 
-import minpq.ExtrinsicMinPQ;
+import minpq.MinPQ;
 import minpq.OptimizedHeapMinPQ;
 
 /**
@@ -8,9 +8,9 @@ import minpq.OptimizedHeapMinPQ;
  *
  * @see OptimizedHeapMinPQ
  */
-public class OptimizedHeapMinPQTests extends ExtrinsicMinPQTests {
+public class OptimizedHeapMinPQTests extends MinPQTests {
     @Override
-    public ExtrinsicMinPQ<String> createExtrinsicMinPQ() {
+    public MinPQ<String> createMinPQ() {
         return new OptimizedHeapMinPQ<>();
     }
 }

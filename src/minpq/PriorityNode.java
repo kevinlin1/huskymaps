@@ -3,10 +3,10 @@ package minpq;
 import java.util.Objects;
 
 /**
- * Represents the item-priority pair for use in {@link ExtrinsicMinPQ} implementations.
+ * Represents the item-priority pair for use in {@link MinPQ} implementations.
  *
  * @param <T> the type of element represented by this node.
- * @see ExtrinsicMinPQ
+ * @see MinPQ
  */
 class PriorityNode<T> {
     private final T item;

@@ -1,9 +1,9 @@
 package minpq;
 
 /**
- * Priority queue where objects have <b>extrinsic priority</b>. While {@link java.util.PriorityQueue} relies on objects'
- * {@link Comparable} (or a {@link java.util.Comparator} object), this interface requires priority values represented as
- * {@code double}. Cannot contain duplicate or null items.
+ * Priority queue where objects have <b>extrinsic priority</b>. Whereas {@link java.util.PriorityQueue} relies on
+ * {@link Comparable} objects (or a {@link java.util.Comparator}), this interface requires priority values represented
+ * using {@code double} values. Items must be unique, but priority values do not need to be unique.
  *
  * @param <T> the type of elements in this priority queue.
  * @see DoubleMapMinPQ
@@ -11,7 +11,7 @@ package minpq;
  * @see HeapMinPQ
  * @see OptimizedHeapMinPQ
  */
-public interface ExtrinsicMinPQ<T> {
+public interface MinPQ<T> {
 
     /**
      * Adds an item with the given priority value.

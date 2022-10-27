@@ -3,12 +3,12 @@ package minpq;
 import java.util.*;
 
 /**
- * Optimized binary heap implementation of the {@link ExtrinsicMinPQ} interface.
+ * Optimized binary heap implementation of the {@link MinPQ} interface.
  *
  * @param <T> the type of elements in this priority queue.
- * @see ExtrinsicMinPQ
+ * @see MinPQ
  */
-public class OptimizedHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
+public class OptimizedHeapMinPQ<T> implements MinPQ<T> {
     /**
      * {@link List} of {@link PriorityNode} objects representing the heap of item-priority pairs.
      */

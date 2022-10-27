@@ -1,7 +1,7 @@
 package minpq.moderator;
 
 import minpq.DoubleMapMinPQ;
-import minpq.ExtrinsicMinPQ;
+import minpq.MinPQ;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -21,7 +21,7 @@ class Moderator {
         Scanner scanner = new Scanner(new FileInputStream(PATH));
         scanner.nextLine(); // Skip header
 
-        ExtrinsicMinPQ<String> pq = new DoubleMapMinPQ<>();
+        MinPQ<String> pq = new DoubleMapMinPQ<>();
         Random random = new Random();
         addComments(pq, scanner, random.nextInt(100));
         Scanner stdin = new Scanner(System.in);
@@ -58,7 +58,7 @@ class Moderator {
      * @param scanner the input scanner.
      * @param n       the number of comments to read from the scanner.
      */
-    private static void addComments(ExtrinsicMinPQ<String> pq, Scanner scanner, int n) {
+    private static void addComments(MinPQ<String> pq, Scanner scanner, int n) {
         int i = 0;
         for (; i < n && scanner.hasNextLine(); i += 1) {
             Scanner line = new Scanner(scanner.nextLine()).useDelimiter("\t");
