@@ -22,8 +22,8 @@ public class ToposortDAGSolver<V> implements ShortestPathSolver<V> {
      * @param start the start vertex.
      */
     public ToposortDAGSolver(Graph<V> graph, V start) {
-        this.edgeTo = new HashMap<>();
-        this.distTo = new HashMap<>();
+        edgeTo = new HashMap<>();
+        distTo = new HashMap<>();
         // TODO: Replace with your code
         throw new UnsupportedOperationException("Not implemented yet");
     }

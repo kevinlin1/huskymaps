@@ -22,8 +22,8 @@ public class BellmanFordSolver<V> implements ShortestPathSolver<V> {
      * @param start the start vertex.
      */
     public BellmanFordSolver(Graph<V> graph, V start) {
-        this.edgeTo = new HashMap<>();
-        this.distTo = new HashMap<>();
+        edgeTo = new HashMap<>();
+        distTo = new HashMap<>();
         edgeTo.put(start, null);
         distTo.put(start, 0.0);
         List<V> vertices = vertices(graph, start);

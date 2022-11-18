@@ -24,8 +24,8 @@ public class DijkstraSolver<V> implements ShortestPathSolver<V> {
      * @param start the start vertex.
      */
     public DijkstraSolver(Graph<V> graph, V start) {
-        this.edgeTo = new HashMap<>();
-        this.distTo = new HashMap<>();
+        edgeTo = new HashMap<>();
+        distTo = new HashMap<>();
         MinPQ<V> pq = new DoubleMapMinPQ<>();
         pq.add(start, 0.0);
         edgeTo.put(start, null);

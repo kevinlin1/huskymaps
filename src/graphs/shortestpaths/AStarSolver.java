@@ -27,8 +27,8 @@ public class AStarSolver<V> {
      * @param goal  the goal vertex.
      */
     public AStarSolver(AStarGraph<V> graph, V start, V goal) {
-        this.edgeTo = new HashMap<>();
-        this.distTo = new HashMap<>();
+        edgeTo = new HashMap<>();
+        distTo = new HashMap<>();
         this.start = start;
         this.goal = goal;
         MinPQ<V> pq = new DoubleMapMinPQ<>();
