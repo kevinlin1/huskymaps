@@ -16,7 +16,6 @@ import java.util.*;
 public class AStarSolver<V> {
     private final Map<V, Edge<V>> edgeTo;
     private final Map<V, Double> distTo;
-    private final V start;
     private final V goal;
 
     /**
@@ -29,7 +28,6 @@ public class AStarSolver<V> {
     public AStarSolver(AStarGraph<V> graph, V start, V goal) {
         edgeTo = new HashMap<>();
         distTo = new HashMap<>();
-        this.start = start;
         this.goal = goal;
         MinPQ<V> pq = new DoubleMapMinPQ<>();
         pq.add(start, 0.0);
