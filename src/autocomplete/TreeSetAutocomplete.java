@@ -11,18 +11,18 @@ public class TreeSetAutocomplete implements Autocomplete {
     /**
      * {@link NavigableSet} of added autocompletion terms.
      */
-    private final NavigableSet<CharSequence> set;
+    private final NavigableSet<CharSequence> items;
 
     /**
      * Constructs an empty instance.
      */
     public TreeSetAutocomplete() {
-        set = new TreeSet<>(CharSequence::compare);
+        items = new TreeSet<>(CharSequence::compare);
     }
 
     @Override
     public void addAll(Collection<? extends CharSequence> terms) {
-        set.addAll(terms);
+        items.addAll(terms);
     }
 
     @Override
@@ -31,11 +31,11 @@ public class TreeSetAutocomplete implements Autocomplete {
         if (prefix == null || prefix.length() == 0) {
             return result;
         }
-        CharSequence start = set.ceiling(prefix);
+        CharSequence start = items.ceiling(prefix);
         if (start == null) {
             return result;
         }
-        for (CharSequence term : set.tailSet(start)) {
+        for (CharSequence term : items.tailSet(start)) {
             if (Autocomplete.isPrefixOf(prefix, term)) {
                 result.add(term);
             } else {
