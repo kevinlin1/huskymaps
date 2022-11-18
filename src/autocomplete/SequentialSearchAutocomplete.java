@@ -13,13 +13,13 @@ public class SequentialSearchAutocomplete implements Autocomplete {
     /**
      * {@link List} of added autocompletion terms.
      */
-    private final List<CharSequence> terms;
+    private final List<CharSequence> list;
 
     /**
      * Constructs an empty instance.
      */
     public SequentialSearchAutocomplete() {
-        this.terms = new ArrayList<>();
+        list = new ArrayList<>();
     }
 
     @Override
