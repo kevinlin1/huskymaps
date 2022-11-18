@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="io.javalin" type="repository">
-    <properties maven-id="io.javalin:javalin:5.0.1" />
+    <properties maven-id="io.javalin:javalin:5.1.4" />
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/lib/javalin-5.0.1.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/slf4j-api-1.7.36.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javalin-5.1.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/slf4j-api-2.0.3.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/jetty-server-11.0.12.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/jetty-jakarta-servlet-api-5.0.2.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/jetty-http-11.0.12.jar!/" />
