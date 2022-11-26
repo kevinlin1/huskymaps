@@ -1,7 +1,4 @@
-package minpq.moderator;
-
-import minpq.MinPQ;
-import minpq.UnsortedArrayMinPQ;
+package minpq;
 
 /**
  * Tests for the {@link UnsortedArrayMinPQ} class.

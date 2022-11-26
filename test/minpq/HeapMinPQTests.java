@@ -1,7 +1,4 @@
-package minpq.moderator;
-
-import minpq.MinPQ;
-import minpq.HeapMinPQ;
+package minpq;
 
 /**
  * Tests for the {@link HeapMinPQ} class.

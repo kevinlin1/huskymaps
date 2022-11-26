@@ -1,5 +1,3 @@
-package minpq.moderator;
-
 import minpq.DoubleMapMinPQ;
 import minpq.MinPQ;
 
@@ -11,7 +9,7 @@ import java.util.Scanner;
 /**
  * Simulate a content moderation priority queue with "streaming" data.
  */
-class Moderator {
+public class Moderator {
     /**
      * Path to the toxic content.
      */

@@ -1,4 +1,4 @@
-package minpq.moderator;
+package minpq;
 
 import minpq.DoubleMapMinPQ;
 import minpq.MinPQ;
