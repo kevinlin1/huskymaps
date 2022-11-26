@@ -1,7 +1,4 @@
-package autocomplete.cities;
-
-import autocomplete.Autocomplete;
-import autocomplete.SequentialSearchAutocomplete;
+package autocomplete;
 
 /**
  * Tests for the {@link SequentialSearchAutocomplete} class.

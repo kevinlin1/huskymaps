@@ -1,4 +1,4 @@
-package autocomplete.cities;
+package autocomplete;
 
 import autocomplete.Autocomplete;
 import autocomplete.TreeSetAutocomplete;

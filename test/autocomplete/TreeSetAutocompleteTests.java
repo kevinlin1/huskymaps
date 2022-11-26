@@ -1,7 +1,4 @@
-package autocomplete.cities;
-
-import autocomplete.Autocomplete;
-import autocomplete.TreeSetAutocomplete;
+package autocomplete;
 
 /**
  * Tests for the {@link TreeSetAutocomplete} class.

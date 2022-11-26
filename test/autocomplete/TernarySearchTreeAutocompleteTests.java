@@ -1,7 +1,4 @@
-package autocomplete.cities;
-
-import autocomplete.Autocomplete;
-import autocomplete.TernarySearchTreeAutocomplete;
+package autocomplete;
 
 /**
  * Tests for the {@link TernarySearchTreeAutocomplete} class.

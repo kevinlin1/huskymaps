@@ -1,5 +1,3 @@
-package autocomplete.cities;
-
 import autocomplete.Autocomplete;
 import autocomplete.TreeSetAutocomplete;
 
@@ -10,7 +8,7 @@ import java.util.*;
 /**
  * Search the world's cities.
  */
-class Cities {
+public class CitySearch {
     /**
      * Maximum number of matches to print.
      */

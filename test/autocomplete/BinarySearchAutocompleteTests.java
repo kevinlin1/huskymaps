@@ -1,7 +1,4 @@
-package autocomplete.cities;
-
-import autocomplete.Autocomplete;
-import autocomplete.BinarySearchAutocomplete;
+package autocomplete;
 
 /**
  * Tests for the {@link BinarySearchAutocomplete} class.
