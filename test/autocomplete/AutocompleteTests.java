@@ -94,6 +94,7 @@ public abstract class AutocompleteTests {
     }
 
     @Nested
+    @Disabled
     class RuntimeExperiments {
         /**
          * Number of trials per implementation run. Making this smaller means experiments run faster.
