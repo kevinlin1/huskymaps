@@ -1,12 +1,10 @@
-package seamcarving.seamfinding;
+package seamfinding;
 
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import seamcarving.Picture;
-import seamcarving.SeamCarver;
-import seamcarving.energy.DualGradientEnergyFunction;
-import seamcarving.energy.EnergyFunction;
+import seamfinding.energy.DualGradientEnergyFunction;
+import seamfinding.energy.EnergyFunction;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -59,27 +57,25 @@ public abstract class SeamFinderTests {
                             "12x10", "10x12", "10x10", "8x3", "7x10", "7x3", "6x5", "5x6", "4x6",
                             "3x8", "3x7", "3x4", "3x3"})
     void precomputedImages(String basename) throws IOException {
-        File file = new File(BASE_PATH + basename + ".png");
-
-        double horzExpected = precomputedEnergy(basename, "horizontal");
-        SeamCarver horzCarver = new SeamCarver(file, f, seamFinder);
-        List<Integer> horzSeam = horzCarver.removeHorizontal();
-        double horzActual = horzCarver.lastRemovedSeamEnergy();
-        assertEquals(horzExpected, horzActual, EPSILON, () -> String.format(
+        Picture picture = new Picture(new File(BASE_PATH + basename + ".png"));
+        double horizontalExpected = precomputedEnergy(basename, "horizontal");
+        List<Integer> horizontalSeam = seamFinder.findHorizontal(picture, f);
+        double horizontalActual = horizontalEnergy(picture, horizontalSeam);
+        assertEquals(horizontalExpected, horizontalActual, EPSILON, () -> String.format(
                 "Horizontal expected energy: %s\n" +
                 "           actual energy:   %s\n" +
                 "           actual seam:     %s",
-                horzExpected, horzActual, horzSeam.toString()));
+                horizontalExpected, horizontalActual, horizontalSeam.toString()));
 
-        double vertExpected = precomputedEnergy(basename, "vertical");
-        SeamCarver vertCarver = new SeamCarver(file, f, seamFinder);
-        List<Integer> vertSeam = vertCarver.removeVertical();
-        double vertActual = vertCarver.lastRemovedSeamEnergy();
-        assertEquals(vertExpected, vertActual, EPSILON, () -> String.format(
+        Picture transposed = picture.transposed();
+        double verticalExpected = precomputedEnergy(basename, "vertical");
+        List<Integer> verticalSeam = seamFinder.findHorizontal(transposed, f);
+        double verticalActual = horizontalEnergy(transposed, verticalSeam);
+        assertEquals(verticalExpected, verticalActual, EPSILON, () -> String.format(
                 "Vertical expected energy: %s\n" +
                 "         actual energy:   %s\n" +
                 "         actual seam:     %s",
-                vertExpected, vertActual, vertSeam.toString()));
+                verticalExpected, verticalActual, verticalSeam.toString()));
     }
 
     /**
@@ -97,7 +93,16 @@ public abstract class SeamFinderTests {
         }
     }
 
+    private static double horizontalEnergy(Picture picture, List<Integer> seam) {
+        double energy = 0.0;
+        for (int x = 0; x < picture.width(); x += 1) {
+            energy += f.apply(picture, x, seam.get(x));
+        }
+        return energy;
+    }
+
     @Nested
+    @Disabled
     class RuntimeExperiments {
         /**
          * Maximum image dimensions in pixels. Making this smaller means experiments run faster.

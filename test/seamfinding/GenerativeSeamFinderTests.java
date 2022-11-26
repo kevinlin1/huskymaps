@@ -1,4 +1,4 @@
-package seamcarving.seamfinding;
+package seamfinding;
 
 import graphs.shortestpaths.DijkstraSolver;
 import graphs.shortestpaths.ToposortDAGSolver;

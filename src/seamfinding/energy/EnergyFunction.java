@@ -1,6 +1,6 @@
-package seamcarving.energy;
+package seamfinding.energy;
 
-import seamcarving.Picture;
+import seamfinding.Picture;
 
 /**
  * Determines the energy of a given (x, y) pixel index in a {@link Picture}.

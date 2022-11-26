@@ -1,8 +1,7 @@
-package seamcarving.seamfinding;
+package seamfinding;
 
 import graphs.Edge;
-import seamcarving.Picture;
-import seamcarving.energy.EnergyFunction;
+import seamfinding.energy.EnergyFunction;
 
 import java.util.List;
 

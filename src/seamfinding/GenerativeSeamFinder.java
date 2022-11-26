@@ -1,25 +1,23 @@
-package seamcarving.seamfinding;
+package seamfinding;
 
 import graphs.Edge;
 import graphs.Graph;
 import graphs.shortestpaths.ShortestPathSolver;
-import seamcarving.Picture;
-import seamcarving.SeamCarver;
-import seamcarving.energy.EnergyFunction;
+import seamfinding.energy.EnergyFunction;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 /**
- * Adjacency list graph single-source {@link ShortestPathSolver} implementation of the {@link SeamFinder} interface.
+ * Generative adjacency list graph single-source {@link ShortestPathSolver} implementation of the {@link SeamFinder}
+ * interface.
  *
  * @see Graph
  * @see ShortestPathSolver
  * @see SeamFinder
- * @see SeamCarver
  */
-public class AdjacencyListSeamFinder implements SeamFinder {
+public class GenerativeSeamFinder implements SeamFinder {
     /**
      * The constructor for the {@link ShortestPathSolver} implementation.
      */
@@ -30,7 +28,7 @@ public class AdjacencyListSeamFinder implements SeamFinder {
      *
      * @param sps the {@link ShortestPathSolver} implementation.
      */
-    public AdjacencyListSeamFinder(ShortestPathSolver.Constructor<Node> sps) {
+    public GenerativeSeamFinder(ShortestPathSolver.Constructor<Node> sps) {
         this.sps = sps;
     }
 
@@ -49,22 +47,20 @@ public class AdjacencyListSeamFinder implements SeamFinder {
     }
 
     /**
-     * Adjacency list graph of {@link Pixel} vertices and {@link EnergyFunction}-weighted edges.
+     * Generative adjacency list graph of {@link Pixel} vertices and {@link EnergyFunction}-weighted edges. Rather than
+     * materialize all vertices and edges upfront in the constructor, generates vertices and edges as needed when
+     * {@link #neighbors(Node)} is called by a client.
      *
      * @see Pixel
      * @see EnergyFunction
      */
     private static class PixelGraph implements Graph<Node> {
         /**
-         * The {@link Pixel} vertices in the {@link Picture}.
-         */
-        private final Pixel[][] pixels;
-        /**
          * The {@link Picture} for {@link #neighbors(Node)}.
          */
         private final Picture picture;
         /**
-         * The {@link Picture} for {@link #neighbors(Node)}.
+         * The {@link EnergyFunction} for {@link #neighbors(Node)}.
          */
         private final EnergyFunction f;
         /**
@@ -73,12 +69,8 @@ public class AdjacencyListSeamFinder implements SeamFinder {
         private final Node source = new Node() {
             @Override
             public List<Edge<Node>> neighbors(Picture picture, EnergyFunction f) {
-                List<Edge<Node>> result = new ArrayList<>(picture.height());
-                for (int j = 0; j < picture.height(); j += 1) {
-                    Pixel to = pixels[0][j];
-                    result.add(new Edge<>(this, to, f.apply(picture, 0, j)));
-                }
-                return result;
+                // TODO: Replace with your code
+                throw new UnsupportedOperationException("Not implemented yet");
             }
         };
         /**
@@ -87,40 +79,19 @@ public class AdjacencyListSeamFinder implements SeamFinder {
         private final Node sink = new Node() {
             @Override
             public List<Edge<Node>> neighbors(Picture picture, EnergyFunction f) {
-                return List.of(); // Sink has no neighbors
+                // TODO: Replace with your code
+                throw new UnsupportedOperationException("Not implemented yet");
             }
         };
 
         /**
-         * Constructs an adjacency list graph by materializing all vertices and edges.
+         * Constructs a generative adjacency list graph. All work is deferred to implementations of
+         * {@link Node#neighbors(Picture, EnergyFunction)}.
          *
          * @param picture the input picture.
          * @param f       the input energy function.
          */
         private PixelGraph(Picture picture, EnergyFunction f) {
-            this.pixels = new Pixel[picture.width()][picture.height()];
-            // Starting from the rightmost column, each pixel has only a single edge to the sink (with 0 weight).
-            for (int y = 0; y < picture.height(); y += 1) {
-                Pixel from = new Pixel(picture.width() - 1, y);
-                pixels[picture.width() - 1][y] = from;
-                from.neighbors.add(new Edge<>(from, sink, 0));
-            }
-            // Starting from the next-rightmost column...
-            for (int x = picture.width() - 2; x >= 0; x -= 1) {
-                // Consider each pixel in the column...
-                for (int y = 0; y < picture.height(); y += 1) {
-                    Pixel from = new Pixel(x, y);
-                    pixels[x][y] = from;
-                    // Connect the pixel to its right-up, right-middle, and right-down neighbors...
-                    for (int z = y - 1; z <= y + 1; z += 1) {
-                        // Only if the neighbor is in the bounds of the picture.
-                        if (0 <= z && z < picture.height()) {
-                            Pixel to = pixels[x + 1][z];
-                            from.neighbors.add(new Edge<>(from, to, f.apply(picture, x + 1, z)));
-                        }
-                    }
-                }
-            }
             this.picture = picture;
             this.f = f;
         }
@@ -141,23 +112,22 @@ public class AdjacencyListSeamFinder implements SeamFinder {
         public class Pixel implements Node {
             private final int x;
             private final int y;
-            private final List<Edge<Node>> neighbors;
 
             /**
-             * Constructs a pixel representing the (<i>x</i>, <i>y</i>) indices in the picture with no neighbors.
+             * Constructs a pixel representing the (<i>x</i>, <i>y</i>) indices in the picture.
              *
              * @param x horizontal index into the picture.
              * @param y vertical index into the picture.
              */
-            Pixel(int x, int y) {
+            public Pixel(int x, int y) {
                 this.x = x;
                 this.y = y;
-                this.neighbors = new ArrayList<>(3);
             }
 
             @Override
             public List<Edge<Node>> neighbors(Picture picture, EnergyFunction f) {
-                return neighbors;
+                // TODO: Replace with your code
+                throw new UnsupportedOperationException("Not implemented yet");
             }
 
             @Override

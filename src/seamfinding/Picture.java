@@ -1,4 +1,4 @@
-package seamcarving;
+package seamfinding;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -9,7 +9,7 @@ import java.io.IOException;
  * A digital picture represented as red-green-blue color {@code int} pixels.
  */
 public class Picture {
-    final BufferedImage image;
+    private final BufferedImage image;
 
     /**
      * Constructs a null picture for subclassing purposes.
@@ -38,20 +38,6 @@ public class Picture {
             throw new IllegalArgumentException("Dimensions must be positive");
         }
         image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-    }
-
-    /**
-     * Constructs a copy of the given picture.
-     *
-     * @param other the input picture.
-     */
-    public Picture(Picture other) {
-        this(other.width(), other.height());
-        for (int i = 0; i < other.width(); i += 1) {
-            for (int j = 0; j < other.height(); j += 1) {
-                this.set(i, j, other.get(i, j));
-            }
-        }
     }
 
     /**
@@ -117,5 +103,44 @@ public class Picture {
         } else {
             throw new IllegalArgumentException("File must end in .jpg or .png");
         }
+    }
+
+    /**
+     * Returns a transposed view of this image where x and y accesses are reversed.
+     *
+     * @return a transposed view of this image where x and y accesses are reversed.
+     */
+    public Picture transposed() {
+        return new Picture() {
+            @Override
+            public int get(int x, int y) {
+                return Picture.this.get(y, x);
+            }
+
+            @Override
+            public void set(int x, int y, int rgb) {
+                Picture.this.set(y, x, rgb);
+            }
+
+            @Override
+            public int width() {
+                return Picture.this.height();
+            }
+
+            @Override
+            public int height() {
+                return Picture.this.width();
+            }
+
+            /**
+             * Returns the original image for this transposed view.
+             *
+             * @return the original image for this transposed view.
+             */
+            @Override
+            public Picture transposed() {
+                return Picture.this;
+            }
+        };
     }
 }

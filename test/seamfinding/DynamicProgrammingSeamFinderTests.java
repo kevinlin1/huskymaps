@@ -1,4 +1,4 @@
-package seamcarving.seamfinding;
+package seamfinding;
 
 /**
  * Tests for the {@link DynamicProgrammingSeamFinder} class.

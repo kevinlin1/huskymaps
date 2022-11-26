@@ -1,4 +1,4 @@
-package seamcarving.seamfinding;
+package seamfinding;
 
 import graphs.shortestpaths.DijkstraSolver;
 import graphs.shortestpaths.ToposortDAGSolver;
@@ -19,11 +19,6 @@ public class AdjacencyListSeamFinderTests {
         @Override
         public SeamFinder createSeamFinder() {
             return new AdjacencyListSeamFinder(DijkstraSolver::new);
-        }
-
-        @Override
-        void precomputedImages(String basename) {
-            // Disable this inherited test for the reference implementation
         }
     }
 

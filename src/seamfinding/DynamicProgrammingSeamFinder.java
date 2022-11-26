@@ -1,8 +1,6 @@
-package seamcarving.seamfinding;
+package seamfinding;
 
-import seamcarving.Picture;
-import seamcarving.SeamCarver;
-import seamcarving.energy.EnergyFunction;
+import seamfinding.energy.EnergyFunction;
 
 import java.util.List;
 
@@ -10,7 +8,6 @@ import java.util.List;
  * Dynamic programming implementation of the {@link SeamFinder} interface.
  *
  * @see SeamFinder
- * @see SeamCarver
  */
 public class DynamicProgrammingSeamFinder implements SeamFinder {
 
