@@ -146,7 +146,7 @@ public class AdjacencyListSeamFinder implements SeamFinder {
              * @param x horizontal index into the picture.
              * @param y vertical index into the picture.
              */
-            Pixel(int x, int y) {
+            public Pixel(int x, int y) {
                 this.x = x;
                 this.y = y;
                 this.neighbors = new ArrayList<>(3);
