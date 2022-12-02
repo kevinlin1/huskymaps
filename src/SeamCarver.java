@@ -107,34 +107,12 @@ public class SeamCarver {
     }
 
     /**
-     * Checks that the seam is a valid horizontal seam in the picture.
-     *
-     * @param picture the input picture.
-     * @param seam    the seam to remove.
-     */
-    private static void validate(Picture picture, List<Integer> seam) {
-        if (seam == null) {
-            throw new NullPointerException("Seam cannot be null");
-        } else if (seam.size() == 1) {
-            throw new IllegalArgumentException("Cannot remove seam of size 1");
-        } else if (seam.size() != picture.width()) {
-            throw new IllegalArgumentException("Seam length does not match image size");
-        }
-        for (int i = 0; i < seam.size() - 2; i++) {
-            if (Math.abs(seam.get(i) - seam.get(i + 1)) > 1) {
-                throw new IllegalArgumentException("Seam values too far from neighbors at index " + i);
-            }
-        }
-    }
-
-    /**
      * Removes and returns a minimum-cost horizontal seam from the picture.
      *
      * @return a minimum-cost horizontal seam.
      */
     public List<Integer> removeHorizontal() {
         List<Integer> seam = seamFinder.findHorizontal(picture, f);
-        validate(picture, seam);
         Picture result = new Picture(picture.width(), picture.height() - 1);
         for (int x = 0; x < picture.width(); x += 1) {
             for (int y = 0; y < seam.get(x); y += 1) {
@@ -154,9 +132,7 @@ public class SeamCarver {
      * @return a minimum-cost vertical seam.
      */
     public List<Integer> removeVertical() {
-        Picture transposed = picture.transposed();
-        List<Integer> seam = seamFinder.findHorizontal(transposed, f);
-        validate(transposed, seam);
+        List<Integer> seam = seamFinder.findVertical(picture, f);
         Picture result = new Picture(picture.width() - 1, picture.height());
         for (int y = 0; y < picture.height(); y += 1) {
             for (int x = 0; x < seam.get(y); x += 1) {
