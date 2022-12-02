@@ -12,8 +12,6 @@ import org.xml.sax.helpers.DefaultHandler;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
@@ -89,9 +87,8 @@ public class MapGraph implements AStarGraph<Point> {
      *
      * @param path a file path.
      * @return an input stream with the contents of the specified file.
-     * @throws FileNotFoundException if there is no file at the specified path.
      */
-    private static InputStream fileStream(String path) throws FileNotFoundException {
+    private static InputStream fileStream(String path) {
         return Thread.currentThread().getContextClassLoader().getResourceAsStream(path);
     }
 
