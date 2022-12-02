@@ -25,4 +25,16 @@ public interface SeamFinder {
      * @return a {@link List} of integers representing the vertical pixels to remove.
      */
     List<Integer> findHorizontal(Picture picture, EnergyFunction f);
+
+    /**
+     * Returns a minimum-energy vertical seam in the current image as a {@link List} of integers representing the
+     * horizontal pixel index to remove from each row in the height of the vertical seam.
+     *
+     * @param picture the {@link Picture}.
+     * @param f       the {@link EnergyFunction}.
+     * @return a {@link List} of integers representing the horizontal pixels to remove.
+     */
+    default List<Integer> findVertical(Picture picture, EnergyFunction f) {
+        return findHorizontal(picture.transposed(), f);
+    }
 }
