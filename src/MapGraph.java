@@ -2,6 +2,7 @@ import autocomplete.Autocomplete;
 import autocomplete.TreeSetAutocomplete;
 import graphs.AStarGraph;
 import graphs.Edge;
+import graphs.shortestpaths.AStarSolver;
 import org.locationtech.spatial4j.context.SpatialContext;
 import org.locationtech.spatial4j.shape.Point;
 import org.xml.sax.Attributes;
@@ -131,6 +132,23 @@ public class MapGraph implements AStarGraph<Point> {
         List<Point> result = new ArrayList<>(locations.get(locationName));
         result.sort(Comparator.comparingDouble(location -> context.calcDistance(center, location)));
         return result;
+    }
+
+    /**
+     * Returns a list of points representing the shortest path from the points closest to the start and goal.
+     *
+     * @param start the {@link Point} to start the shortest path.
+     * @param goal  the {@link Point} to end the shortest path.
+     * @return a list of points representing the shortest path from the points closest to the start and goal.
+     */
+    public List<Point> shortestPath(Point start, Point goal) {
+        if (!neighbors.containsKey(start)) {
+            start = closest(start);
+        }
+        if (!neighbors.containsKey(goal)) {
+            goal = closest(goal);
+        }
+        return new AStarSolver<>(this, start, goal).solution();
     }
 
     @Override

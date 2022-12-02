@@ -1,4 +1,3 @@
-import graphs.shortestpaths.AStarSolver;
 import io.javalin.Javalin;
 import io.javalin.validation.JavalinValidation;
 import io.javalin.validation.Validator;
@@ -70,7 +69,7 @@ public class MapServer {
                 // Overlay route if the route start and goal are defined.
                 Point start = context.getShapeFactory().pointLatLon(startLat.get(), startLon.get());
                 Point goal = context.getShapeFactory().pointLatLon(goalLat.get(), goalLon.get());
-                List<Point> route = new AStarSolver<>(map, map.closest(start), map.closest(goal)).solution();
+                List<Point> route = map.shortestPath(start, goal);
                 // Convert route to xPoints and yPoints for Graphics2D.drawPolyline
                 double lonDPP = SEATTLE_ROOT_LONDPP / Math.pow(2, zoom);
                 double latDPP = SEATTLE_ROOT_LATDPP / Math.pow(2, zoom);
