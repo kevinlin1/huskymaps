@@ -105,7 +105,7 @@ public class DualGradientEnergyFunction implements EnergyFunction {
     @Override
     public double apply(Picture picture, int x, int y) {
         if (x < 0 || y < 0 || x >= picture.width() || y >= picture.height()) {
-            throw new IndexOutOfBoundsException("Invalid indices for given picture");
+            throw new IndexOutOfBoundsException("Invalid (" + x + ", " + y + ") for picture");
         }
         return Math.sqrt(horizontalDerivative(picture, x, y) + verticalDerivative(picture, x, y));
     }
