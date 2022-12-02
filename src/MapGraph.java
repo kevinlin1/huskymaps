@@ -27,7 +27,7 @@ public class MapGraph implements AStarGraph<Point> {
     private final String osmPath;
     private final String placesPath;
     private final SpatialContext context;
-    private final Map<Point, Set<Edge<Point>>> neighbors;
+    private final Map<Point, List<Edge<Point>>> neighbors;
     private final Map<String, List<Point>> locations;
     private final Autocomplete autocomplete;
     private final Map<CharSequence, Integer> importance;
@@ -149,8 +149,8 @@ public class MapGraph implements AStarGraph<Point> {
     }
 
     @Override
-    public List<Edge<Point>> neighbors(Point v) {
-        return new ArrayList<>(neighbors.getOrDefault(v, Set.of()));
+    public List<Edge<Point>> neighbors(Point point) {
+        return neighbors.computeIfAbsent(point, (p) -> List.of());
     }
 
     @Override
@@ -172,7 +172,7 @@ public class MapGraph implements AStarGraph<Point> {
      */
     private void addEdge(Point from, Point to) {
         if (!neighbors.containsKey(from)) {
-            neighbors.put(from, new HashSet<>());
+            neighbors.put(from, new ArrayList<>());
         }
         neighbors.get(from).add(new Edge<>(from, to, estimatedDistance(from, to)));
     }
