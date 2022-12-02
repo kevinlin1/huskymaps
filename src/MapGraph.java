@@ -34,7 +34,7 @@ public class MapGraph implements AStarGraph<Point> {
     private final Map<CharSequence, Integer> importance;
 
     /**
-     * Constructs a new street map graph from the path to an OSM GZ file and a places TSV.
+     * Constructs a new map graph from the path to an OSM GZ file and a places TSV.
      *
      * @param osmPath    The path to a gzipped OSM (XML) file.
      * @param placesPath The path to a TSV file representing places and importance.
@@ -163,7 +163,7 @@ public class MapGraph implements AStarGraph<Point> {
     }
 
     /**
-     * Parses OSM XML files to construct a StreetMapGraph.
+     * Parses OSM XML files to construct a MapGraph.
      */
     private class Handler extends DefaultHandler {
         private final Set<String> allowedHighwayTypes;
