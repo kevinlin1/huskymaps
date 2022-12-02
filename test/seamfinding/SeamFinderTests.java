@@ -68,7 +68,7 @@ public abstract class SeamFinderTests {
                 "Horizontal expected energy: %s\n" +
                 "           actual energy:   %s\n" +
                 "           actual seam:     %s",
-                horizontalExpected, horizontalActual, horizontalSeam.toString()));
+                horizontalExpected, horizontalActual, horizontalSeam));
 
         double verticalExpected = precomputedEnergy(basename, "vertical");
         List<Integer> verticalSeam = seamFinder.findVertical(picture, f);
@@ -79,7 +79,7 @@ public abstract class SeamFinderTests {
                 "Vertical expected energy: %s\n" +
                 "         actual energy:   %s\n" +
                 "         actual seam:     %s",
-                verticalExpected, verticalActual, verticalSeam.toString()));
+                verticalExpected, verticalActual, verticalSeam));
     }
 
     /**
