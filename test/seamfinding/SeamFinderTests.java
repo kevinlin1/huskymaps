@@ -58,20 +58,24 @@ public abstract class SeamFinderTests {
                             "3x8", "3x7", "3x4", "3x3"})
     void precomputedImages(String basename) throws IOException {
         Picture picture = new Picture(new File(BASE_PATH + basename + ".png"));
+
         double horizontalExpected = precomputedEnergy(basename, "horizontal");
         List<Integer> horizontalSeam = seamFinder.findHorizontal(picture, f);
-        double horizontalActual = horizontalEnergy(picture, horizontalSeam);
+        checkHorizontal(picture, horizontalSeam);
+        double horizontalActual = energyHorizontal(picture, horizontalSeam);
         assertEquals(horizontalExpected, horizontalActual, EPSILON, () -> String.format(
+                "\n" +
                 "Horizontal expected energy: %s\n" +
                 "           actual energy:   %s\n" +
                 "           actual seam:     %s",
                 horizontalExpected, horizontalActual, horizontalSeam.toString()));
 
-        Picture transposed = picture.transposed();
         double verticalExpected = precomputedEnergy(basename, "vertical");
-        List<Integer> verticalSeam = seamFinder.findHorizontal(transposed, f);
-        double verticalActual = horizontalEnergy(transposed, verticalSeam);
+        List<Integer> verticalSeam = seamFinder.findVertical(picture, f);
+        checkHorizontal(picture.transposed(), verticalSeam);
+        double verticalActual = energyHorizontal(picture.transposed(), verticalSeam);
         assertEquals(verticalExpected, verticalActual, EPSILON, () -> String.format(
+                "\n" +
                 "Vertical expected energy: %s\n" +
                 "         actual energy:   %s\n" +
                 "         actual seam:     %s",
@@ -93,7 +97,33 @@ public abstract class SeamFinderTests {
         }
     }
 
-    private static double horizontalEnergy(Picture picture, List<Integer> seam) {
+    /**
+     * Checks that the seam is a valid horizontal seam in the picture.
+     *
+     * @param picture the {@link Picture}.
+     * @param seam    the seam to remove.
+     */
+    private static void checkHorizontal(Picture picture, List<Integer> seam) {
+        if (seam == null || seam.isEmpty()) {
+            throw new NullPointerException("Seam cannot be null or empty");
+        } else if (seam.size() != picture.width()) {
+            throw new IllegalArgumentException("Seam length does not match image width");
+        }
+        for (int i = 1; i < seam.size(); i += 1) {
+            if (Math.abs(seam.get(i - 1) - seam.get(i)) > 1) {
+                throw new IllegalArgumentException("Seam value too far from predecessor at index " + i);
+            }
+        }
+    }
+
+    /**
+     * Returns the energy of the horizontal seam by applying the given {@link EnergyFunction} on the {@link Picture}.
+     *
+     * @param picture the {@link Picture}.
+     * @param seam    the seam to remove.
+     * @return the energy of the horizontal seam by applying the given {@link EnergyFunction} on the {@link Picture}.
+     */
+    private static double energyHorizontal(Picture picture, List<Integer> seam) {
         double energy = 0.0;
         for (int x = 0; x < picture.width(); x += 1) {
             energy += f.apply(picture, x, seam.get(x));
