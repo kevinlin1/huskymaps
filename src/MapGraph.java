@@ -173,7 +173,10 @@ public class MapGraph implements AStarGraph<Point> {
     }
 
     /**
-     * Adds an edge to this graph if it doesn't already exist, using distance as the weight.
+     * Adds an edge to this graph if it doesn't already exist using distance as the weight.
+     *
+     * @param from the originating point of the edge.
+     * @param to the terminating point of the edge.
      */
     private void addEdge(Point from, Point to) {
         if (!neighbors.containsKey(from)) {
