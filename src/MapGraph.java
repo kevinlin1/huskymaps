@@ -99,6 +99,9 @@ public class MapGraph implements AStarGraph<Point> {
      * @return the id of the location closest to the target.
      */
     public Point closest(Point target) {
+        if (neighbors.containsKey(target)) {
+            return target;
+        }
         return Collections.min(neighbors.keySet(), Comparator.comparingDouble(
                 location -> context.calcDistance(target, location)
         ));
@@ -139,13 +142,7 @@ public class MapGraph implements AStarGraph<Point> {
      * @return a list of points representing the shortest path from the points closest to the start and goal.
      */
     public List<Point> shortestPath(Point start, Point goal) {
-        if (!neighbors.containsKey(start)) {
-            start = closest(start);
-        }
-        if (!neighbors.containsKey(goal)) {
-            goal = closest(goal);
-        }
-        return new AStarSolver<>(this, start, goal).solution();
+        return new AStarSolver<>(this, closest(start), closest(goal)).solution();
     }
 
     @Override
