@@ -7,14 +7,14 @@ import java.util.PriorityQueue;
 /**
  * {@link PriorityQueue} implementation of the {@link MinPQ} interface.
  *
- * @param <T> the type of elements in this priority queue.
+ * @param <E> the type of elements in this priority queue.
  * @see MinPQ
  */
-public class HeapMinPQ<T> implements MinPQ<T> {
+public class HeapMinPQ<E> implements MinPQ<E> {
     /**
-     * {@link PriorityQueue} storing {@link PriorityNode} objects representing each item-priority pair.
+     * {@link PriorityQueue} storing {@link PriorityNode} objects representing each element-priority pair.
      */
-    private final PriorityQueue<PriorityNode<T>> pq;
+    private final PriorityQueue<PriorityNode<E>> pq;
 
     /**
      * Constructs an empty instance.
@@ -24,22 +24,22 @@ public class HeapMinPQ<T> implements MinPQ<T> {
     }
 
     @Override
-    public void add(T item, double priority) {
-        if (contains(item)) {
-            throw new IllegalArgumentException("Already contains " + item);
+    public void add(E element, double priority) {
+        if (contains(element)) {
+            throw new IllegalArgumentException("Already contains " + element);
         }
         // TODO: Replace with your code
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
     @Override
-    public boolean contains(T item) {
+    public boolean contains(E element) {
         // TODO: Replace with your code
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
     @Override
-    public T peekMin() {
+    public E peekMin() {
         if (isEmpty()) {
             throw new NoSuchElementException("PQ is empty");
         }
@@ -48,7 +48,7 @@ public class HeapMinPQ<T> implements MinPQ<T> {
     }
 
     @Override
-    public T removeMin() {
+    public E removeMin() {
         if (isEmpty()) {
             throw new NoSuchElementException("PQ is empty");
         }
@@ -57,9 +57,9 @@ public class HeapMinPQ<T> implements MinPQ<T> {
     }
 
     @Override
-    public void changePriority(T item, double priority) {
-        if (!contains(item)) {
-            throw new NoSuchElementException("PQ does not contain " + item);
+    public void changePriority(E element, double priority) {
+        if (!contains(element)) {
+            throw new NoSuchElementException("PQ does not contain " + element);
         }
         // TODO: Replace with your code
         throw new UnsupportedOperationException("Not implemented yet");

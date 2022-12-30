@@ -115,10 +115,10 @@ public abstract class MinPQTests {
      * @return true if the order of removals are the same.
      */
     private static boolean sameRemoveOrder(MinPQ<String> ref, MinPQ<String> test) {
-        int numItems = ref.size();
+        int numElements = ref.size();
         List<String> refOutput = new ArrayList<>();
         List<String> testOutput = new ArrayList<>();
-        for (int i = 0; i < numItems; i++) {
+        for (int i = 0; i < numElements; i++) {
             refOutput.add(ref.removeMin());
             testOutput.add(test.removeMin());
         }

@@ -5,91 +5,91 @@ import java.util.*;
 /**
  * {@link TreeMap} and {@link HashMap} implementation of the {@link MinPQ} interface.
  *
- * @param <T> the type of elements in this priority queue.
+ * @param <E> the type of elements in this priority queue.
  * @see MinPQ
  */
-public class DoubleMapMinPQ<T> implements MinPQ<T> {
+public class DoubleMapMinPQ<E> implements MinPQ<E> {
     /**
-     * {@link NavigableMap} of priority values to all items that share the same priority values.
+     * {@link NavigableMap} of priority values to all elements that share the same priority values.
      */
-    private final NavigableMap<Double, Set<T>> priorityToItem;
+    private final NavigableMap<Double, Set<E>> priorityToElement;
     /**
-     * {@link Map} of items to their associated priority values.
+     * {@link Map} of elements to their associated priority values.
      */
-    private final Map<T, Double> itemToPriority;
+    private final Map<E, Double> elementToPriority;
 
     /**
      * Constructs an empty instance.
      */
     public DoubleMapMinPQ() {
-        priorityToItem = new TreeMap<>();
-        itemToPriority = new HashMap<>();
+        priorityToElement = new TreeMap<>();
+        elementToPriority = new HashMap<>();
     }
 
     @Override
-    public void add(T item, double priority) {
-        if (contains(item)) {
-            throw new IllegalArgumentException("Already contains " + item);
+    public void add(E element, double priority) {
+        if (contains(element)) {
+            throw new IllegalArgumentException("Already contains " + element);
         }
-        if (!priorityToItem.containsKey(priority)) {
-            priorityToItem.put(priority, new HashSet<>());
+        if (!priorityToElement.containsKey(priority)) {
+            priorityToElement.put(priority, new HashSet<>());
         }
-        Set<T> itemsWithPriority = priorityToItem.get(priority);
-        itemsWithPriority.add(item);
-        itemToPriority.put(item, priority);
+        Set<E> elementsWithPriority = priorityToElement.get(priority);
+        elementsWithPriority.add(element);
+        elementToPriority.put(element, priority);
     }
 
     @Override
-    public boolean contains(T item) {
-        return itemToPriority.containsKey(item);
+    public boolean contains(E element) {
+        return elementToPriority.containsKey(element);
     }
 
     @Override
-    public T peekMin() {
+    public E peekMin() {
         if (isEmpty()) {
             throw new NoSuchElementException("PQ is empty");
         }
-        double minPriority = priorityToItem.firstKey();
-        Set<T> itemsWithMinPriority = priorityToItem.get(minPriority);
-        return firstOf(itemsWithMinPriority);
+        double minPriority = priorityToElement.firstKey();
+        Set<E> elementsWithMinPriority = priorityToElement.get(minPriority);
+        return firstOf(elementsWithMinPriority);
     }
 
     @Override
-    public T removeMin() {
+    public E removeMin() {
         if (isEmpty()) {
             throw new NoSuchElementException("PQ is empty");
         }
-        double minPriority = priorityToItem.firstKey();
-        Set<T> itemsWithMinPriority = priorityToItem.get(minPriority);
-        T item = firstOf(itemsWithMinPriority);
-        itemsWithMinPriority.remove(item);
-        if (itemsWithMinPriority.isEmpty()) {
-            priorityToItem.remove(minPriority);
+        double minPriority = priorityToElement.firstKey();
+        Set<E> elementsWithMinPriority = priorityToElement.get(minPriority);
+        E element = firstOf(elementsWithMinPriority);
+        elementsWithMinPriority.remove(element);
+        if (elementsWithMinPriority.isEmpty()) {
+            priorityToElement.remove(minPriority);
         }
-        itemToPriority.remove(item);
-        return item;
+        elementToPriority.remove(element);
+        return element;
     }
 
     @Override
-    public void changePriority(T item, double priority) {
-        if (!contains(item)) {
-            throw new NoSuchElementException("PQ does not contain " + item);
+    public void changePriority(E element, double priority) {
+        if (!contains(element)) {
+            throw new NoSuchElementException("PQ does not contain " + element);
         }
-        double oldPriority = itemToPriority.get(item);
+        double oldPriority = elementToPriority.get(element);
         if (priority != oldPriority) {
-            Set<T> itemsWithOldPriority = priorityToItem.get(oldPriority);
-            itemsWithOldPriority.remove(item);
-            if (itemsWithOldPriority.isEmpty()) {
-                priorityToItem.remove(oldPriority);
+            Set<E> elementsWithOldPriority = priorityToElement.get(oldPriority);
+            elementsWithOldPriority.remove(element);
+            if (elementsWithOldPriority.isEmpty()) {
+                priorityToElement.remove(oldPriority);
             }
-            itemToPriority.remove(item);
-            add(item, priority);
+            elementToPriority.remove(element);
+            add(element, priority);
         }
     }
 
     @Override
     public int size() {
-        return itemToPriority.size();
+        return elementToPriority.size();
     }
 
     /**
@@ -98,7 +98,7 @@ public class DoubleMapMinPQ<T> implements MinPQ<T> {
      * @param it the iterable of elements.
      * @return any one element from the given iterable.
      */
-    private T firstOf(Iterable<T> it) {
+    private E firstOf(Iterable<E> it) {
         return it.iterator().next();
     }
 }

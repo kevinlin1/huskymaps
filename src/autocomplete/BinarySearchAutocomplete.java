@@ -13,13 +13,13 @@ public class BinarySearchAutocomplete implements Autocomplete {
     /**
      * {@link List} of added autocompletion terms.
      */
-    private final List<CharSequence> items;
+    private final List<CharSequence> elements;
 
     /**
      * Constructs an empty instance.
      */
     public BinarySearchAutocomplete() {
-        items = new ArrayList<>();
+        elements = new ArrayList<>();
     }
 
     @Override

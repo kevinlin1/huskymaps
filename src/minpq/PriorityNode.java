@@ -3,33 +3,33 @@ package minpq;
 import java.util.Objects;
 
 /**
- * Represents the item-priority pair for use in {@link MinPQ} implementations.
+ * Represents the element-priority pair for use in {@link MinPQ} implementations.
  *
- * @param <T> the type of element represented by this node.
+ * @param <E> the type of element represented by this node.
  * @see MinPQ
  */
-class PriorityNode<T> {
-    private final T item;
+class PriorityNode<E> {
+    private final E element;
     private double priority;
 
     /**
-     * Constructs a pair with the given item and priority.
+     * Constructs a pair with the given element and priority.
      *
-     * @param item     the item in this pair.
-     * @param priority the priority value associated with the item.
+     * @param element  the element in this pair.
+     * @param priority the priority value associated with the element.
      */
-    PriorityNode(T item, double priority) {
-        this.item = item;
+    PriorityNode(E element, double priority) {
+        this.element = element;
         this.priority = priority;
     }
 
     /**
-     * Returns the item.
+     * Returns the element.
      *
-     * @return the item.
+     * @return the element.
      */
-    T item() {
-        return item;
+    E element() {
+        return element;
     }
 
     /**
@@ -58,16 +58,16 @@ class PriorityNode<T> {
             return false;
         }
         PriorityNode other = (PriorityNode) o;
-        return Objects.equals(this.item, other.item);
+        return Objects.equals(this.element, other.element);
     }
 
     @Override
     public int hashCode() {
-        return item.hashCode();
+        return element.hashCode();
     }
 
     @Override
     public String toString() {
-        return item + " (" + priority + ')';
+        return element + " (" + priority + ')';
     }
 }
