@@ -57,7 +57,7 @@ class PriorityNode<E> {
         } else if (!(o instanceof PriorityNode)) {
             return false;
         }
-        PriorityNode other = (PriorityNode) o;
+        PriorityNode<?> other = (PriorityNode<?>) o;
         return Objects.equals(this.element, other.element);
     }
 
