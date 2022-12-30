@@ -1,7 +1,5 @@
 package minpq;
 
-import minpq.DoubleMapMinPQ;
-import minpq.MinPQ;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;

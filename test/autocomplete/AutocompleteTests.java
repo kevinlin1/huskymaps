@@ -1,7 +1,5 @@
 package autocomplete;
 
-import autocomplete.Autocomplete;
-import autocomplete.TreeSetAutocomplete;
 import org.junit.jupiter.api.*;
 
 import java.io.FileInputStream;
