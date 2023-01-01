@@ -3,16 +3,17 @@ import io.javalin.validation.JavalinValidation;
 import io.javalin.validation.Validator;
 import org.locationtech.spatial4j.context.SpatialContext;
 import org.locationtech.spatial4j.shape.Point;
+import org.locationtech.spatial4j.shape.ShapeFactory;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Run the {@code huskymaps} server.
@@ -48,6 +49,7 @@ public class MapServer {
 
     public static void main(String[] args) throws Exception {
         SpatialContext context = SpatialContext.GEO;
+        ShapeFactory factory = context.getShapeFactory();
         MapGraph map = new MapGraph(OSM_DB_PATH, PLACES_PATH, context);
         Javalin app = Javalin.create(config -> {
             config.spaRoot.addFile("/", "index.html");
@@ -58,41 +60,22 @@ public class MapServer {
             int zoom = ctx.pathParamAsClass("zoom", Integer.class).get();
             int width = ctx.pathParamAsClass("width", Integer.class).get();
             int height = ctx.pathParamAsClass("height", Integer.class).get();
-            Point center = context.getShapeFactory().pointLatLon(lat, lon);
-            List<Point> locations = map.getLocations(ctx.queryParam("term"), center);
-            BufferedImage image = ImageIO.read(url(center, zoom, width, height, locations));
+            String term = ctx.queryParam("term");
             Validator<Double> startLon = ctx.queryParamAsClass("startLon", Double.class);
             Validator<Double> startLat = ctx.queryParamAsClass("startLat", Double.class);
             Validator<Double> goalLon = ctx.queryParamAsClass("goalLon", Double.class);
             Validator<Double> goalLat = ctx.queryParamAsClass("goalLat", Double.class);
+
+            Point center = factory.pointLatLon(lat, lon);
+            List<Point> route = List.of();
             if (JavalinValidation.collectErrors(startLon, startLat, goalLon, goalLat).isEmpty()) {
-                // Overlay route if the route start and goal are defined.
-                Point start = context.getShapeFactory().pointLatLon(startLat.get(), startLon.get());
-                Point goal = context.getShapeFactory().pointLatLon(goalLat.get(), goalLon.get());
-                List<Point> route = map.shortestPath(start, goal);
-                // Convert route to xPoints and yPoints for Graphics2D.drawPolyline
-                double lonDPP = SEATTLE_ROOT_LONDPP / Math.pow(2, zoom);
-                double latDPP = SEATTLE_ROOT_LATDPP / Math.pow(2, zoom);
-                int[] xPoints = new int[route.size()];
-                int[] yPoints = new int[route.size()];
-                int i = 0;
-                for (Point location : route) {
-                    xPoints[i] = (int) ((location.getLon() - center.getLon()) * (1 / lonDPP)) + (width / 2);
-                    yPoints[i] = (int) ((center.getLat() - location.getLat()) * (1 / latDPP)) + (height / 2);
-                    i += 1;
-                }
-                Graphics2D g2d = image.createGraphics();
-                // Draw route outline
-                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2d.setColor(new Color(255, 255, 255));
-                g2d.setStroke(new BasicStroke(10.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-                g2d.drawPolyline(xPoints, yPoints, xPoints.length);
-                // Draw route on top of outline
-                g2d.setColor(new Color(108, 181, 230));
-                g2d.setStroke(new BasicStroke(5.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-                g2d.drawPolyline(xPoints, yPoints, xPoints.length);
-                g2d.dispose();
+                Point start = factory.pointLatLon(startLat.get(), startLon.get());
+                Point goal = factory.pointLatLon(goalLat.get(), goalLon.get());
+                route = map.shortestPath(start, goal);
             }
+            List<Point> locations = map.getLocations(term, center);
+            BufferedImage image = ImageIO.read(url(center, zoom, width, height, route, locations));
+
             ByteArrayOutputStream os = new ByteArrayOutputStream();
             ImageIO.write(image, "png", os);
             ctx.result(Base64.getEncoder().encode(os.toByteArray()));
@@ -126,18 +109,31 @@ public class MapServer {
      * @param center    the center of the map image.
      * @param width     the width of the window.
      * @param height    the height of the window.
+     * @param route     the list of route points (or null).
      * @param locations the list of locations (or null).
      * @return the URL for retrieving the map image.
      * @throws MalformedURLException if the URL is invalid.
      */
-    private static URL url(Point center, int zoom, int width, int height, List<Point> locations)
+    private static URL url(Point center, int zoom, int width, int height, List<Point> route, List<Point> locations)
             throws MalformedURLException {
-        String markers = "";
+        StringBuilder overlay = new StringBuilder();
+        if (route != null && !route.isEmpty()) {
+            overlay.append("path-4+6cb5e6-1(");
+            overlay.append(URLEncoder.encode(encode(route), StandardCharsets.UTF_8));
+            overlay.append("),");
+        }
         if (locations != null && !locations.isEmpty()) {
-            markers = locations.stream().map(location -> String.format(
-                    "pin-s(%f,%f)", location.getLon(), location.getLat()
-            )).collect(Collectors.joining(","));
-            markers += "/";
+            for (Point location : locations) {
+                overlay.append("pin-s(");
+                overlay.append(location.getLon());
+                overlay.append(',');
+                overlay.append(location.getLat());
+                overlay.append("),");
+            }
+        }
+        if (overlay.length() > 0) {
+            // Replace the trailing comma with a forward slash
+            overlay.setCharAt(overlay.length() - 1, '/');
         }
         return new URL(String.format(
                 "https://api.mapbox.com/"
@@ -149,10 +145,45 @@ public class MapServer {
                         + "?access_token=%s&logo=false&attribution=false",
                 "mapbox",
                 "cj7t3i5yj0unt2rmt3y4b5e32",
-                markers,
+                overlay,
                 center.getLon(), center.getLat(), zoom,
                 (int) Math.ceil(width / 2.), (int) Math.ceil(height / 2.), "@2x",
                 System.getenv("TOKEN")
         ));
+    }
+
+    /**
+     * Returns an encoded route string.
+     *
+     * @param route list of points representing the route to encode.
+     * @return an encoded route string.
+     * @see com.mapbox.geojson.utils.PolylineUtils#encode(List,int)
+     */
+    private static String encode(List<Point> route) {
+        StringBuilder result = new StringBuilder();
+        long lastLat = 0;
+        long lastLon = 0;
+        for (Point point : route) {
+            long lat = Math.round(point.getLat() * 1e5);
+            long diffLat = lat - lastLat;
+            diffLat = diffLat < 0 ? ~(diffLat << 1) : diffLat << 1;
+            while (diffLat >= 0x20) {
+                result.append(Character.toChars((int) ((0x20 | (diffLat & 0x1f)) + 63)));
+                diffLat >>= 5;
+            }
+            result.append(Character.toChars((int) (diffLat + 63)));
+            lastLat = lat;
+
+            long lon = Math.round(point.getLon() * 1e5);
+            long diffLon = lon - lastLon;
+            diffLon = diffLon < 0 ? ~(diffLon << 1) : diffLon << 1;
+            while (diffLon >= 0x20) {
+                result.append(Character.toChars((int) ((0x20 | (diffLon & 0x1f)) + 63)));
+                diffLon >>= 5;
+            }
+            result.append(Character.toChars((int) (diffLon + 63)));
+            lastLon = lon;
+        }
+        return result.toString();
     }
 }
