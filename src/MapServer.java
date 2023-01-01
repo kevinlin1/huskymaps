@@ -83,10 +83,9 @@ public class MapServer {
         app.get("/search", ctx -> {
             List<CharSequence> result = map.getLocationsByPrefix(ctx.queryParam("term"));
             if (result.size() > MAX_MATCHES) {
-                ctx.json(result.subList(0, MAX_MATCHES));
-            } else {
-                ctx.json(result);
+                result = result.subList(0, MAX_MATCHES);
             }
+            ctx.json(result);
         });
     }
 
