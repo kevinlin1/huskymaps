@@ -1,18 +1,15 @@
 import io.javalin.Javalin;
 import io.javalin.validation.JavalinValidation;
 import io.javalin.validation.Validator;
+import org.apache.commons.codec.binary.Base64InputStream;
 import org.locationtech.spatial4j.context.SpatialContext;
 import org.locationtech.spatial4j.shape.Point;
 import org.locationtech.spatial4j.shape.ShapeFactory;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 import java.util.List;
 
 /**
@@ -66,11 +63,8 @@ public class MapServer {
                 route = map.shortestPath(start, goal);
             }
             List<Point> locations = map.getLocations(term, center);
-            BufferedImage image = ImageIO.read(url(center, zoom, width, height, route, locations));
-
-            ByteArrayOutputStream os = new ByteArrayOutputStream();
-            ImageIO.write(image, "png", os);
-            ctx.result(Base64.getEncoder().encode(os.toByteArray()));
+            URL staticImageURL = url(center, zoom, width, height, route, locations);
+            ctx.result(new Base64InputStream(staticImageURL.openStream(), true));
         });
         app.get("/search", ctx -> {
             List<CharSequence> result = map.getLocationsByPrefix(ctx.queryParam("term"));
