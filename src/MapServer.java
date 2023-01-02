@@ -38,14 +38,6 @@ public class MapServer {
      * Maximum number of autocomplete search results.
      */
     private static final int MAX_MATCHES = 10;
-    /**
-     * The longitudinal distance per pixel when the map is centered on Seattle.
-     */
-    private static final double SEATTLE_ROOT_LONDPP = 0.3515625;
-    /**
-     * The latitudinal distance per pixel when the map is centered on Seattle.
-     */
-    private static final double SEATTLE_ROOT_LATDPP = 0.23689728184;
 
     public static void main(String[] args) throws Exception {
         SpatialContext context = SpatialContext.GEO;
