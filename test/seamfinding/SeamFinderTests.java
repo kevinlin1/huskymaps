@@ -145,7 +145,7 @@ public abstract class SeamFinderTests {
         /**
          * Number of trials to per implementation run. Making this smaller means experiments run faster.
          */
-        private static final int NUM_TRIALS = 10;
+        private static final int NUM_TRIALS = 25;
 
         @Test
         void randomPictures() {
