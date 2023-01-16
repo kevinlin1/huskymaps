@@ -23,6 +23,21 @@ public interface MinPQ<E> {
     void add(E element, double priority);
 
     /**
+     * Adds an element with the given priority value if it is not already present. Otherwise, updates the priority value
+     * of the existing element.
+     *
+     * @param element  the element to add or update.
+     * @param priority the priority value for the element.
+     */
+    default void addOrChangePriority(E element, double priority) {
+        if (!contains(element)) {
+            add(element, priority);
+        } else {
+            changePriority(element, priority);
+        }
+    }
+
+    /**
      * Returns true if the given element is in this priority queue.
      *
      * @param element element to be checked for containment.

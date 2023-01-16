@@ -39,11 +39,7 @@ public class DijkstraSolver<V> implements ShortestPathSolver<V> {
                 if (newDist < oldDist) {
                     edgeTo.put(to, e);
                     distTo.put(to, newDist);
-                    if (pq.contains(to)) {
-                        pq.changePriority(to, newDist);
-                    } else {
-                        pq.add(to, newDist);
-                    }
+                    pq.addOrChangePriority(to, newDist);
                 }
             }
         }

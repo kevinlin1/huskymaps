@@ -43,11 +43,7 @@ public class AStarSolver<V> {
                     edgeTo.put(to, e);
                     distTo.put(to, newDist);
                     double priority = newDist + graph.estimatedDistance(to, goal);
-                    if (pq.contains(to)) {
-                        pq.changePriority(to, priority);
-                    } else {
-                        pq.add(to, priority);
-                    }
+                    pq.addOrChangePriority(to, priority);
                 }
             }
         }
