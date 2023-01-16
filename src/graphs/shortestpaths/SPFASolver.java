@@ -37,9 +37,7 @@ public class SPFASolver<V> implements ShortestPathSolver<V> {
                 if (newDist < oldDist) {
                     edgeTo.put(to, e);
                     distTo.put(to, newDist);
-                    if (!queue.contains(to)) {
-                        queue.add(to);
-                    }
+                    queue.add(to);
                 }
             }
         }
@@ -90,6 +88,9 @@ public class SPFASolver<V> implements ShortestPathSolver<V> {
 
         @Override
         public boolean offer(E e) {
+            if (set.contains(e)) {
+                return false;
+            }
             boolean result = queue.offer(e);
             set.add(e);
             return result;
