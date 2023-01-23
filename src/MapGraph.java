@@ -102,7 +102,8 @@ public class MapGraph implements AStarGraph<Point> {
         if (neighbors.containsKey(target)) {
             return target;
         }
-        return Collections.min(neighbors.keySet(), byEstimatedDistanceFrom(target));
+        return Collections.min(neighbors.keySet(),
+                Comparator.comparingDouble(p -> estimatedDistance(target, p)));
     }
 
     /**
@@ -171,16 +172,6 @@ public class MapGraph implements AStarGraph<Point> {
             neighbors.put(from, new ArrayList<>());
         }
         neighbors.get(from).add(new Edge<>(from, to, estimatedDistance(from, to)));
-    }
-
-    /**
-     * Returns a {@link Comparator} by estimated distance from the given start point.
-     *
-     * @param start the given start point for distance comparison.
-     * @return a {@link Comparator} by estimated distance from the given start point.
-     */
-    private Comparator<Point> byEstimatedDistanceFrom(Point start) {
-        return Comparator.comparingDouble(end -> estimatedDistance(start, end));
     }
 
     /**
