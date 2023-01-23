@@ -123,13 +123,11 @@ public class MapGraph implements AStarGraph<Point> {
      * @param locationName a full name of a valid location.
      * @return a list of locations whose name matches the location name.
      */
-    public List<Point> getLocations(String locationName, Point center) {
+    public List<Point> getLocations(String locationName) {
         if (locationName == null || !locations.containsKey(locationName)) {
             return List.of();
         }
-        List<Point> result = new ArrayList<>(locations.get(locationName));
-        result.sort(byEstimatedDistanceFrom(center));
-        return result;
+        return locations.get(locationName);
     }
 
     /**

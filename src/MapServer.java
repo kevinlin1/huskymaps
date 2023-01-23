@@ -62,7 +62,7 @@ public class MapServer {
                 Point goal = factory.pointLatLon(goalLat.get(), goalLon.get());
                 route = map.shortestPath(start, goal);
             }
-            List<Point> locations = map.getLocations(term, center);
+            List<Point> locations = map.getLocations(term);
             URL staticImageURL = url(center, zoom, width, height, route, locations);
             ctx.result(new Base64InputStream(staticImageURL.openStream(), true));
         });
