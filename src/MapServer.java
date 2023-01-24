@@ -13,7 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**
- * Run the {@code huskymaps} server.
+ * Run the Husky Maps server.
  *
  * @see MapGraph
  */
@@ -40,39 +40,38 @@ public class MapServer {
         SpatialContext context = SpatialContext.GEO;
         ShapeFactory factory = context.getShapeFactory();
         MapGraph map = new MapGraph(OSM_DB_PATH, PLACES_PATH, context);
-        Javalin app = Javalin.create(config -> {
-            config.spaRoot.addFile("/", "index.html");
-        }).start(port());
-        app.get("/map/{lon},{lat},{zoom}/{width}x{height}", ctx -> {
-            double lon = ctx.pathParamAsClass("lon", Double.class).get();
-            double lat = ctx.pathParamAsClass("lat", Double.class).get();
-            int zoom = ctx.pathParamAsClass("zoom", Integer.class).get();
-            int width = ctx.pathParamAsClass("width", Integer.class).get();
-            int height = ctx.pathParamAsClass("height", Integer.class).get();
-            String term = ctx.queryParam("term");
-            Validator<Double> startLon = ctx.queryParamAsClass("startLon", Double.class);
-            Validator<Double> startLat = ctx.queryParamAsClass("startLat", Double.class);
-            Validator<Double> goalLon = ctx.queryParamAsClass("goalLon", Double.class);
-            Validator<Double> goalLat = ctx.queryParamAsClass("goalLat", Double.class);
+        try (Javalin app = Javalin.create(config -> config.spaRoot.addFile("/", "index.html")).start(port())) {
+            app.get("/map/{lon},{lat},{zoom}/{width}x{height}", ctx -> {
+                double lon = ctx.pathParamAsClass("lon", Double.class).get();
+                double lat = ctx.pathParamAsClass("lat", Double.class).get();
+                int zoom = ctx.pathParamAsClass("zoom", Integer.class).get();
+                int width = ctx.pathParamAsClass("width", Integer.class).get();
+                int height = ctx.pathParamAsClass("height", Integer.class).get();
+                String term = ctx.queryParam("term");
+                Validator<Double> startLon = ctx.queryParamAsClass("startLon", Double.class);
+                Validator<Double> startLat = ctx.queryParamAsClass("startLat", Double.class);
+                Validator<Double> goalLon = ctx.queryParamAsClass("goalLon", Double.class);
+                Validator<Double> goalLat = ctx.queryParamAsClass("goalLat", Double.class);
 
-            Point center = factory.pointLatLon(lat, lon);
-            List<Point> route = List.of();
-            if (JavalinValidation.collectErrors(startLon, startLat, goalLon, goalLat).isEmpty()) {
-                Point start = factory.pointLatLon(startLat.get(), startLon.get());
-                Point goal = factory.pointLatLon(goalLat.get(), goalLon.get());
-                route = map.shortestPath(start, goal);
-            }
-            List<Point> locations = map.getLocations(term);
-            URL staticImageURL = url(center, zoom, width, height, route, locations);
-            ctx.result(new Base64InputStream(staticImageURL.openStream(), true));
-        });
-        app.get("/search", ctx -> {
-            List<CharSequence> result = map.getLocationsByPrefix(ctx.queryParam("term"));
-            if (result.size() > MAX_MATCHES) {
-                result = result.subList(0, MAX_MATCHES);
-            }
-            ctx.json(result);
-        });
+                Point center = factory.pointLatLon(lat, lon);
+                List<Point> route = List.of();
+                if (JavalinValidation.collectErrors(startLon, startLat, goalLon, goalLat).isEmpty()) {
+                    Point start = factory.pointLatLon(startLat.get(), startLon.get());
+                    Point goal = factory.pointLatLon(goalLat.get(), goalLon.get());
+                    route = map.shortestPath(start, goal);
+                }
+                List<Point> locations = map.getLocations(term);
+                URL staticImageURL = url(center, zoom, width, height, route, locations);
+                ctx.result(new Base64InputStream(staticImageURL.openStream(), true));
+            });
+            app.get("/search", ctx -> {
+                List<CharSequence> result = map.getLocationsByPrefix(ctx.queryParam("term"));
+                if (result.size() > MAX_MATCHES) {
+                    result = result.subList(0, MAX_MATCHES);
+                }
+                ctx.json(result);
+            });
+        }
     }
 
     /**
@@ -142,7 +141,6 @@ public class MapServer {
      *
      * @param route list of points representing the route to encode.
      * @return an encoded route string.
-     * @see com.mapbox.geojson.utils.PolylineUtils#encode(List,int)
      */
     private static String encode(List<Point> route) {
         StringBuilder result = new StringBuilder();
