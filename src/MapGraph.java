@@ -125,10 +125,7 @@ public class MapGraph implements AStarGraph<Point> {
      * @return a list of locations whose name matches the location name.
      */
     public List<Point> getLocations(String locationName) {
-        if (locationName == null || !locations.containsKey(locationName)) {
-            return List.of();
-        }
-        return locations.get(locationName);
+        return locations.getOrDefault(locationName, List.of());
     }
 
     /**
