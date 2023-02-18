@@ -24,12 +24,12 @@ public class SPFASolver<V> implements ShortestPathSolver<V> {
     public SPFASolver(Graph<V> graph, V start) {
         edgeTo = new HashMap<>();
         distTo = new HashMap<>();
-        Queue<V> queue = new OptimizedArrayQueueSet<>();
-        queue.add(start);
+        Queue<V> perimeter = new OptimizedArrayQueueSet<>();
+        perimeter.add(start);
         edgeTo.put(start, null);
         distTo.put(start, 0.0);
-        while (!queue.isEmpty()) {
-            V from = queue.remove();
+        while (!perimeter.isEmpty()) {
+            V from = perimeter.remove();
             for (Edge<V> e : graph.neighbors(from)) {
                 V to = e.to;
                 double oldDist = distTo.getOrDefault(to, Double.POSITIVE_INFINITY);
@@ -37,7 +37,7 @@ public class SPFASolver<V> implements ShortestPathSolver<V> {
                 if (newDist < oldDist) {
                     edgeTo.put(to, e);
                     distTo.put(to, newDist);
-                    queue.add(to);
+                    perimeter.add(to);
                 }
             }
         }

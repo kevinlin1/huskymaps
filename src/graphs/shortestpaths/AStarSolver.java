@@ -29,12 +29,12 @@ public class AStarSolver<V> {
         edgeTo = new HashMap<>();
         distTo = new HashMap<>();
         this.goal = goal;
-        MinPQ<V> pq = new DoubleMapMinPQ<>();
-        pq.add(start, 0.0);
+        MinPQ<V> perimeter = new DoubleMapMinPQ<>();
+        perimeter.add(start, 0.0);
         edgeTo.put(start, null);
         distTo.put(start, 0.0);
-        while (!pq.isEmpty()) {
-            V from = pq.removeMin();
+        while (!perimeter.isEmpty()) {
+            V from = perimeter.removeMin();
             for (Edge<V> e : graph.neighbors(from)) {
                 V to = e.to;
                 double oldDist = distTo.getOrDefault(to, Double.POSITIVE_INFINITY);
@@ -43,7 +43,7 @@ public class AStarSolver<V> {
                     edgeTo.put(to, e);
                     distTo.put(to, newDist);
                     double priority = newDist + graph.estimatedDistance(to, goal);
-                    pq.addOrChangePriority(to, priority);
+                    perimeter.addOrChangePriority(to, priority);
                 }
             }
         }

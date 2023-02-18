@@ -26,12 +26,12 @@ public class DijkstraSolver<V> implements ShortestPathSolver<V> {
     public DijkstraSolver(Graph<V> graph, V start) {
         edgeTo = new HashMap<>();
         distTo = new HashMap<>();
-        MinPQ<V> pq = new DoubleMapMinPQ<>();
-        pq.add(start, 0.0);
+        MinPQ<V> perimeter = new DoubleMapMinPQ<>();
+        perimeter.add(start, 0.0);
         edgeTo.put(start, null);
         distTo.put(start, 0.0);
-        while (!pq.isEmpty()) {
-            V from = pq.removeMin();
+        while (!perimeter.isEmpty()) {
+            V from = perimeter.removeMin();
             for (Edge<V> e : graph.neighbors(from)) {
                 V to = e.to;
                 double oldDist = distTo.getOrDefault(to, Double.POSITIVE_INFINITY);
@@ -39,7 +39,7 @@ public class DijkstraSolver<V> implements ShortestPathSolver<V> {
                 if (newDist < oldDist) {
                     edgeTo.put(to, e);
                     distTo.put(to, newDist);
-                    pq.addOrChangePriority(to, newDist);
+                    perimeter.addOrChangePriority(to, newDist);
                 }
             }
         }

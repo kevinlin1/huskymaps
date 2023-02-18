@@ -12,62 +12,41 @@ class PriorityNode<E> {
     private final E element;
     private double priority;
 
-    /**
-     * Constructs a pair with the given element and priority.
-     *
-     * @param element  the element in this pair.
-     * @param priority the priority value associated with the element.
-     */
-    PriorityNode(E element, double priority) {
+    public PriorityNode(E element, double priority) {
         this.element = element;
         this.priority = priority;
     }
 
-    /**
-     * Returns the element.
-     *
-     * @return the element.
-     */
-    E element() {
+    public E getElement() {
         return element;
     }
 
-    /**
-     * Returns the priority value.
-     *
-     * @return the priority value.
-     */
-    double priority() {
+    public double getPriority() {
         return priority;
     }
 
-    /**
-     * Reassigns the priority value for this pair.
-     *
-     * @param priority the priority value to be assigned.
-     */
-    void setPriority(double priority) {
+    public void setPriority(double priority) {
         this.priority = priority;
     }
 
     @Override
+    public String toString() {
+        return "PriorityNode{" +
+                "element=" + element +
+                ", priority=" + priority +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        } else if (!(o instanceof PriorityNode)) {
-            return false;
-        }
-        PriorityNode<?> other = (PriorityNode<?>) o;
-        return Objects.equals(this.element, other.element);
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PriorityNode<?> that = (PriorityNode<?>) o;
+        return element.equals(that.element);
     }
 
     @Override
     public int hashCode() {
-        return element.hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return element + " (" + priority + ')';
+        return Objects.hash(element, priority); // not guaranteed to work in a hash table
     }
 }
