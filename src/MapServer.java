@@ -23,8 +23,9 @@ public class MapServer {
      */
     private static final int PORT = 8080;
     /**
-     * The OpenStreetMap XML file path. Downloaded from <a href="http://download.bbbike.org/osm/">BBBike</a>
-     * using custom region selection.
+     * The OpenStreetMap XML file path.
+     *
+     * @see <a href="https://download.bbbike.org/osm/">BBBike</a>
      */
     private static final String OSM_DB_PATH = "seattle.osm.gz";
     /**
@@ -142,6 +143,7 @@ public class MapServer {
      *
      * @param route list of points representing the route to encode.
      * @return an encoded route string.
+     * @see <a href="https://github.com/mapbox/mapbox-java">MapBox PolylineUtils</a>
      */
     private static String encode(List<Point> route) {
         StringBuilder result = new StringBuilder();
