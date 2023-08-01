@@ -20,7 +20,7 @@ public class HeapMinPQ<E> implements MinPQ<E> {
      * Constructs an empty instance.
      */
     public HeapMinPQ() {
-        pq = new PriorityQueue<>(Comparator.comparingDouble(PriorityNode::priority));
+        pq = new PriorityQueue<>(Comparator.comparingDouble(PriorityNode::getPriority));
     }
 
     @Override
