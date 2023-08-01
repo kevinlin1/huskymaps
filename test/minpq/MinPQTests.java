@@ -40,7 +40,7 @@ public abstract class MinPQTests {
         while (scanner.hasNextLine()) {
             Scanner line = new Scanner(scanner.nextLine()).useDelimiter("\t");
             double toxicity = line.nextDouble();
-            String comment = line.next().replaceAll("\\B[a-zA-Z]", "*");
+            String comment = line.next().replaceAll("\\w", "*");
             toxic.put(toxicity, comment);
         }
     }
@@ -99,9 +99,13 @@ public abstract class MinPQTests {
      * @param toxic {@link Map} of toxicity values to comments (since comments can share the same toxicity value).
      */
     private static void addAllComments(MinPQ<String> pq, Map<Double, String> toxic) {
+        Set<String> seen = new HashSet<>();
         for (double toxicity : toxic.keySet()) {
             String comment = toxic.get(toxicity);
-            pq.add(comment, -toxicity);
+            if (!seen.contains(comment)) {
+                pq.add(comment, -toxicity);
+                seen.add(comment);
+            }
         }
     }
 

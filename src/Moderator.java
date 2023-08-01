@@ -62,7 +62,7 @@ public class Moderator {
             Scanner line = new Scanner(scanner.nextLine()).useDelimiter("\t");
             double toxicity = line.nextDouble();
             // Replace all but the first letter in each word.
-            String comment = line.next().replaceAll("\\B[a-zA-Z]", "*");
+            String comment = line.next().replaceAll("\\w", "*");
             // Prioritize most toxic content first by negating the weight.
             pq.add(comment, -toxicity);
         }
