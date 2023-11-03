@@ -68,11 +68,7 @@ public class MapServer {
             ctx.result(new Base64InputStream(staticImageURL.openStream(), true));
         });
         app.get("/search", ctx -> {
-            List<CharSequence> result = map.getLocationsByPrefix(ctx.queryParam("term"));
-            if (result.size() > MAX_MATCHES) {
-                result = result.subList(0, MAX_MATCHES);
-            }
-            ctx.json(result);
+            ctx.json(map.getLocationsByPrefix(ctx.queryParam("term"), MAX_MATCHES));
         });
     }
 

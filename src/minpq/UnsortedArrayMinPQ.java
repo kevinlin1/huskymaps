@@ -2,6 +2,7 @@ package minpq;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 /**
@@ -21,6 +22,18 @@ public class UnsortedArrayMinPQ<E> implements MinPQ<E> {
      */
     public UnsortedArrayMinPQ() {
         elements = new ArrayList<>();
+    }
+
+    /**
+     * Constructs an instance containing all the given elements and their priority values.
+     *
+     * @param elementsAndPriorities each element and its corresponding priority.
+     */
+    public UnsortedArrayMinPQ(Map<E, Double> elementsAndPriorities) {
+        elements = new ArrayList<>(elementsAndPriorities.size());
+        for (Map.Entry<E, Double> entry : elementsAndPriorities.entrySet()) {
+            add(entry.getKey(), entry.getValue());
+        }
     }
 
     @Override

@@ -26,6 +26,25 @@ public class DoubleMapMinPQ<E> implements MinPQ<E> {
         elementToPriority = new HashMap<>();
     }
 
+    /**
+     * Constructs an instance containing all the given elements and their priority values.
+     *
+     * @param elementsAndPriorities each element and its corresponding priority.
+     */
+    public DoubleMapMinPQ(Map<E, Double> elementsAndPriorities) {
+        priorityToElement = new TreeMap<>();
+        elementToPriority = new HashMap<>(elementsAndPriorities);
+        for (Map.Entry<E, Double> entry : elementToPriority.entrySet()) {
+            E element = entry.getKey();
+            double priority = entry.getValue();
+            if (!priorityToElement.containsKey(priority)) {
+                priorityToElement.put(priority, new HashSet<>());
+            }
+            Set<E> elementsWithPriority = priorityToElement.get(priority);
+            elementsWithPriority.add(element);
+        }
+    }
+
     @Override
     public void add(E element, double priority) {
         if (contains(element)) {

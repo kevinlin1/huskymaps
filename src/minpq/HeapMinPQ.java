@@ -1,6 +1,7 @@
 package minpq;
 
 import java.util.Comparator;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
 
@@ -21,6 +22,18 @@ public class HeapMinPQ<E> implements MinPQ<E> {
      */
     public HeapMinPQ() {
         pq = new PriorityQueue<>(Comparator.comparingDouble(PriorityNode::getPriority));
+    }
+
+    /**
+     * Constructs an instance containing all the given elements and their priority values.
+     *
+     * @param elementsAndPriorities each element and its corresponding priority.
+     */
+    public HeapMinPQ(Map<E, Double> elementsAndPriorities) {
+        pq = new PriorityQueue<>(elementsAndPriorities.size(), Comparator.comparingDouble(PriorityNode::getPriority));
+        for (Map.Entry<E, Double> entry : elementsAndPriorities.entrySet()) {
+            add(entry.getKey(), entry.getValue());
+        }
     }
 
     @Override

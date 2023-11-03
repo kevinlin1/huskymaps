@@ -3,6 +3,7 @@ import autocomplete.TreeSetAutocomplete;
 import graphs.AStarGraph;
 import graphs.Edge;
 import graphs.shortestpaths.AStarSolver;
+import minpq.DoubleMapMinPQ;
 import org.locationtech.spatial4j.context.SpatialContext;
 import org.locationtech.spatial4j.shape.Point;
 import org.xml.sax.Attributes;
@@ -112,10 +113,13 @@ public class MapGraph implements AStarGraph<Point> {
      * @param prefix prefix string that could be any case with or without punctuation.
      * @return a list of full names of locations matching the prefix.
      */
-    public List<CharSequence> getLocationsByPrefix(String prefix) {
-        List<CharSequence> result = autocomplete.allMatches(prefix);
-        result.sort(Comparator.comparingInt(importance::get));
-        return result;
+    public List<CharSequence> getLocationsByPrefix(String prefix, int maxMatches) {
+        List<CharSequence> matches = autocomplete.allMatches(prefix);
+        Map<CharSequence, Double> elementsAndPriorities = new HashMap<>(matches.size());
+        for (CharSequence match : matches) {
+            elementsAndPriorities.put(match, (double) importance.get(match));
+        }
+        return new DoubleMapMinPQ<>(elementsAndPriorities).removeMin(maxMatches);
     }
 
     /**

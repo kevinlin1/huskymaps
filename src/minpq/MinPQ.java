@@ -1,5 +1,8 @@
 package minpq;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Priority queue where objects have <b>extrinsic priority</b>. Whereas {@link java.util.PriorityQueue} relies on
  * {@link Comparable} objects (or a {@link java.util.Comparator}), this interface requires priority values represented
@@ -60,6 +63,21 @@ public interface MinPQ<E> {
      * @throws java.util.NoSuchElementException if this priority queue is empty.
      */
     E removeMin();
+
+    /**
+     * Returns and removes up to the given number of lowest-priority elements.
+     *
+     * @param numElements the desired number of lowest-priority elements to remove.
+     * @return a list containing up to the given number of lowest-priority elements.
+     */
+    default List<E> removeMin(int numElements) {
+        numElements = Math.min(numElements, size());
+        List<E> result = new ArrayList<>(numElements);
+        for (int i = 0; i < numElements; i += 1) {
+            result.add(removeMin());
+        }
+        return result;
+    }
 
     /**
      * Updates the given elements' associated priority value.
