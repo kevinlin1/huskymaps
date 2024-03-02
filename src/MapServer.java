@@ -114,7 +114,7 @@ public class MapServer {
                 overlay.append("),");
             }
         }
-        if (overlay.length() > 0) {
+        if (!overlay.isEmpty()) {
             // Replace the trailing comma with a forward slash
             overlay.setCharAt(overlay.length() - 1, '/');
         }
