@@ -1,6 +1,5 @@
 import io.javalin.Javalin;
-import io.javalin.validation.JavalinValidation;
-import io.javalin.validation.Validator;
+import io.javalin.validation.ValidationException;
 import org.apache.commons.codec.binary.Base64InputStream;
 import org.locationtech.spatial4j.context.SpatialContext;
 import org.locationtech.spatial4j.shape.Point;
@@ -51,17 +50,19 @@ public class MapServer {
             int width = ctx.pathParamAsClass("width", Integer.class).get();
             int height = ctx.pathParamAsClass("height", Integer.class).get();
             String term = ctx.queryParam("term");
-            Validator<Double> startLon = ctx.queryParamAsClass("startLon", Double.class);
-            Validator<Double> startLat = ctx.queryParamAsClass("startLat", Double.class);
-            Validator<Double> goalLon = ctx.queryParamAsClass("goalLon", Double.class);
-            Validator<Double> goalLat = ctx.queryParamAsClass("goalLat", Double.class);
 
             Point center = factory.pointLatLon(lat, lon);
-            List<Point> route = List.of();
-            if (JavalinValidation.collectErrors(startLon, startLat, goalLon, goalLat).isEmpty()) {
-                Point start = factory.pointLatLon(startLat.get(), startLon.get());
-                Point goal = factory.pointLatLon(goalLat.get(), goalLon.get());
+            List<Point> route;
+            try {
+                double startLon = ctx.queryParamAsClass("startLon", Double.class).get();
+                double startLat = ctx.queryParamAsClass("startLat", Double.class).get();
+                double goalLon = ctx.queryParamAsClass("goalLon", Double.class).get();
+                double goalLat = ctx.queryParamAsClass("goalLat", Double.class).get();
+                Point start = factory.pointLatLon(startLat, startLon);
+                Point goal = factory.pointLatLon(goalLat, goalLon);
                 route = map.shortestPath(start, goal);
+            } catch (ValidationException e) {
+                route = List.of();
             }
             List<Point> locations = map.getLocations(term);
             URL staticImageURL = url(center, zoom, width, height, route, locations);
