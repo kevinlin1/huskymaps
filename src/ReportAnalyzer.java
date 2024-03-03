@@ -24,7 +24,7 @@ public class ReportAnalyzer {
             wcagDefinitions.put(index, title);
         }
 
-        Pattern re = Pattern.compile("wcag\\d{3}");
+        Pattern re = Pattern.compile("wcag\\d{3,4}");
         List<String> wcagTags = Files.walk(Paths.get("data/reports"))
                 .map(path -> {
                     try {
