@@ -48,6 +48,14 @@ public interface MinPQ<E> {
      */
     boolean contains(E element);
 
+    /** Returns the priority value for the given element if it is present.
+     *
+     * @param element element to query.
+     * @return the priority value for the given element.
+     * @throws java.util.NoSuchElementException if element is not present.
+     */
+    double getPriority(E element);
+
     /**
      * Returns the element with the minimum priority value.
      *

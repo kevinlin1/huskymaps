@@ -64,6 +64,14 @@ public class DoubleMapMinPQ<E> implements MinPQ<E> {
     }
 
     @Override
+    public double getPriority(E element) {
+        if (!contains(element)) {
+            throw new NoSuchElementException("PQ does not contain element");
+        }
+        return elementToPriority.get(element);
+    }
+
+    @Override
     public E peekMin() {
         if (isEmpty()) {
             throw new NoSuchElementException("PQ is empty");

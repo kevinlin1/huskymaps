@@ -7,7 +7,7 @@ package minpq;
  */
 public class HeapMinPQTests extends MinPQTests {
     @Override
-    public MinPQ<String> createMinPQ() {
+    public <E> MinPQ<E> createMinPQ() {
         return new HeapMinPQ<>();
     }
 }

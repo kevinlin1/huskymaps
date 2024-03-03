@@ -54,6 +54,12 @@ public class OptimizedHeapMinPQ<E> implements MinPQ<E> {
     }
 
     @Override
+    public double getPriority(E element) {
+        // TODO: Replace with your code
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    @Override
     public E peekMin() {
         if (isEmpty()) {
             throw new NoSuchElementException("PQ is empty");

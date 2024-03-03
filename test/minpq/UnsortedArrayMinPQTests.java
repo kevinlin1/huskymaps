@@ -7,7 +7,7 @@ package minpq;
  */
 public class UnsortedArrayMinPQTests extends MinPQTests {
     @Override
-    public MinPQ<String> createMinPQ() {
+    public <E> MinPQ<E> createMinPQ() {
         return new UnsortedArrayMinPQ<>();
     }
 }
