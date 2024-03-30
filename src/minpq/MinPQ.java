@@ -48,7 +48,8 @@ public interface MinPQ<E> {
      */
     boolean contains(E element);
 
-    /** Returns the priority value for the given element if it is present.
+    /**
+     * Returns the priority value for the given element if it is present.
      *
      * @param element element to query.
      * @return the priority value for the given element.
