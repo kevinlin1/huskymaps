@@ -45,7 +45,7 @@ public class ArrayListDeque<E> implements Deque<E> {
 
     @Override
     public E removeFirst() {
-        if (list.size() == 0) {
+        if (list.isEmpty()) {
             return null;
         }
         return list.remove(0);
@@ -53,7 +53,7 @@ public class ArrayListDeque<E> implements Deque<E> {
 
     @Override
     public E removeLast() {
-        if (list.size() == 0) {
+        if (list.isEmpty()) {
             return null;
         }
         return list.remove(size() - 1);
