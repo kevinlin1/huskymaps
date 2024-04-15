@@ -297,8 +297,8 @@ public abstract class DequeTests {
                     deque.removeLast();
                 }
 
-                // Output the averages to 10 decimal places.
-                System.out.print(totalAddTime / (double) NUM_TRIALS);
+                // Output the average rounded to the closest integer.
+                System.out.printf("%.0f", totalAddTime / (double) NUM_TRIALS);
                 System.out.println();
             }
         }

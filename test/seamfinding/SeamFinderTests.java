@@ -168,8 +168,8 @@ public abstract class SeamFinderTests {
                     totalTime += time;
                 }
 
-                // Output the averages to 10 decimal places.
-                System.out.print(totalTime / (double) NUM_TRIALS);
+                // Output the average rounded to the closest integer.
+                System.out.printf("%.0f", totalTime / (double) NUM_TRIALS);
                 System.out.println();
             }
         }
