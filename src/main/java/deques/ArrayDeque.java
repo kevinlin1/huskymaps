@@ -83,6 +83,7 @@ public class ArrayDeque<E> implements Deque<E> {
         data[back] = null;
         size -= 1;
         if (needsDownsize()) {
+            // The logs narrow the error down to the resize method!
             resize(data.length / 2);
         }
         return result;

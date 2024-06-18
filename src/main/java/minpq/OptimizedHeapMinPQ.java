@@ -24,6 +24,7 @@ public class OptimizedHeapMinPQ<E> implements MinPQ<E> {
     public OptimizedHeapMinPQ() {
         elements = new ArrayList<>();
         elementsToIndex = new HashMap<>();
+        elements.add(null);
     }
 
     /**

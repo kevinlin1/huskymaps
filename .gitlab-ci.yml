@@ -1,0 +1,21 @@
+stages:
+  - deques
+  - autocomplete
+  - minpq
+  - seamfinding
+
+test-deques:
+  stage: deques
+  script: ./gradlew --warning-mode=all test --tests "deques.*"
+
+test-autocomplete:
+  stage: autocomplete
+  script: ./gradlew --warning-mode=all test --tests "autocomplete.*"
+
+test-minpq:
+  stage: minpq
+  script: ./gradlew --warning-mode=all test --tests "minpq.*"
+
+test-seamfinding:
+  stage: seamfinding
+  script: ./gradlew --warning-mode=all test --tests "seamfinding.*"
