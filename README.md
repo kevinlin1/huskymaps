@@ -1,6 +1,6 @@
-# Projects
+# CSE 373 Projects
 
-An educational web app for mapping the world, searching for places, and navigating around Seattle. The app is designed to highlight 4 components: [**Deques**](src/deques/), [**Autocomplete**](src/autocomplete/), [**Priority Queues**](src/minpq/), and [**Seam Finding**](src/seamfinding/). See the [**Releases**](https://github.com/kevinlin1/huskymaps/releases) for instructions about each project component.
+A set of educational programming projects built around 4 components: [**Deques**](src/deques/), [**Autocomplete**](src/autocomplete/), [**Priority Queues**](src/minpq/), and [**Seam Finding**](src/seamfinding/). See the [**Releases**](https://github.com/kevinlin1/huskymaps/releases) for instructions about each project component.
 
 ## Setup
 
