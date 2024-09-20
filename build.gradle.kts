@@ -36,5 +36,4 @@ tasks.withType<Test> {
     testLogging.events = setOf(TestLogEvent.FAILED, TestLogEvent.SKIPPED)
     testLogging.showStandardStreams = true
     testLogging.showExceptions = true
-    testLogging.exceptionFormat = TestExceptionFormat.FULL
 }
