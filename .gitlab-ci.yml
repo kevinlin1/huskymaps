@@ -6,16 +6,29 @@ stages:
 
 test-deques:
   stage: deques
+  rules:
+    - changes:
+        - src/{main,test}/java/deques/*.java
   script: ./gradlew --warning-mode=all test --tests "deques.*"
 
 test-autocomplete:
   stage: autocomplete
+  rules:
+    - changes:
+        - src/{main,test}/java/autocomplete/*.java
   script: ./gradlew --warning-mode=all test --tests "autocomplete.*"
 
 test-minpq:
   stage: minpq
+  rules:
+    - changes:
+        - src/{main,test}/java/minpq/*.java
   script: ./gradlew --warning-mode=all test --tests "minpq.*"
 
 test-seamfinding:
   stage: seamfinding
+  rules:
+    - changes:
+        - src/{main,test}/java/seamfinding/*.java
+        - src/main/java/graphs/shortestpaths/ToposortDAGSolver.java
   script: ./gradlew --warning-mode=all test --tests "seamfinding.*"
