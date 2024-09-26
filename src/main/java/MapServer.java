@@ -5,9 +5,7 @@ import org.locationtech.spatial4j.context.SpatialContext;
 import org.locationtech.spatial4j.shape.Point;
 import org.locationtech.spatial4j.shape.ShapeFactory;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
+import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
@@ -98,7 +96,7 @@ public class MapServer {
      * @throws MalformedURLException if the URL is invalid.
      */
     private static URL url(Point center, int zoom, int width, int height, List<Point> route, List<Point> locations)
-            throws MalformedURLException {
+            throws MalformedURLException, URISyntaxException {
         StringBuilder overlay = new StringBuilder();
         if (route != null && !route.isEmpty()) {
             overlay.append("path-4+6cb5e6-1(");
@@ -118,7 +116,7 @@ public class MapServer {
             // Replace the trailing comma with a forward slash
             overlay.setCharAt(overlay.length() - 1, '/');
         }
-        return new URL(String.format(
+        return new URI(String.format(
                 "https://api.mapbox.com/"
                         // {username}/{style_id} and {overlay} (must include trailing slash)
                         + "styles/v1/%s/%s/static/%s"
@@ -132,7 +130,7 @@ public class MapServer {
                 center.getLon(), center.getLat(), zoom,
                 (int) Math.ceil(width / 2.), (int) Math.ceil(height / 2.), "@2x",
                 System.getenv("TOKEN")
-        ));
+        )).toURL();
     }
 
     /**
