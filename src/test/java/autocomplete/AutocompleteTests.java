@@ -77,6 +77,14 @@ public abstract class AutocompleteTests {
         }
     }
 
+    @Test
+    void allMatchesMutation() {
+        List<CharSequence> results = testing.allMatches("Sea");
+        List<CharSequence> expected = new ArrayList<>(results);
+        results.clear();
+        assertEquals(expected, testing.allMatches("Sea"));
+    }
+
     /**
      * Asserts that the reference and testing implementations' {@code allMatches} methods produce
      * the same results ignoring order.
