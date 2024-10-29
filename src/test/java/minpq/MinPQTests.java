@@ -73,4 +73,55 @@ public abstract class MinPQTests {
             }
         }
     }
+
+    @Test
+    public void randomIntegersRandomPriorities() {
+        MinPQ<Integer> reference = new DoubleMapMinPQ<>();
+        MinPQ<Integer> testing = createMinPQ();
+
+        int iterations = 10000;
+        int maxElement = 1000;
+        Random random = new Random();
+        for (int i = 0; i < iterations; i += 1) {
+            int element = random.nextInt(maxElement);
+            double priority = random.nextDouble();
+            reference.addOrChangePriority(element, priority);
+            testing.addOrChangePriority(element, priority);
+            assertEquals(reference.peekMin(), testing.peekMin());
+            assertEquals(reference.size(), testing.size());
+            for (int e = 0; e < maxElement; e += 1) {
+                if (reference.contains(e)) {
+                    assertTrue(testing.contains(e));
+                    assertEquals(reference.getPriority(e), testing.getPriority(e));
+                } else {
+                    assertFalse(testing.contains(e));
+                }
+            }
+        }
+        for (int i = 0; i < iterations; i += 1) {
+            boolean shouldRemoveMin = random.nextBoolean();
+            if (shouldRemoveMin && !reference.isEmpty()) {
+                assertEquals(reference.removeMin(), testing.removeMin());
+            } else {
+                int element = random.nextInt(maxElement);
+                double priority = random.nextDouble();
+                reference.addOrChangePriority(element, priority);
+                testing.addOrChangePriority(element, priority);
+            }
+            if (!reference.isEmpty()) {
+                assertEquals(reference.peekMin(), testing.peekMin());
+                assertEquals(reference.size(), testing.size());
+                for (int e = 0; e < maxElement; e += 1) {
+                    if (reference.contains(e)) {
+                        assertTrue(testing.contains(e));
+                        assertEquals(reference.getPriority(e), testing.getPriority(e));
+                    } else {
+                        assertFalse(testing.contains(e));
+                    }
+                }
+            } else {
+                assertTrue(testing.isEmpty());
+            }
+        }
+    }
 }
