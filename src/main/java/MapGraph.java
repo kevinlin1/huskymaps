@@ -108,9 +108,10 @@ public class MapGraph implements AStarGraph<Point> {
     }
 
     /**
-     * Return the names of all locations that prefix-match the query string.
+     * Return up to the given number of location names that match the prefix string.
      *
      * @param prefix prefix string that could be any case with or without punctuation.
+     * @param maxMatches the maximum number of results to return.
      * @return a list of full names of locations matching the prefix.
      */
     public List<CharSequence> getLocationsByPrefix(String prefix, int maxMatches) {
