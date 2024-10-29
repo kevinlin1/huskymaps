@@ -108,7 +108,7 @@ public class MapGraph implements AStarGraph<Point> {
     }
 
     /**
-     * Return up to the given number of location names that match the prefix string.
+     * Return up to the given number of location names that match the prefix string by greatest importance.
      *
      * @param prefix prefix string that could be any case with or without punctuation.
      * @param maxMatches the maximum number of results to return.
