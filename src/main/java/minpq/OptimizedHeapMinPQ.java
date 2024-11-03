@@ -33,8 +33,6 @@ public class OptimizedHeapMinPQ<E> implements MinPQ<E> {
      * @param elementsAndPriorities each element and its corresponding priority.
      */
     public OptimizedHeapMinPQ(Map<E, Double> elementsAndPriorities) {
-        elements = new ArrayList<>(elementsAndPriorities.size());
-        elementsToIndex = new HashMap<>(elementsAndPriorities.size());
         // TODO: Replace with your code
         throw new UnsupportedOperationException("Not implemented yet");
     }
