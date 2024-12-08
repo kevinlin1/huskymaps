@@ -1,1 +1,1 @@
-rootProject.name = "cse373"
+rootProject.name = "huskymaps"
