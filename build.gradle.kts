@@ -1,6 +1,7 @@
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 plugins {
+    id("com.gradleup.shadow") version "8.3.5"
     java
 }
 
