@@ -1,4 +1,9 @@
+FROM gradle:latest AS build
+COPY . /home/gradle/src
+WORKDIR /home/gradle/src
+RUN gradle shadowJar
+
 FROM eclipse-temurin:17-jre
-RUN ./gradlew shadowJar
+COPY --from=build /home/gradle/src/build/libs/huskymaps-all.jar app.jar
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "build/libs/huskymaps-all.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
