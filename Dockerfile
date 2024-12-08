@@ -5,5 +5,4 @@ RUN gradle shadowJar
 
 FROM eclipse-temurin:17-jre
 COPY --from=build /home/gradle/src/build/libs/huskymaps-all.jar app.jar
-EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
