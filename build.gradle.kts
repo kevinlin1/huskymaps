@@ -15,11 +15,11 @@ repositories {
 
 dependencies {
     implementation("commons-codec:commons-codec:1.18.0")
-    implementation("io.javalin:javalin:6.4.0")
+    implementation("io.javalin:javalin:6.5.0")
     implementation("org.locationtech.spatial4j:spatial4j:0.8")
     implementation("org.slf4j:slf4j-simple:2.0.17")
 
-    testImplementation("org.junit.jupiter:junit-jupiter:5.12.0")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.12.1")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
