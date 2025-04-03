@@ -23,17 +23,19 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
+tasks.test {
+    useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
+        showStandardStreams = true
+        showExceptions = true
+    }
+}
+
 tasks.withType<JavaCompile> {
     options.compilerArgs.add("-Xlint:unchecked")
     options.compilerArgs.add("-Xlint:deprecation")
     options.compilerArgs.add("-Werror")
-}
-
-tasks.withType<Test> {
-    useJUnitPlatform()
-    testLogging.events = setOf(TestLogEvent.FAILED, TestLogEvent.SKIPPED)
-    testLogging.showStandardStreams = true
-    testLogging.showExceptions = true
 }
 
 tasks.jar {
