@@ -14,6 +14,7 @@ repositories {
 }
 
 dependencies {
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.18.3")
     implementation("commons-codec:commons-codec:1.18.0")
     implementation("io.javalin:javalin:6.5.0")
     implementation("org.locationtech.spatial4j:spatial4j:0.8")
