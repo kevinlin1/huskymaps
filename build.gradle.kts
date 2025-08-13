@@ -1,7 +1,7 @@
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 plugins {
-    id("com.gradleup.shadow") version "8.3.6"
+    id("com.gradleup.shadow") version "9.0.1"
     java
 }
 
@@ -14,13 +14,13 @@ repositories {
 }
 
 dependencies {
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.18.3")
-    implementation("commons-codec:commons-codec:1.18.0")
-    implementation("io.javalin:javalin:6.5.0")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.19.2")
+    implementation("commons-codec:commons-codec:1.19.0")
+    implementation("io.javalin:javalin:6.7.0")
     implementation("org.locationtech.spatial4j:spatial4j:0.8")
     implementation("org.slf4j:slf4j-simple:2.0.17")
 
-    testImplementation("org.junit.jupiter:junit-jupiter:5.12.1")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.13.4")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
