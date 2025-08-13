@@ -1,3 +1,113 @@
 # Husky Maps
 
-A set of educational programming projects built around 4 components: [**Deques**](src/main/java/deques/), [**Autocomplete**](src/main/java/autocomplete/), [**Priority Queues**](src/main/java/minpq/), and [**Seam Finding**](src/main/java/seamfinding/).
+[Husky Maps](https://huskymaps.kevinl.info/) is an educational web app for mapping the world, searching for places, and navigating around Seattle. All these features are powered by data structures and algorithms, programming abstractions designed to represent data and automate processes. In your prior programming experience, you learned how to implement specifications by writing Java programs that used data structures to solve problems. But why was the specification written that way in the first place?
+
+Husky Maps consists of 4 educational programming projects that aim to highlight the relationship between abstractions, implementations, and problems. The purpose of these projects is to help us explore the capabilities and design effort that goes into writing a specification.
+
+1. [**Deques**](src/main/java/deques/)
+1. [**Autocomplete**](src/main/java/autocomplete/)
+1. [**Priority Queues**](src/main/java/minpq/)
+1. [**Shortest Paths**](src/main/java/seamfinding/)
+
+## Getting started
+
+### Install Java and configure VS Code
+
+> [!note]
+> If you've recently installed Java and VS Code as part of the prerequisite course, [CSE 123](https://courses.cs.washington.edu/courses/cse123/), skip this step and proceed to [**Install Git**](#install-git). We require at least Java 17 and an up-to-date version of VS Code with the CSE 123 VS Code profile installed.
+
+Let's install the Java Development Kit (JDK), install VS Code, and apply the CSE 123 VS Code profile.
+
+1. [Download and install Adoptium's OpenJDK](https://adoptium.net/).
+1. [Download and install VS Code](https://code.visualstudio.com/).
+1. Right-click on this [CSE 123 VS Code profile](https://courses.cs.washington.edu/courses/cse123/25sp/software/cse123-Java.code-profile) link and **Copy**.
+1. Open VS Code and apply the profile.
+
+To apply the profile, from the **Manage** icon at the bottom of the Activity Bar (located on the far left side of VS Code), choose **Profiles**. Then, under the dropdown menu next to New Profile, choose **Import Profile...** and paste the link to the CSE 123 VS Code profile. Finally, select **Create Profile** and name it "cse123-Java".
+
+If you can't find a certain VS Code command, search for it via the **Command Palette** (Show All Commands), which is accessible from anywhere within VS Code using the keyboard shortcut <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>P</kbd>.
+
+### Install Git
+
+Git is a **version control system** (VCS), a tool for distributing, managing, and sharing code with other people. Install Git by [following the instructions for your computer's operating system](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
+
+### Generate SSH keys
+
+Your project code will be stored on CSE GitLab, a service provided by the Allen School to securely and privately store your coursework. CSE GitLab requires **SSH keys**: computer-generated passwords used to securely authenticate your computer to CSE GitLab.
+
+1. From VS Code, open the Terminal with the keyboard shortcut <kbd>Ctrl</kbd> <kbd>`</kbd> (backtick key, which is typically above your tab key).
+1. In the terminal, generate an SSH key pair with the command `ssh-keygen -t ed25519`. When asked to enter a file name or a passphrase, just press <kbd>Enter</kbd> to accept the default settings for both questions.
+1. Print your public SSH key with the command `cat ~/.ssh/id_ed25519.pub` and copy the contents to your clipboard.
+1. In your browser, open the [SSH Keys user settings](https://gitlab.cs.washington.edu/-/user_settings/ssh_keys). Sign into GitLab using your UW NetID. Then, paste the public SSH key in the **Key** field.
+1. Give it a title representing your computer (any title of your choice) and press **Add key**.
+
+### Obtain project code
+
+Now that we've installed the required software and configured our computer so that it can securely communicate with CSE GitLab, let's get the project code! This step requires the project repositories to be setup, which will be ready for enrolled students by the end of the first week of the course.
+
+1. Visit [CSE GitLab](https://gitlab.cs.washington.edu/) and you'll be greeted by a repository named after your UW NetID.
+1. Visit your private repository, press the blue **Code** button and, under the heading **Open in your IDE**, choose **Visual Studio Code (SSH)**. Be sure to choose the SSH option because we are using SSH keys. If this doesn't work, you can copy the **Clone with SSH** address, find the **Git: Clone** tool in the VS Code command palette, and paste the SSH address. You can choose where you would like to store the project.
+1. If you see an **SSH Confirmation** window, check that the fingerprint matches the [CSE GitLab fingerprint](https://gitlab.cs.washington.edu/help/instance_configuration#ssh-host-keys-fingerprints). Compare the value to the table entries, most likely under **SHA256**. If it matches one of the values, accept the connection. If it doesn't match any of the values, do not accept the connection and write an Ed Discussion question with the mismatch.
+
+> [!caution]
+> VS Code may suggest installing Gradle for Java. **Do not install Gradle for Java** as it will conflict with Language Support for Java. If it was accidentally installed, go to the **Extensions** icon in the Activity Bar and uninstall or disable Gradle for Java.
+
+The first time you open the project, answer the prompt **Yes, I trust the authors** so that VS Code has your permission to run code. Near the very bottom of VS Code, the status bar shows the current state of the Java environment setup. While we wait for it to report "Java: Ready", right-click the file `README.md` in VS Code and choose **Open Preview** to see exactly these instructions in VS Code.
+
+### Run project code
+
+After the status bar shows "Java: Ready", let's try running the project code.
+
+1. In the **Explorer** (file explorer), navigate to the **src \| main \| java** folder. This folder contains all the Java program logic for this project.
+1. Open the **BrowserHistory.java** file and drag these instructions off to the side to split the VS Code window left and right.
+1. **Run Java** using the ▷ play button at the top of the tab strip or right above the `main` method.
+
+If all the software was installed correctly, you should be able to see some text indicating that the class is being run. If you can find the following `main` method output somewhere, you're all set!
+
+```
+[uw.edu, my.uw.edu, cs.uw.edu, canvas.uw.edu]
+[cs.uw.edu, notify.uw.edu]
+```
+
+Now that you're able to run the simple `BrowserHistory` class, let's try running the more complicated `MapServer` class. If everything is successful, you'll see this flurry of messages appear indicating that the app has launched.
+
+```
+[main] INFO io.javalin.Javalin - Starting Javalin ...
+[main] INFO org.eclipse.jetty.server.Server - ...
+[main] INFO org.eclipse.jetty.server.session. ...
+[main] INFO org.eclipse.jetty.server.handler. ...
+[main] INFO org.eclipse.jetty.server.Abstract ...
+[main] INFO org.eclipse.jetty.server.Server - ...
+[main] INFO io.javalin.Javalin - 
+       __                  ___           _____
+      / /___ __   ______ _/ (_)___      / ___/
+ __  / / __ `/ | / / __ `/ / / __ \    / __ \
+/ /_/ / /_/ /| |/ / /_/ / / / / / /   / /_/ /
+\____/\__,_/ |___/\__,_/_/_/_/ /_/    \____/
+
+       https://javalin.io/documentation
+
+[main] INFO io.javalin.Javalin - Javalin started in ...
+[main] INFO io.javalin.Javalin - Listening on ...
+[main] INFO io.javalin.Javalin - You are running ...
+```
+
+You're done! You can now visit the link that Javalin is `Listening on ...` to view the app.
+
+All the basic app features except for map images work because we've provided reference implementations for each interface that we'll learn in this class. The study of data structures and algorithms is the study of different approaches to implementing the same functionality, which is exactly what we'll be exploring through these projects.
+
+### Optional: Load map images with MapBox
+
+If you're interested to try the web app for yourself, the map images won't load without a MapBox access token. This access token is used to track your usage and (if you exceed free limits) bill you for their service.
+
+To see the map images, [sign up for a free MapBox account](https://account.mapbox.com/auth/signup/?route-to=%22https://account.mapbox.com/access-tokens/%22) to get an access token. Husky Maps primarily uses the [Static Images API](https://docs.mapbox.com/api/maps/static-images/) which, at the time of writing, has a free limit of up to 50,000 requests per month.
+
+Once you have your access token, in VS Code, create a new workspace configuration through the **Run \| Add Configuration...** menu. In the `configurations` section, find the entry for `MapServer` and add the following JSON:
+
+```
+"env": {
+    "TOKEN": "..."
+}
+```
+
+Remember to replace the ellipsis with your token, include double quotes around your token string, and add a comma to the end of the preceding line so that the JSON syntax is valid. Finally, re-run the `MapServer` class to launch the web app and enjoy the ["Ice Cream" map style by Maya Gao](https://www.mapbox.com/gallery#community-ice-cream).
