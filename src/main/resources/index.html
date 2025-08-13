@@ -40,9 +40,11 @@
       background: white;
     }
     input {
+      background: none;
       border: 0;
       border-radius: 1rem 0 0 1rem;
       font-size: 1em;
+      font-weight: bold;
       padding: 1rem 1.5rem;
       outline: none;
       color: black;
@@ -50,17 +52,10 @@
     .autocomplete {
       z-index: 1000;
       border-radius: 1rem;
-      margin-left: 1rem;
-      margin-top: -0.5rem;
-      box-sizing: border-box;
-      box-shadow: 0 0.1rem 0.5rem rgb(0 0 0 / 10%);
     }
     .autocomplete .option {
       background: white;
-      padding: 0.75rem 1rem;
-    }
-    .autocomplete .option:first-of-type {
-      border-radius: 1rem 1rem 0 0;
+      padding: 1rem 1.5rem;
     }
     .autocomplete .option:last-of-type {
       border-radius: 0 0 1rem 1rem;
@@ -126,17 +121,17 @@
         <a href="https://www.mapbox.com/map-feedback/" rel="noopener" target="_blank"><strong>Improve this map</strong></a>
     </div>
 </footer>
-<script src="https://cdn.jsdelivr.net/npm/autocompleter@7.0.1/autocomplete.min.js"></script>
 <script>
         const map = document.getElementById('map');
         map.addEventListener('dragstart', event => event.preventDefault());
         const search = document.getElementById('search');
-        let getInProgress = false;
+        const clearButton = document.getElementById('clear');
         let updatePending = false;
         let lon = -122.3035;
         let lat = 47.6553;
         let zoom = 11;
         let params = {};
+        let currentFocus;
 
         function lonDPP() {
             return 0.3515625 / Math.pow(2, zoom);
@@ -152,52 +147,118 @@
         }
 
         function update() {
-            if (!getInProgress) {
-                getInProgress = true;
-                const width = window.innerWidth;
-                const height = window.innerHeight;
-                fetch(`/map/${lon},${lat},${zoom}/${width}x${height}?`
-                    + new URLSearchParams(params))
-                    .then(response => response.text())
-                    .then(image => {
-                        map.src = 'data:image/png;base64,' + image;
-                        map.width = width;
-                        map.height = height;
-                        getInProgress = false;
-                        rehash();
-                        map.style.transform = '';
-                        if (updatePending) {
-                            updatePending = false;
-                            update();
-                        }
-                    });
-            } else {
-                updatePending = true;
-            }
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            fetch(`/map/${lon},${lat},${zoom}/${width}x${height}?`
+                + new URLSearchParams(params))
+                .then(response => response.text())
+                .then(image => {
+                    map.src = 'data:image/png;base64,' + image;
+                    map.width = width;
+                    map.height = height;
+                    rehash();
+                    map.style.transform = '';
+                });
         }
         document.addEventListener('onresize', update);
 
-        autocomplete({
-            input: search,
-            fetch: (text, callback) => fetch('/search?term=' + text)
-                    .then(response => response.json())
-                    .then(callback),
-            render: (item, currentValue) => {
-                const div = document.createElement('div');
-                div.textContent = item;
-                div.classList.add('option');
-                return div;
-            },
-            onSelect: item => {
-                params.term = item;
-                search.value = item;
-                update();
-            },
-            debounceWaitMs: 300,
-            preventSubmit: true,
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        function incrementFocus(listOptions) {
+            if (currentFocus >= listOptions.length - 1) {
+                currentFocus = 0;
+            } else {
+                currentFocus += 1;
+            }
+        }
+
+        function decrementFocus(listOptions) {
+            if (currentFocus <= 0) {
+                currentFocus = listOptions.length - 1;
+            } else {
+                currentFocus -= 1;
+            }
+        }
+    
+        function clearSearchList() {
+            const searchList = document.getElementById('search-list');
+            if (searchList) {
+                searchList.remove();
+            }
+        }
+        document.addEventListener('click', clearSearchList);
+
+        search.addEventListener('input', debounce(event => {
+            const text = event.target.value;
+            if (text) {
+                fetch('/search?term=' + text)
+                .then(response => response.json())
+                .then(items => {
+                    if (items) {
+                        clearSearchList();
+                        currentFocus = 0;
+                        const searchList = document.createElement('div');
+                        searchList.setAttribute('id', 'search-list');
+                        searchList.setAttribute('class', 'autocomplete');
+                        event.target.parentNode.appendChild(searchList);
+                        for (let i = 0; i < items.length; i += 1) {
+                            const listOption = document.createElement('div');
+                            listOption.classList.add('option');
+                            if (i == currentFocus) {
+                                listOption.classList.add('selected');
+                            }
+                            listOption.innerHTML = '<strong>' + items[i].substr(0, text.length) + '</strong>';
+                            listOption.innerHTML += items[i].substr(text.length);
+                            listOption.innerHTML += '<input type="hidden" value="' + items[i] + '">';
+                            listOption.addEventListener('click', event => {
+                                search.value = event.currentTarget.getElementsByTagName('input')[0].value;
+                                params.term = search.value;
+                                update();
+                                clearSearchList();
+                            });
+                            searchList.appendChild(listOption);
+                        }
+                    }
+                });
+            } else {
+                clearSearchList();
+            }
+        }, 300));
+
+        search.addEventListener('keydown', event => {
+            const searchList = document.getElementById('search-list');
+            if (searchList) {
+                const listOptions = searchList.getElementsByClassName('option');
+                if (listOptions) {
+                    if (event.keyCode == 40) { // Down
+                        listOptions[currentFocus].classList.remove('selected');
+                        incrementFocus(listOptions);
+                        listOptions[currentFocus].classList.add('selected');
+                    } else if (event.keyCode == 38) { // Up
+                        listOptions[currentFocus].classList.remove('selected');
+                        decrementFocus(listOptions);
+                        listOptions[currentFocus].classList.add('selected');
+                    } else if (event.keyCode == 13) { // Enter
+                        event.preventDefault();
+                        if (listOptions) {
+                            listOptions[currentFocus].click();
+                        }
+                    }
+                }
+            }
         });
 
-        document.getElementById('clear').addEventListener('click', event => {
+        clearButton.addEventListener('click', event => {
             params = {};
             search.value = '';
             update();
@@ -245,7 +306,7 @@
             }
         });
 
-        document.addEventListener('wheel', event => {
+        document.addEventListener('wheel', debounce(event => {
             if (event.deltaY < 0) {
                 if (zoom < 16) {
                     zoom += 1;
@@ -257,7 +318,7 @@
                     update();
                 }
             }
-        });
+        }, 300));
 
         function handleHashParameters() {
             window.location.hash.substring(1).split('&').forEach(pair => {
