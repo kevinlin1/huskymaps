@@ -21,8 +21,8 @@ In Java, every variable has a **data type**, such as `int`, `boolean`, `String`,
 
 Deques are like lists but without the capability to add, remove, or get elements from anywhere except for the front or the back. Review [`Deque.java`](Deque.java) to see the interface and its methods.
 
-<details markdown="block">
-<summary>Which method in the Deque interface does not match the definition of a deque?</summary>
+<details>
+<summary><strong>Which method in the <code>Deque</code> interface does not match the definition of a deque?</strong></summary>
 
 The `get` method has the capability to get elements from anywhere in the deque (by index) whereas as the formal definition of a deque only allows access to the front or back element. This `get` method is included for testing purposes only.
 </details>
@@ -31,8 +31,8 @@ The `get` method has the capability to get elements from anywhere in the deque (
 
 We've provided a reference implementation that will help us evaluate the performance problem with `ArrayList`. The `ArrayListDeque` class implements `Deque` using an `ArrayList`. The class maintains a single field called `list` that stores all the elements in the deque, where the _i_-th element in the deque is always stored at `list[i]`.
 
-<details markdown="block">
-<summary>How does ArrayListDeque relate to Deque and ArrayList?</summary>
+<details>
+<summary><strong>How does <code>ArrayListDeque</code> relate to <code>Deque</code> and <code>ArrayList</code>?</strong></summary>
 
 `ArrayListDeque` is a class (implementation) for the interface (abstract data type) `Deque`. In other words, `Deque` only defines functionality; `ArrayListDeque` specifies how that functionality is actually achieved.
 
@@ -47,8 +47,8 @@ The focus of this course is not only to build programs that work according to sp
 
 An **array deque** is like an `ArrayList`, but different in that elements aren't necessarily stored starting at index 0. Instead, their start and end positions are determined by two fields called `front` and `back`.
 
-<details markdown="block">
-<summary>How does ArrayListDeque relate to ArrayDeque?</summary>
+<details>
+<summary><strong>How does <code>ArrayListDeque</code> relate to <code>ArrayDeque</code>?</strong></summary>
 
 `ArrayListDeque` is not particularly related to `ArrayDeque` in concept. They just happen share a similar-sounding name. It would be more appropriate to read `ArrayListDeque` as the following sentence: a class that uses an `ArrayList` to implement `Deque` functionality.
 </details>
