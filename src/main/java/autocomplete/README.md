@@ -76,7 +76,7 @@ void simpleTest() {
 ```
 
 > [!important]
-> Add this `simpleTest` example to your `AutocompleteTests` as you will need to use it later. Write additional test cases to assist in debugging.
+> Add this `simpleTest` example to your [`AutocompleteTests.java`](../../../test/java/autocomplete/AutocompleteTests.java) as you will need to use it later. Write additional test cases to assist in debugging.
 
 <details>
 <summary><strong>Why does this test make three separate assertions rather than <code>assertEquals(expected, actual)</code>?</strong></summary>
@@ -177,7 +177,7 @@ The `isPrefixOf` method is defined in the `Autocomplete` interface.
 
 Design and implement 3 implementations of the `Autocomplete` interface.
 
-### SequentialSearchAutocomplete
+### [`SequentialSearchAutocomplete.java`](SequentialSearchAutocomplete.java)
 
 Terms are added to an `ArrayList` in any order.
 
@@ -186,7 +186,7 @@ Since terms are not stored in any particular location, the `allMatches` method m
 > [!note]
 > Remember to stage, commit, and push your code to GitLab!
 
-### BinarySearchAutocomplete
+### [`BinarySearchAutocomplete.java`](BinarySearchAutocomplete.java)
 
 Terms are added to a sorted `ArrayList`. When additional terms are added, the entire list is re-sorted using [`Collections.sort`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Collections.html#sort(java.util.List,java.util.Comparator)).
 
@@ -219,7 +219,7 @@ System.out.println("     i: " + i);
 > 1. Then, using the diagram, explain how your `allMatches` method collects terms into the `actual` (result) list.
 > 1. Finally, explain how the `actual` and `expected` lists compare for each of the 3 assertion tests.
 
-### TernarySearchTreeAutocomplete
+### [`TernarySearchTreeAutocomplete.java`](TernarySearchTreeAutocomplete.java)
 
 Terms are added to a ternary search tree.
 
@@ -238,7 +238,7 @@ It's okay if your `TernarySearchTreeAutocomplete` throws a `StackOverflowError` 
 > 1. Then, using the diagram, explain how your `allMatches` method collects terms into the `actual` (result) list.
 > 1. Finally, explain how the `actual` and `expected` lists compare for each of the 3 assertion tests.
 
-### Optional: TrieAutocomplete
+### Optional: `TrieAutocomplete`
 
 Optionally, create your own implementation and test for a `TrieAutocomplete` class based on [TrieST.java](https://github.com/kevin-wayne/algs4/blob/master/src/main/java/edu/princeton/cs/algs4/TrieST.java).
 
@@ -257,7 +257,7 @@ For `allMatches`, consider how the relationship between the added terms and the 
 
 Now that you've predicted runtimes across the 4 implementations, let's compare results for the `cities.tsv` dataset. `RuntimeExperiments` are disabled by default: remove the `@Disabled` line above the `RuntimeExperiments` class header to enable it.
 
-Run the provided `RuntimeExperiments` in `AutocompleteTests` to compare the real-world runtime of each implementation. For each implementation, `RuntimeExperiments` constructs an empty instance and records the number of seconds to add _N_ terms to the dataset before computing all matches for the given `prefix`. The output is printed-out in comma-separated values format representing a table with three columns:
+Run the provided `RuntimeExperiments` in [`AutocompleteTests.java`](../../../test/java/autocomplete/AutocompleteTests.java) to compare the real-world runtime of each implementation. For each implementation, `RuntimeExperiments` constructs an empty instance and records the number of seconds to add _N_ terms to the dataset before computing all matches for the given `prefix`. The output is printed-out in comma-separated values format representing a table with three columns:
 
 - The first column denotes _N_, the total number of terms.
 - The second column denotes the average runtime for `addAll` in seconds.

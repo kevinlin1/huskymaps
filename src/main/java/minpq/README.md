@@ -55,7 +55,7 @@ void simpleTest() {
 ```
 
 > [!important]
-> Add this `simpleTest` example to your `MinPQTests` as you will need to use it later. Write additional test cases to assist in debugging.
+> Add this `simpleTest` example to your [`MinPQTests.java`](../../../test/java/minpq/MinPQTests.java) as you will need to use it later. Write additional test cases to assist in debugging.
 
 ### Priority nodes
 
@@ -93,9 +93,9 @@ The project code includes a working `DoubleMapMinPQ`. This implementation is cal
 
 The state of both maps is synchronized across all methods. Any change to one data structure also requires a change to the other data structure.
 
-## Complete the report analyzer
+## Complete [`ReportAnalyzer.java`](../ReportAnalyzer.java)
 
-In `src/main/java/ReportAnalyzer.java`, complete the `main` method to display the top 3 most commonly-reported [Web Content Accessibility Guideline][WCAG] (WCAG) tags by using a `DoubleMapMinPQ` to count the unique `wcagTags`. When displaying the most commonly-reported tags, use the `wcagDefinitions` to convert the tag identifiers to their descriptions.
+In [`src/main/java/ReportAnalyzer.java`](../ReportAnalyzer.java), complete the `main` method to display the top 3 most commonly-reported [Web Content Accessibility Guideline][WCAG] (WCAG) tags by using a `DoubleMapMinPQ` to count the unique `wcagTags`. When displaying the most commonly-reported tags, use the `wcagDefinitions` to convert the tag identifiers to their descriptions.
 
 > [!important]
 > Which WCAG descriptions were the top 3 most commonly-reported for the given `data/reports`? Explain how you turned a `MaxPQ` problem into a `MinPQ` problem.
@@ -104,11 +104,11 @@ In `src/main/java/ReportAnalyzer.java`, complete the `main` method to display th
 
 Design and implement 3 implementations of the `MinPQ` interface.
 
-### UnsortedArrayMinPQ
+### [`UnsortedArrayMinPQ.java`](UnsortedArrayMinPQ.java)
 
 Elements are added to an `ArrayList` in any order. Many operations will need to scan over the entire list.
 
-### HeapMinPQ
+### [`HeapMinPQ.java`](HeapMinPQ.java)
 
 A standard binary heap priority queue that delegates all method calls to an instance of [`java.util.PriorityQueue`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/PriorityQueue.html). Each `MinPQ` operation is implemented by calling the underlying `PriorityQueue`. Our solution only adds 1–3 lines of code for most methods.
 
@@ -118,7 +118,7 @@ A standard binary heap priority queue that delegates all method calls to an inst
 > 1. Then, using the diagram, explain how your `changePriority` method changes the representation in response to elements 3 and 1. Justify why your approach works.
 > 1. Finally, explain how the `reference` and `testing` implementations produce the same removal order.
 
-### OptimizedHeapMinPQ
+### [`OptimizedHeapMinPQ`](OptimizedHeapMinPQ.java)
 
 A optimized binary heap priority queue supported by a `HashMap` that associates each element with its array index to speed-up `contains` and `changePriority`. A standard binary heap array holds priority nodes organized by priority value. The `HashMap` acts as an address book for the indices of each priority node, helping us locate nodes within the heap.
 
@@ -135,7 +135,7 @@ A optimized binary heap priority queue supported by a `HashMap` that associates 
 
 ### Optional: Randomized testing
 
-Optionally, write a randomized test in `MinPQTests` that simulates a large-scale version of the `ReportAnalyzer`. Read the `data/wcag.tsv` file and use randomness to sample WCAG tags until about 10000 tags have been counted by the reference and testing implementations. Then, remove all the tags from both implementations and check that the remove orders are consistent. Use the provided `randomIntegersRandomPriorities` method and the `ReportAnalyzer` that you implemented earlier to aid in writing your random test with WCAG tags. Your random test will likely be simpler than the sample `randomIntegersRandomPriorities` method.
+Optionally, write a randomized test in [`MinPQTests.java`](../../../test/java/minpq/MinPQTests.java) that simulates a large-scale version of the `ReportAnalyzer`. Read the `data/wcag.tsv` file and use randomness to sample WCAG tags until about 10000 tags have been counted by the reference and testing implementations. Then, remove all the tags from both implementations and check that the remove orders are consistent. Use the provided `randomIntegersRandomPriorities` method and the `ReportAnalyzer` that you implemented earlier to aid in writing your random test with WCAG tags. Your random test will likely be simpler than the sample `randomIntegersRandomPriorities` method.
 
 After you have a functioning random test, modify it to better simulate our `data/reports` sample by upweighting the occurrence of the top 3 most commonly-reported tags.
 

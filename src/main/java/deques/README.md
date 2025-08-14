@@ -47,7 +47,9 @@ We've provided a reference implementation that will help us evaluate the perform
 
 The focus of this course is not only to build programs that work according to specifications but also to compare different approaches and evaluate the consequences of our designs. In this project, we'll compare the `ArrayListDeque` reference implementation against two other ways to implement the `Deque` interface.
 
-### Fix ArrayDeque
+### Fix [`ArrayDeque.java`](ArrayDeque.java)
+
+The `ArrayDeque` class is a **fixed-size** implementation of `Deque`. The
 
 An **array deque** is like an `ArrayList`, but different in that elements aren't necessarily stored starting at index 0. Instead, their start and end positions are determined by two fields called `front` and `back`.
 
@@ -60,9 +62,9 @@ An **array deque** is like an `ArrayList`, but different in that elements aren't
 We've provided an `ArrayDeque` class that includes a bug, and four failing test cases that cause the bug to emerge. Identify and fix the bug in the `ArrayDeque` class by **changing at least 2 lines of code**. Follow the debugging cycle to address the bug.
 
 1. Review `ArrayDeque` to see how its methods and fields work together to implement `Deque`.
-1. Run the `ArrayDequeTests` class inside the `src/test/java/deques` folder.
+1. Run the `ArrayDequeTests` class inside the [`src/test/java/deques`](../../../test/java/deques/) folder.
 1. Read the test result and review the stack trace (the chain of calls that caused the exception).
-1. Review `ArrayDeque` again, this time focusing on methods most relevant to the failing test. You can open the `DequeTests` file and [drag the tab for a side-by-side view](https://www.jetbrains.com/idea/guide/tips/drag-and-dock/).
+1. Review `ArrayDeque` again, this time focusing on methods most relevant to the failing test. Open [`DequeTests.java`](../../../test/java/deques/DequeTests.java) and [drag the tab for a side-by-side view](https://www.jetbrains.com/idea/guide/tips/drag-and-dock/).
 1. Based on what you know about the bug, develop a hypothesis for the cause of the problem.
 
 For example, we might _hypothesize_ that the problem is caused by the `newIndex` variable inside the `resize` method going outside the bounds of the `newData` array. Gathering information that can confirm or deny this hypothesis can help us zero-in on the problem, leading us to generate another hypothesis or a potential fix to the bug. Debugging is the process of exploring hypotheses, generating potential fixes, trying them out, and learning more information about the problem until we finally identify the root cause of the bug.
@@ -89,7 +91,7 @@ Now that your change has been pushed to GitLab, let's check the status of the ch
 
 Since only `ArrayListDeque` and `ArrayDeque` are functional at this time, you'll see an overall failure state for the tests even though the `ArrayListDequeTests` and `ArrayDequeTests` pass.
 
-### Implement LinkedDeque
+### Implement [`LinkedDeque.java`](LinkedDeque.java)
 
 To address the `LinkedDequeTests` failure, we need to mplement the `LinkedDeque` class with the following requirements:
 
@@ -109,7 +111,7 @@ A `LinkedDeque` should always maintain the following invariants before and after
 To assist in debugging, we've provided a `checkInvariants` method that returns a string describing any problems with invariants (at the time the method is called), or null if there are no problems. You can use this by adding debugging print statements to help you verify a hypothesis. Lastly, if your first try goes badly, don't be afraid to scrap your code and start over.
 
 > [!important]
-> Trace through the `confusingTest` with your `LinkedDeque` starting from [line 200](../../../test/java/deques/DequeTests.java#L200), "Test that removing and adding back is okay". Explain the arguments and return values of each method call as well as how each line of code changes the `LinkedDeque` representation. For methods that are called more than once, just trace through the method the first time.
+> Trace through the `confusingTest` with your `LinkedDeque` starting from [DequeTests.java#L200](../../../test/java/deques/DequeTests.java#L200), "Test that removing and adding back is okay". Explain the arguments and return values of each method call as well as how each line of code changes the `LinkedDeque` representation. For methods that are called more than once, just trace through the method the first time.
 
 As before, stage, commit, and push your `LinkedDeque` implementation to GitLab with a descriptive, scoped commit message. 
 
@@ -124,15 +126,15 @@ In computer science, simpler solutions are typically preferred over more complic
 
 ### Experimental analysis
 
-At the bottom of the `DequeTests` class, you'll find a nested class called `RuntimeExperiments`. This nested class defines the code that will be used to evaluate the program's runtime by measuring how long it takes to run on your computer.
+At the bottom of [`DequeTests.java`](../../../test/java/deques/DequeTests.java), you'll find a nested class called `RuntimeExperiments`. This nested class defines the code that will be used to evaluate the program's runtime by measuring how long it takes to run on your computer.
 
-By default, the `RuntimeExperiments` class is annotated with the tag `@Disabled` right above the class header. Remove the `@Disabled` line, run the deque tests, and look for the test . For each implementation's `RuntimeExperiments`, open it to see the average time it takes to make a single call to `addLast` on a deque that already contains `size` number of elements.
+By default, the `RuntimeExperiments` class is annotated with the tag `@Disabled` right above the class header. Remove the `@Disabled` line and run the tests. For each implementation's `RuntimeExperiments`, open it to see the average time it takes to make a single call to `addLast` on a deque that already contains `size` number of elements.
 
-Copy and paste each result into its own [Desmos graphing calculator](https://www.desmos.com/calculator) to plot all the points.
+Copy-paste each result into its own [Desmos graphing calculator](https://www.desmos.com/calculator) to plot all the points.
 
 > [!important]
 > Compare your plots for the `addLast` method between all three implementations: `ArrayListDeque`, `ArrayDeque`, and `LinkedDeque`. Then, identify an operation that should show a significant difference between `ArrayListDeque` and the `ArrayDeque`, and modify the `RuntimeExperiments` class so that it measures this difference. Compare your new plots to confirm that `ArrayDeque` is more efficient than `ArrayListDeque` for your operation.
 
-To modify the `RuntimeExperiments` class to measure the runtime of a specific operation, find the `RuntimeExperiments` class nested at the bottom of the `DequeTests` class. Then, change the call to `deque.addLast(size)` in the inner-most loop to the operation you'd like the test. Finally, change the following `deque.removeLast()` call to perform the opposite operation. For example, if you would like to measure the runtime of `removeLast`, then the opposite operation would be `addLast`.
+To modify the `RuntimeExperiments` class to measure the runtime of a specific operation, change the call to `deque.addLast(size)` in the inner-most loop to the operation you'd like the test. Finally, change the following `deque.removeLast()` call to perform the opposite operation. For example, if you would like to measure the runtime of `removeLast`, then the opposite operation would be `addLast`.
 
 Note that enabling the `RuntimeExperiments` class will significantly increase the overall time it takes to run tests. GitLab is a shared resource for the entire class. If you mistakenly push a commit enabling `RuntimeExperiments`, cancel the pipeline in GitLab and correct things by making a new commit that disables the `RuntimeExperiments` class.
