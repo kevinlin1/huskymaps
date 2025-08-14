@@ -299,8 +299,8 @@ public abstract class DequeTests {
         assertEquals(5, deque.removeFirst());
     }
 
-    @Disabled
     @Nested
+    @Disabled
     class RuntimeExperiments {
         /**
          * Number of trials per implementation run. Making this smaller means experiments run faster.
