@@ -14,6 +14,7 @@ ArrayListDequeTests:
     - changes:
         - src/main/java/deques/*.java
   script: ./gradlew --warning-mode=all test --tests "deques.ArrayListDequeTests"
+  when: always
 
 ArrayDequeTests:
   stage: deques
@@ -21,6 +22,7 @@ ArrayDequeTests:
     - changes:
         - src/main/java/deques/*.java
   script: ./gradlew --warning-mode=all test --tests "deques.ArrayDequeTests"
+  when: always
 
 LinkedDequeTests:
   stage: deques
@@ -28,6 +30,7 @@ LinkedDequeTests:
     - changes:
         - src/main/java/deques/*.java
   script: ./gradlew --warning-mode=all test --tests "deques.LinkedDequeTests"
+  when: always
 
 TreeSetAutocompleteTests:
   stage: autocomplete
@@ -35,6 +38,7 @@ TreeSetAutocompleteTests:
     - changes:
         - src/main/java/autocomplete/*.java
   script: ./gradlew --warning-mode=all test --tests "autocomplete.TreeSetAutocompleteTests"
+  when: always
 
 SequentialSearchAutocompleteTests:
   stage: autocomplete
@@ -42,6 +46,7 @@ SequentialSearchAutocompleteTests:
     - changes:
         - src/main/java/autocomplete/*.java
   script: ./gradlew --warning-mode=all test --tests "autocomplete.SequentialSearchAutocompleteTests"
+  when: always
 
 BinarySearchAutocompleteTests:
   stage: autocomplete
@@ -49,6 +54,7 @@ BinarySearchAutocompleteTests:
     - changes:
         - src/main/java/autocomplete/*.java
   script: ./gradlew --warning-mode=all test --tests "autocomplete.BinarySearchAutocompleteTests"
+  when: always
 
 TernarySearchTreeAutocompleteTests:
   stage: autocomplete
@@ -56,6 +62,7 @@ TernarySearchTreeAutocompleteTests:
     - changes:
         - src/main/java/autocomplete/*.java
   script: ./gradlew --warning-mode=all test --tests "autocomplete.TernarySearchTreeAutocompleteTests"
+  when: always
 
 DoubleMapMinPQTests:
   stage: minpq
@@ -63,6 +70,7 @@ DoubleMapMinPQTests:
     - changes:
         - src/main/java/minpq/*.java
   script: ./gradlew --warning-mode=all test --tests "minpq.DoubleMapMinPQTests"
+  when: always
 
 UnsortedArrayMinPQTests:
   stage: minpq
@@ -70,6 +78,7 @@ UnsortedArrayMinPQTests:
     - changes:
         - src/main/java/minpq/*.java
   script: ./gradlew --warning-mode=all test --tests "minpq.UnsortedArrayMinPQTests"
+  when: always
 
 HeapMinPQTests:
   stage: minpq
@@ -77,6 +86,7 @@ HeapMinPQTests:
     - changes:
         - src/main/java/minpq/*.java
   script: ./gradlew --warning-mode=all test --tests "minpq.HeapMinPQTests"
+  when: always
 
 OptimizedHeapMinPQTests:
   stage: minpq
@@ -84,6 +94,7 @@ OptimizedHeapMinPQTests:
     - changes:
         - src/main/java/minpq/*.java
   script: ./gradlew --warning-mode=all test --tests "minpq.OptimizedHeapMinPQTests"
+  when: always
 
 AdjacencyListSeamFinderTests:
   stage: seamfinding
@@ -92,6 +103,7 @@ AdjacencyListSeamFinderTests:
         - src/main/java/graphs/**/*.java
         - src/main/java/seamfinding/**/*.java
   script: ./gradlew --warning-mode=all test --tests "seamfinding.AdjacencyListSeamFinderTests"
+  when: always
 
 GenerativeSeamFinderTests:
   stage: seamfinding
@@ -100,6 +112,7 @@ GenerativeSeamFinderTests:
         - src/main/java/graphs/**/*.java
         - src/main/java/seamfinding/**/*.java
   script: ./gradlew --warning-mode=all test --tests "seamfinding.GenerativeSeamFinderTests"
+  when: always
 
 DynamicProgrammingSeamFinderTests:
   stage: seamfinding
@@ -108,3 +121,4 @@ DynamicProgrammingSeamFinderTests:
         - src/main/java/graphs/**/*.java
         - src/main/java/seamfinding/**/*.java
   script: ./gradlew --warning-mode=all test --tests "seamfinding.DynamicProgrammingSeamFinderTests"
+  when: always
