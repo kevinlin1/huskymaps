@@ -19,30 +19,13 @@ In Java, every variable has a **data type**, such as `int`, `boolean`, `String`,
 
 **Abstract data types** (ADTs) are data types that only include a specification for the functionality of the data type without specifying the representation. In Java, abstract data types are often represented using **interfaces** like `List`, `Set`, or `Map`. Then, **classes** like `ArrayList`, `TreeSet`, or `HashMap` provide specific implementations for an interface. For example, `List` is an interface with implementations such as `ArrayList` and `LinkedList`.
 
-Deques are like lists but without the capability to add, remove, or get elements from anywhere except for the front or the back. However, for testing purposes, we include a method to `get` any element by its index in the deque. Implementations of `Deque` must provide the following methods:
+Deques are like lists but without the capability to add, remove, or get elements from anywhere except for the front or the back. Review [`Deque.java`](Deque.java) to see the interface and its methods.
 
-`void addFirst(E element)`
-: Adds an element of type `E` to the front of the deque.
+<details markdown="block">
+<summary>Which method in the Deque interface does not match the definition of a deque?</summary>
 
-`void addLast(E element)`
-: Adds an element of type `E` to the back of the deque.
-
-`E get(int index)`
-: Gets the element at the given index, where 0 is the front, 1 is the next element, etc.
-
-`boolean isEmpty()`
-: Returns true if deque is empty, false otherwise.
-
-`E removeFirst()`
-: Removes and returns the element at the front of the deque.
-
-`E removeLast()`
-: Removes and returns the element at the back of the deque.
-
-`int size()`
-: Returns the number of elements in the deque.
-
-The interface defines a **default method** `isEmpty` that returns whether `size() == 0`.
+The `get` method has the capability to get elements from anywhere in the deque (by index) whereas as the formal definition of a deque only allows access to the front or back element. This `get` method is included for testing purposes only.
+</details>
 
 ### Reference implementation
 
@@ -66,6 +49,7 @@ An **array deque** is like an `ArrayList`, but different in that elements aren't
 
 <details markdown="block">
 <summary>How does ArrayListDeque relate to ArrayDeque?</summary>
+
 `ArrayListDeque` is not particularly related to `ArrayDeque` in concept. They just happen share a similar-sounding name. It would be more appropriate to read `ArrayListDeque` as the following sentence: a class that uses an `ArrayList` to implement `Deque` functionality.
 </details>
 
