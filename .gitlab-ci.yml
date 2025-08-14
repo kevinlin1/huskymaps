@@ -4,6 +4,10 @@ stages:
   - minpq
   - seamfinding
 
+workflow:
+  auto_cancel:
+    on_job_failure: none
+
 ArrayListDequeTests:
   stage: deques
   rules:
