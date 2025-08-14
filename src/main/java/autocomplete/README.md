@@ -198,7 +198,7 @@ The `binarySearch` method can return negative numbers to indicate that there is 
 
 > **Returns:** the index of the search key, if it is contained in the list; otherwise, `(-(insertion point) - 1)`. The _insertion point_ is defined as the point at which the key would be inserted into the list: the index of the first element greater than the key, or `list.size()` if all elements in the list are less than the specified key. Note that this guarantees that the return value will be `>= 0` if and only if the key is found.
 
-For example, calling `binarySearch("bay")` on the sorted list [alpha, cats, delta, do] will returns -2 to indicate that the desired _insertion point_ for "bay" is index 1.
+For example, calling `binarySearch("bay")` on the sorted list [alpha, cats, delta, do] will return -2 to indicate that the desired _insertion point_ for "bay" is index 1.
 
 ```java
 List<CharSequence> elements = new ArrayList<>();
