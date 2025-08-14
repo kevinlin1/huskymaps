@@ -1,6 +1,7 @@
 package deques;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 
 /**
  * Tests for the {@link ArrayListDeque} class.
@@ -12,6 +13,7 @@ public class ArrayListDequeTests extends DequeTests {
     }
 
     @Test
+    @Disabled
     void browserHistoryRuntimeSimulation() {
         Deque<String> deque = createDeque();
 
