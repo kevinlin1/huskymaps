@@ -19,13 +19,15 @@ Husky Maps consists of 4 educational programming projects that aim to highlight 
 Let's install the Java Development Kit (JDK), install VS Code, and apply the CSE 123 VS Code profile.
 
 1. [Download and install Eclipse Temurin (JDK)](https://adoptium.net/).
+
 1. [Download and install VS Code](https://code.visualstudio.com/).
-1. Right-click on this [CSE 123 VS Code profile](https://courses.cs.washington.edu/courses/cse123/25sp/software/cse123-Java.code-profile) link and **Copy**.
-1. Open VS Code and apply the profile.
+
+1. Right-click on this [CSE 123 VS Code profile](https://courses.cs.washington.edu/courses/cse123/25sp/software/cse123-Java.code-profile) link and **Copy**. Then, open VS Code and apply the profile.
 
 To apply the profile, from the **Manage** icon at the bottom of the Activity Bar (located on the far left side of VS Code), choose **Profiles**. Then, under the dropdown menu next to New Profile, choose **Import Profile...** and paste the link to the CSE 123 VS Code profile. Finally, select **Create Profile** and name it "cse123-Java".
 
-If you can't find a certain VS Code command, search for it via the **Command Palette** (Show All Commands), which is accessible from anywhere within VS Code using the keyboard shortcut <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>P</kbd>.
+> [!tip]
+> If you can't find a certain VS Code command, search for it via the **Command Palette** (Show All Commands), which is accessible from anywhere within VS Code using the keyboard shortcut <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>P</kbd>.
 
 ### Install Git
 
@@ -36,9 +38,13 @@ Git is a **version control system** (VCS), a tool for distributing, managing, an
 Your project code will be stored on CSE GitLab, a service provided by the Allen School to securely and privately store your coursework. CSE GitLab requires **SSH keys**: computer-generated passwords used to securely authenticate your computer to CSE GitLab.
 
 1. From VS Code, open the Terminal with the keyboard shortcut <kbd>Ctrl</kbd> <kbd>`</kbd> (backtick key, which is typically above your tab key).
+
 1. In the terminal, generate an SSH key pair with the command `ssh-keygen -t ed25519`. When asked to enter a file name or a passphrase, just press <kbd>Enter</kbd> to accept the default settings for both questions.
+
 1. Print your public SSH key with the command `cat ~/.ssh/id_ed25519.pub` and copy the contents to your clipboard.
+
 1. In your browser, open the [SSH Keys user settings](https://gitlab.cs.washington.edu/-/user_settings/ssh_keys). Sign into GitLab using your UW NetID. Then, paste the public SSH key in the **Key** field.
+
 1. Give it a title representing your computer (any title of your choice) and press **Add key**.
 
 ### Obtain project code
@@ -46,7 +52,9 @@ Your project code will be stored on CSE GitLab, a service provided by the Allen 
 Now that we've installed the required software and configured our computer so that it can securely communicate with CSE GitLab, let's get the project code! This step requires the project repositories to be setup, which will be ready for enrolled students by the end of the first week of the course.
 
 1. Visit [CSE GitLab](https://gitlab.cs.washington.edu/) and you'll be greeted by a repository named after your UW NetID.
+
 1. Visit your private repository, press the blue **Code** button and, under the heading **Open in your IDE**, choose **Visual Studio Code (SSH)**. Be sure to choose the SSH option because we are using SSH keys. If this doesn't work, you can copy the **Clone with SSH** address, find the **Git: Clone** tool in the VS Code command palette, and paste the SSH address. You can choose where you would like to store the project.
+
 1. If you see an **SSH Confirmation** window, check that the fingerprint matches the [CSE GitLab fingerprint](https://gitlab.cs.washington.edu/help/instance_configuration#ssh-host-keys-fingerprints). Compare the value to the table entries, most likely under **SHA256**. If it matches one of the values, accept the connection. If it doesn't match any of the values, do not accept the connection and write an Ed Discussion question with the mismatch.
 
 > [!caution]
@@ -59,7 +67,9 @@ The first time you open the project, answer the prompt **Yes, I trust the author
 After the status bar shows "Java: Ready", let's try running the project code.
 
 1. In the **Explorer** (file explorer), navigate to the **src \| main \| java** folder. This folder contains all the Java program logic for this project.
+
 1. Open the **BrowserHistory.java** file and drag these instructions off to the side to split the VS Code window left and right.
+
 1. **Run Java** using the ▷ play button at the top of the tab strip or right above the `main` method.
 
 If all the software was installed correctly, you should be able to see some text indicating that the class is being run. If you can find the following `main` method output somewhere, you're all set!
