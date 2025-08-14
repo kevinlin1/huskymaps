@@ -136,7 +136,9 @@ public List<CharSequence> allMatches(CharSequence prefix) {
 ```
 
 1. Ensures the prefix is valid: if the prefix is `null` or empty, return an empty list.
+
 1. Finds the first matching term by calling [`TreeSet.ceiling`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/TreeSet.html#ceiling(E)), which returns "the least element in this set greater than or equal to the given element, or `null` if there is no such element."
+
 1. Collects the remaining matching terms by iterating over the [`TreeSet.tailSet`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/TreeSet.html#tailSet(E)), which is "a view of the portion of this set whose elements are greater than or equal to `fromElement`." If a term no longer matches the `prefix`, return the results.
 
 > [!tip]
@@ -224,7 +226,9 @@ System.out.println("     i: " + i);
 Terms are added to a ternary search tree.
 
 1. Skim [TST.java](https://github.com/kevin-wayne/algs4/blob/master/src/main/java/edu/princeton/cs/algs4/TST.java). How does this align with your conceptual understanding of TSTs? How is data stored? What do you notice will work for `Autocomplete`? What needs to change?
+
 1. Identify methods in the `TST` class that are most similar to `Autocomplete`.
+
 1. Adapt the code to implement the `Autocomplete` interface. Descriptive variable names are crucial! The reference class can be difficult to parse from its shorthand variable names: you should choose better names for your own implementation.
 
 > [!tip]

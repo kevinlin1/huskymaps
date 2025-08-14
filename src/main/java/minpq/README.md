@@ -123,8 +123,11 @@ A standard binary heap priority queue that delegates all method calls to an inst
 A optimized binary heap priority queue supported by a `HashMap` that associates each element with its array index to speed-up `contains` and `changePriority`. A standard binary heap array holds priority nodes organized by priority value. The `HashMap` acts as an address book for the indices of each priority node, helping us locate nodes within the heap.
 
 1. Skim [MinPQ.java](https://github.com/kevin-wayne/algs4/blob/master/src/main/java/edu/princeton/cs/algs4/MinPQ.java)—unfortunately, this class shares the same name as our `MinPQ` interface. What do you notice will work for our `MinPQ` interface? What needs to change? At what index is the first element found? Accordingly, what indexing calculations are being used? How does this connect back to your understanding of binary min-heaps?
+
 1. Identify methods in the `MinPQ` class that are most similar to our `MinPQ` interface. For each corresponding method, pay close attention to the helper methods.
+
 1. Adapt the code to implement our interface without the `HashMap` optimization. **Make sure all tests pass before proceeding.** Descriptive variable names are crucial! The reference class can be difficult to parse from its shorthand variable-naming: you should choose better names for your own implementation.
+
 1. Optimize the implementation by adding a `HashMap` synchronized to the state of the elements in the array and use it to speed-up `contains` and `changePriority`. Any operation that changes `elements` necessitates a corresponding change to `elementsToIndex`.
 
 > [!important]

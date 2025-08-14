@@ -62,9 +62,13 @@ An **array deque** is like an `ArrayList`, but different in that elements aren't
 We've provided an `ArrayDeque` class that includes a bug, and four failing test cases that cause the bug to emerge. Identify and fix the bug in the `ArrayDeque` class by **changing at least 2 lines of code**. Follow the debugging cycle to address the bug.
 
 1. Review `ArrayDeque` to see how its methods and fields work together to implement `Deque`.
+
 1. Run the `ArrayDequeTests` class inside the [`src/test/java/deques`](../../../test/java/deques/) folder.
+
 1. Read the test result and review the stack trace (the chain of calls that caused the exception).
+
 1. Review `ArrayDeque` again, this time focusing on methods most relevant to the failing test. Open [`DequeTests.java`](../../../test/java/deques/DequeTests.java) and [drag the tab for a side-by-side view](https://www.jetbrains.com/idea/guide/tips/drag-and-dock/).
+
 1. Based on what you know about the bug, develop a hypothesis for the cause of the problem.
 
 For example, we might _hypothesize_ that the problem is caused by the `newIndex` variable inside the `resize` method going outside the bounds of the `newData` array. Gathering information that can confirm or deny this hypothesis can help us zero-in on the problem, leading us to generate another hypothesis or a potential fix to the bug. Debugging is the process of exploring hypotheses, generating potential fixes, trying them out, and learning more information about the problem until we finally identify the root cause of the bug.
@@ -93,17 +97,21 @@ Since only `ArrayListDeque` and `ArrayDeque` are functional at this time, you'll
 
 ### Implement [`LinkedDeque.java`](LinkedDeque.java)
 
-To address the `LinkedDequeTests` failure, we need to mplement the `LinkedDeque` class with the following requirements:
+To address the `LinkedDequeTests` failure, we need to implement the `LinkedDeque` class with the following requirements:
 
 1. The methods `addFirst`, `addLast`, `removeFirst`, and `removeLast` must run in constant time with respect to the size of the deque. To achieve this, don't use any iteration or recursion.
+
 1. The amount of memory used by the deque must always be proportional to its size. If a client adds 10,000 elements and then removes 9,999 elements, the resulting deque should use about the same amount of memory as a deque where we only ever added 1 element. To achieve this, remove references to elements that are no longer in the deque.
+
 1. The class is implemented with the help of two **sentinel nodes**: special nodes that don't contain any meaningful data and are always present in the data structure, even when it's empty. Sentinel nodes allow us to avoid special cases like checking if a deque is empty.
 
 A `LinkedDeque` should always maintain the following invariants before and after each method call:
 
-- The `front` field always references the front sentinel node, and the `back` field always references the back sentinel node.
-- The sentinel nodes `front.prev` and `back.next` always reference null. If `size` is at least 1, `front.next` and `back.prev` reference the first and last regular nodes.
-- The nodes in your deque have consistent `next` and `prev` fields. If a node `curr` has a `curr.next`, we expect `curr.next.prev == curr`.
+1. The `front` field always references the front sentinel node, and the `back` field always references the back sentinel node.
+
+1. The sentinel nodes `front.prev` and `back.next` always reference null. If `size` is at least 1, `front.next` and `back.prev` reference the first and last regular nodes.
+
+1. The nodes in your deque have consistent `next` and `prev` fields. If a node `curr` has a `curr.next`, we expect `curr.next.prev == curr`.
 
 > [!tip]
 > Write down what your `LinkedDeque` will look like on paper before writing code! Drawing more pictures often leads to more successful implementations. Better yet, if you can find a willing partner, have them give some instructions while you attempt to draw everything out. Plan-out and double-check what you want to change before writing any code. **The staff solution adds between 4 to 6 lines of code per method and doesn't introduce any additional `if` statements or unnecessary null assignments.**
