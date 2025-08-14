@@ -126,6 +126,8 @@ A **graph representation** that implements `SeamFinder` much like `AdjacencyList
 
 1. Then, define the `source` and `sink` nodes.
 
+[![GenerativeSeamFinder versus AdjacencyListSeamFinder](https://github.com/user-attachments/assets/867ae262-e8f0-4e64-a1ef-0e7e5d3ce5b1)](https://docs.google.com/presentation/d/e/2PACX-1vQJZX1V5i182_XgPY7_pECFZF8xXEye7CNUDJitaO8Dbns7F7afBDf6GMvhplfs1OJnRXSSdIb-lJQ_/pub)
+
 > [!important]
 > Walk through how you adapted the code from `AdjacencyListSeamFinder.PixelGraph` to implement `GenerativeSeamFinder.PixelGraph.Pixel.neighbors`. What are the key similarities and differences between these two implementations?
 
@@ -158,6 +160,8 @@ After generating this table, we can use it to find the shortest path, or the sea
 1. Follow the path back to the left by adding the _y_-value of each lowest-energy predecessor to the result.
 
 1. Finally, to return the coordinates ordered from left to right, `Collections.reverse` the result.
+
+[![DynamicProgrammingSeamFinder](https://github.com/user-attachments/assets/e5853f96-3902-4e5d-b849-c29217d14807)](https://docs.google.com/presentation/d/e/2PACX-1vRkP9M1koN1bUZf6DYx7IxT7PZSG0T70H7qPZwVQds61aSE0aJQi_Tkrw-9ldFLMu4I8tituFPenD2d/pub)
 
 > [!important]
 > Walk through your implementation for `DynamicProgrammingSeamFinder`.
