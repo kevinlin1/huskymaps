@@ -109,7 +109,7 @@ A `LinkedDeque` should always maintain the following invariants before and after
 To assist in debugging, we've provided a `checkInvariants` method that returns a string describing any problems with invariants (at the time the method is called), or null if there are no problems. You can use this by adding debugging print statements to help you verify a hypothesis. Lastly, if your first try goes badly, don't be afraid to scrap your code and start over.
 
 > [!important]
-> Trace through through the `confusingTest` with your `LinkedDeque` implementation starting from [line 200](../../../test/java/deques/DequeTests.java#L200), "Test that removing and adding back is okay". During this code trace, refer to the input/output in each method call of the test and explain how each line of code changes the `LinkedDeque` representation. For methods that are called more than once, just trace through the method the first time.
+> Trace through the `confusingTest` with your `LinkedDeque` starting from [line 200](../../../test/java/deques/DequeTests.java#L200), "Test that removing and adding back is okay". Explain the arguments and return values of each method call as well as how each line of code changes the `LinkedDeque` representation. For methods that are called more than once, just trace through the method the first time.
 
 As before, stage, commit, and push your `LinkedDeque` implementation to GitLab with a descriptive, scoped commit message. 
 
