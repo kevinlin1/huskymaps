@@ -4,36 +4,103 @@ stages:
   - minpq
   - seamfinding
 
-test-deques:
+ArrayListDequeTests:
   stage: deques
   rules:
     - changes:
-        - src/main/java/BrowserHistory.java
-        - src/{main,test}/java/deques/**/*.java
-  script: ./gradlew --warning-mode=all test --tests "deques.*"
+        - src/main/java/deques/*.java
+  script: ./gradlew --warning-mode=all test --tests "deques.ArrayListDequeTests"
 
-test-autocomplete:
+ArrayDequeTests:
+  stage: deques
+  rules:
+    - changes:
+        - src/main/java/deques/*.java
+  script: ./gradlew --warning-mode=all test --tests "deques.ArrayDequeTests"
+
+LinkedDequeTests:
+  stage: deques
+  rules:
+    - changes:
+        - src/main/java/deques/*.java
+  script: ./gradlew --warning-mode=all test --tests "deques.LinkedDequeTests"
+
+TreeSetAutocompleteTests:
   stage: autocomplete
   rules:
     - changes:
-        - src/main/java/CitySearch.java
-        - src/main/java/DNASearch.java
-        - src/{main,test}/java/autocomplete/**/*.java
-  script: ./gradlew --warning-mode=all test --tests "autocomplete.*"
+        - src/main/java/autocomplete/*.java
+  script: ./gradlew --warning-mode=all test --tests "autocomplete.TreeSetAutocompleteTests"
 
-test-minpq:
+SequentialSearchAutocompleteTests:
+  stage: autocomplete
+  rules:
+    - changes:
+        - src/main/java/autocomplete/*.java
+  script: ./gradlew --warning-mode=all test --tests "autocomplete.SequentialSearchAutocompleteTests"
+
+BinarySearchAutocompleteTests:
+  stage: autocomplete
+  rules:
+    - changes:
+        - src/main/java/autocomplete/*.java
+  script: ./gradlew --warning-mode=all test --tests "autocomplete.BinarySearchAutocompleteTests"
+
+TernarySearchTreeAutocompleteTests:
+  stage: autocomplete
+  rules:
+    - changes:
+        - src/main/java/autocomplete/*.java
+  script: ./gradlew --warning-mode=all test --tests "autocomplete.TernarySearchTreeAutocompleteTests"
+
+DoubleMapMinPQTests:
   stage: minpq
   rules:
     - changes:
-        - src/main/java/ReportAnalyzer.java
-        - src/{main,test}/java/minpq/**/*.java
-  script: ./gradlew --warning-mode=all test --tests "minpq.*"
+        - src/main/java/minpq/*.java
+  script: ./gradlew --warning-mode=all test --tests "minpq.DoubleMapMinPQTests"
 
-test-seamfinding:
+UnsortedArrayMinPQTests:
+  stage: minpq
+  rules:
+    - changes:
+        - src/main/java/minpq/*.java
+  script: ./gradlew --warning-mode=all test --tests "minpq.UnsortedArrayMinPQTests"
+
+HeapMinPQTests:
+  stage: minpq
+  rules:
+    - changes:
+        - src/main/java/minpq/*.java
+  script: ./gradlew --warning-mode=all test --tests "minpq.HeapMinPQTests"
+
+OptimizedHeapMinPQTests:
+  stage: minpq
+  rules:
+    - changes:
+        - src/main/java/minpq/*.java
+  script: ./gradlew --warning-mode=all test --tests "minpq.OptimizedHeapMinPQTests"
+
+AdjacencyListSeamFinderTests:
   stage: seamfinding
   rules:
     - changes:
-        - src/main/java/SeamCarver.java
         - src/main/java/graphs/**/*.java
-        - src/{main,test}/java/seamfinding/**/*.java
-  script: ./gradlew --warning-mode=all test --tests "seamfinding.*"
+        - src/main/java/seamfinding/**/*.java
+  script: ./gradlew --warning-mode=all test --tests "seamfinding.AdjacencyListSeamFinderTests"
+
+GenerativeSeamFinderTests:
+  stage: seamfinding
+  rules:
+    - changes:
+        - src/main/java/graphs/**/*.java
+        - src/main/java/seamfinding/**/*.java
+  script: ./gradlew --warning-mode=all test --tests "seamfinding.GenerativeSeamFinderTests"
+
+DynamicProgrammingSeamFinderTests:
+  stage: seamfinding
+  rules:
+    - changes:
+        - src/main/java/graphs/**/*.java
+        - src/main/java/seamfinding/**/*.java
+  script: ./gradlew --warning-mode=all test --tests "seamfinding.DynamicProgrammingSeamFinderTests"
