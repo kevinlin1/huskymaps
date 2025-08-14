@@ -32,11 +32,15 @@ The `get` method has the capability to get elements from anywhere in the deque (
 We've provided a reference implementation that will help us evaluate the performance problem with `ArrayList`. The `ArrayListDeque` class implements `Deque` using an `ArrayList`. The class maintains a single field called `list` that stores all the elements in the deque, where the _i_-th element in the deque is always stored at `list[i]`.
 
 <details>
-<summary><strong>How does <code>ArrayListDeque</code> relate to <code>Deque</code> and <code>ArrayList</code>?</strong></summary>
+<summary><strong>How does <code>ArrayListDeque</code> relate to <code>Deque</code>?</strong></summary>
 
 `ArrayListDeque` is a class (implementation) for the interface (abstract data type) `Deque`. In other words, `Deque` only defines functionality; `ArrayListDeque` specifies how that functionality is actually achieved.
+</details>
 
-`ArrayListDeque` uses an `ArrayList`, which is an implementation of the `List` interface. Any programmer that uses `ArrayListDeque` will not be able to access this underlying `ArrayList` because encapsulation is maintained with private fields.
+<details>
+<summary><strong>How does <code>ArrayListDeque</code> relate to <code>ArrayList</code>?</strong></summary>
+
+`ArrayListDeque` uses an `ArrayList` to implement the `Deque` functionality. But it's an implementation detail: since any programmer using `ArrayListDeque` will not be able to access this underlying `ArrayList` because it is _encapsulated_ with private fields.
 </details>
 
 ## Design and implement
