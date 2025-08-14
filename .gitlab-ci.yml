@@ -1,15 +1,15 @@
 stages:
-  - deques
-  - autocomplete
-  - minpq
-  - seamfinding
+  - Deques
+  - Autocomplete
+  - Priority Queues
+  - Shortest Paths
 
 workflow:
   auto_cancel:
     on_job_failure: none
 
 ArrayListDequeTests:
-  stage: deques
+  stage: Deques
   rules:
     - changes:
         - src/main/java/deques/*.java
@@ -17,7 +17,7 @@ ArrayListDequeTests:
   when: always
 
 ArrayDequeTests:
-  stage: deques
+  stage: Deques
   rules:
     - changes:
         - src/main/java/deques/*.java
@@ -25,7 +25,7 @@ ArrayDequeTests:
   when: always
 
 LinkedDequeTests:
-  stage: deques
+  stage: Deques
   rules:
     - changes:
         - src/main/java/deques/*.java
@@ -33,7 +33,7 @@ LinkedDequeTests:
   when: always
 
 TreeSetAutocompleteTests:
-  stage: autocomplete
+  stage: Autocomplete
   rules:
     - changes:
         - src/main/java/autocomplete/*.java
@@ -41,7 +41,7 @@ TreeSetAutocompleteTests:
   when: always
 
 SequentialSearchAutocompleteTests:
-  stage: autocomplete
+  stage: Autocomplete
   rules:
     - changes:
         - src/main/java/autocomplete/*.java
@@ -49,7 +49,7 @@ SequentialSearchAutocompleteTests:
   when: always
 
 BinarySearchAutocompleteTests:
-  stage: autocomplete
+  stage: Autocomplete
   rules:
     - changes:
         - src/main/java/autocomplete/*.java
@@ -57,7 +57,7 @@ BinarySearchAutocompleteTests:
   when: always
 
 TernarySearchTreeAutocompleteTests:
-  stage: autocomplete
+  stage: Autocomplete
   rules:
     - changes:
         - src/main/java/autocomplete/*.java
@@ -65,7 +65,7 @@ TernarySearchTreeAutocompleteTests:
   when: always
 
 DoubleMapMinPQTests:
-  stage: minpq
+  stage: Priority Queues
   rules:
     - changes:
         - src/main/java/minpq/*.java
@@ -73,7 +73,7 @@ DoubleMapMinPQTests:
   when: always
 
 UnsortedArrayMinPQTests:
-  stage: minpq
+  stage: Priority Queues
   rules:
     - changes:
         - src/main/java/minpq/*.java
@@ -81,7 +81,7 @@ UnsortedArrayMinPQTests:
   when: always
 
 HeapMinPQTests:
-  stage: minpq
+  stage: Priority Queues
   rules:
     - changes:
         - src/main/java/minpq/*.java
@@ -89,7 +89,7 @@ HeapMinPQTests:
   when: always
 
 OptimizedHeapMinPQTests:
-  stage: minpq
+  stage: Priority Queues
   rules:
     - changes:
         - src/main/java/minpq/*.java
@@ -97,7 +97,7 @@ OptimizedHeapMinPQTests:
   when: always
 
 AdjacencyListSeamFinderTests:
-  stage: seamfinding
+  stage: Shortest Paths
   rules:
     - changes:
         - src/main/java/graphs/**/*.java
@@ -106,7 +106,7 @@ AdjacencyListSeamFinderTests:
   when: always
 
 GenerativeSeamFinderTests:
-  stage: seamfinding
+  stage: Shortest Paths
   rules:
     - changes:
         - src/main/java/graphs/**/*.java
@@ -115,7 +115,7 @@ GenerativeSeamFinderTests:
   when: always
 
 DynamicProgrammingSeamFinderTests:
-  stage: seamfinding
+  stage: Shortest Paths
   rules:
     - changes:
         - src/main/java/graphs/**/*.java
