@@ -18,7 +18,7 @@ Husky Maps consists of 4 educational programming projects that aim to highlight 
 
 Let's install the Java Development Kit (JDK), install VS Code, and apply the CSE 123 VS Code profile.
 
-1. [Download and install Adoptium's OpenJDK](https://adoptium.net/).
+1. [Download and install Eclipse Temurin (JDK)](https://adoptium.net/).
 1. [Download and install VS Code](https://code.visualstudio.com/).
 1. Right-click on this [CSE 123 VS Code profile](https://courses.cs.washington.edu/courses/cse123/25sp/software/cse123-Java.code-profile) link and **Copy**.
 1. Open VS Code and apply the profile.
