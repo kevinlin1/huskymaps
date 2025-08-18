@@ -6,14 +6,15 @@ In addition to implementing navigation directions in Husky Maps, **shortest path
 
 ## Purpose
 
-In this project, we will compare 2 graph representations, 2 graph algorithms, and 1 dynamic programming algorithm for seam carving. By the end of this project, students will be able to:
-
-- **Design and implement** graph representations and algorithms for seam finding.
-- **Analyze and compare** implementation runtime and adaptibility to new metrics.
-
-## Seam finding interfaces
+In this project, we'll build upon your experience with priority queues to explore one of their most powerful applications: finding shortest paths in graphs. We'll apply this fundamental algorithm to a fascinating real-world problem in computer graphics: content-aware image resizing, also known as seam carving.
 
 <video controls src="https://faculty.runi.ac.il/arik/scweb/imret/IMRet-All.mov" title="Seam Carving for Content-Aware Image Resizing"></video>
+
+First, we'll [**design and implement**](#design-and-implement) solutions to the seam carving problem using several distinct approaches. We'll start by building different **graph-based solutions**, where you will implement a more memory-efficient "generative" graph representation and a specialized shortest path algorithm for directed acyclic graphs. Then, we'll explore a completely different paradigm by building a solution using **dynamic programming**, a powerful technique that solves the problem by breaking it down into a table of simpler subproblems without building an explicit graph at all.
+
+After implementing these solutions, we'll [**analyze and compare**](#analyze-and-compare) them to understand their trade-offs. We'll conduct experimental analysis by timing our implementations on randomly generated images to see how their performance scales in the real world. We'll also engage in algorithm engineering by analyzing the architecture of a real mapping application and proposing our own designs for a new feature.
+
+## Seam finding interfaces
 
 The `SeamCarver` class depends on algorithms that can find a least-noticeable horizontal or vertical seam. The interfaces for **seam finding** are defined in the [`src/main/java/seamfinding`](../seamfinding/) folder.
 
