@@ -22,10 +22,9 @@ Autocompleting with this suffix array enables efficient search across the entire
 
 ## Purpose
 
-In this project, we'll compare 4 implementations and 2 applications of autocomplete. By the end of this project, students will be able to:
+First, we'll [**design and implement**](#design-and-implement) data structures for autocomplete using three different approaches. We'll start with **array-based structures** that utilize algorithms like sequential search and binary search to learn how sorting can dramatically improve efficiency. Then, we'll build a more complex **tree-based structure** that relies on the ternary search tree data structure.
 
-- **Design and implement** tree-based and array-based search data structures.
-- **Analyze and compare** runtimes using asymptotic and experimental analysis.
+Then, we'll [**analyze and compare**](#analyze-and-compare) the performance of these implementations using asymptotic analysis and experimental analysis. Through this analysis, we'll learn about the trade-offs between search tree data structures and sorted array data structures. It turns out that the questions and concerns underlying these differences are at the heart of all modern database systems that organize and efficiently retrieve the data that power almost all the technologies we use today.
 
 ## Autocomplete interface
 
