@@ -121,3 +121,23 @@ Once you have your access token, in VS Code, create a new workspace configuratio
 ```
 
 Remember to replace the ellipsis with your token, include double quotes around your token string, and add a comma to the end of the preceding line so that the JSON syntax is valid. Finally, re-run the `MapServer` class to launch the web app and enjoy the ["Ice Cream" map style by Maya Gao](https://www.mapbox.com/gallery#community-ice-cream).
+
+## Optional: Web deployment
+
+When you run `MapServer` in VS Code, it can only be accessed from your own computer. Optionally, follow these instructions to deploy `MapServer` to the web using the cloud application provider, Render. Render offers a free tier with 0.1 CPUs (one-tenth of a virtual CPU) and 512MB of RAM.
+
+1. Render does not support CSE GitLab repositories, so you will need to sign up for a GitHub, GitLab, or BitBucket account if you do not already have one.
+
+1. Create a private repository in your GitHub, GitLab, or BitBucket account and push your Husky Maps implementation to it.
+
+1. [Register for a Render account](https://dashboard.render.com/register) using your linked GitHub, GitLab, or BitBucket account.
+
+1. Follow the sign-up flow and, when prompted, create a new **Web Service**.
+
+1. For **Source Code**, connect your private repository.
+
+1. For **Name**, choose a name for your project that will become part of the URL.
+
+1. For **Language**, choose Docker.
+
+1. Under **Environment Variables**, add an entry for the variable name `TOKEN` with your [MapBox default public token](https://account.mapbox.com/) as the value.
