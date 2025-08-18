@@ -89,9 +89,16 @@ elements.remove(new PriorityNode<>("example", 2));
 The project code includes a working `DoubleMapMinPQ`. This implementation is called "double map" because it combines the runtime benefits of two maps to solve the problem efficiently. The two maps work together to help achieve **sublinear** (logarithmic or better) runtime for every operation.
 
 1. The `NavigableMap<Double, Set<E>> priorityToElement` associates each unique priority value to all the elements with that priority value. Returning a minimum-priority element involves finding the set of minimum-priority elements and picking any element from that set.
+
 1. The `Map<E, Double> elementToPriority` associates each element with its priority value in order to speed-up `contains` and `changePriority`.
 
 The state of both maps is synchronized across all methods. Any change to one data structure also requires a change to the other data structure.
+
+<details>
+<summary><strong>Why is the first map declared as a <code>NavigableMap</code>?</strong></summary>
+
+A `NavigableMap` provides efficient access to elements like the `firstKey` and the `lastKey`. The `firstKey` in a `NavigableMap<Double, Set<E>>` is the lowest-priority value in the entire priority queue.
+</details>
 
 ## Complete [`ReportAnalyzer.java`](../ReportAnalyzer.java)
 
