@@ -117,7 +117,7 @@ A field that implements `Node.neighbors` by returning an empty list representing
 
 Design and implement 1 graph representation, 1 graph algorithm, and 1 dynamic programming algorithm for seam finding.
 
-### [`seamfnding.GenerativeSeamFinder.java`](../seamfinding/GenerativeSeamFinder.java)
+### [`seamfinding.GenerativeSeamFinder.java`](../seamfinding/GenerativeSeamFinder.java)
 
 A **graph representation** that implements `SeamFinder` much like `AdjacencyListSeamFinder`, but rather than creating the neighbors for every node in the `PixelGraph` constructor this approach only creates vertices and edges when `Pixel.neighbors` is called.
 
