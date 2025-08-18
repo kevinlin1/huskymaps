@@ -4,14 +4,13 @@
 
 ## Purpose
 
-In this project, we will compare 4 implementations of priority queues to build a web analytics dashboard for tracking the occurrence of [Web Content Accessibility Guideline][WCAG] recommendations. By the end of this project, students will be able to:
+In this project, we'll build upon your experience with data types like lists and maps to build an internet-scale analytics dashboard for tracking the occurrence of [Web Content Accessibility Guideline][WCAG] recommendations across potentially hundreds, thousands, or millions of web pages on the internet.
 
 [WCAG]: https://www.w3.org/WAI/standards-guidelines/wcag/
 
-- **Design and implement** multiple data structures to solve complex problems.
-- **Analyze and compare** implementation runtimes and optimizations.
+First, we'll [**design and implement**](#design-and-implement) priority queues using three different approaches. We'll begin with a simple **array-based structure** that will serve as a baseline. Then, we'll build two more complex **heap-based structures**. The first will adapt Java's built-in `PriorityQueue` using the delegation design pattern, and the second will be an **optimized heap** that you'll build from scratch, supported by a `HashMap` to improve performance.
 
-In the next project, we'll also use your priority queues as a building block for shortest paths.
+After implementing the different priority queues, we'll [**analyze and compare**](#analyze-and-compare) them to understand their trade-offs. While our prior analyses emphasized experimental analysis, this time we will instead a develop a more in-depth asymptotic analysis that explores multiple interactions between data structures and algorithms nested within each other.
 
 ## Priority queue interface
 
