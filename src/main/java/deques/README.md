@@ -8,10 +8,11 @@ Open the [Testing Explorer](https://code.visualstudio.com/docs/java/java-testing
 
 ## Purpose
 
-In this project, we'll study this performance problem by designing and analyzing different approaches to implement a deque. By the end of this project, students will be able to:
+In this project, we'll explore the performance problem you observed in the browser history problem by applying data structure and algorithm engineering perspectives.
 
-- [**Design and implement**](#design-and-implement) node-based and array-based data structures.
-- [**Analyze and compare**](#analyze-and-compare) runtimes using asymptotic and experimental analysis.
+First, we'll [**design and implement**](#design-and-implement) data structures using two different approaches. Starting with **array-based structures**, we'll examine the limits of the `ArrayListDeque` invariants and address the performance problem with a more clever `ArrayDeque`. Then, we'll build a **node-based structure**, the `LinkedDeque`. While we'll rarely need to write a linked list from scratch in the real world, understanding how to design and build linked data structures is crucial for the rest of this course. It's the foundational concept behind the advanced data structures that power everything from search databases (trees) to navigation maps (graphs) that we'll encounter throughout the rest of the course.
+
+After implementing the different deques, we'll [**analyze and compare**](#analyze-and-compare) them using two methods to understand their trade-offs. **Asymptotic analysis** offers a theoretical approach—it allows you to predict performance and talk about efficiency using a formal mathematical language. This is often helpful for deciding between approaches _before_ you invest programming time implementing an approach. **Experimental analysis** offers a practical approach—by timing exactly how long code takes to run, we can see how it _actually_ performs in the real world.
 
 ## Deque interface
 
