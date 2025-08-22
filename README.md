@@ -11,6 +11,9 @@ Husky Maps consists of 4 educational programming projects that aim to highlight 
 
 ## Getting started
 
+> [!warning]
+> These instructions are designed for students enrolled in a University of Washington course!
+
 ### Install Java and configure VS Code
 
 > [!note]
