@@ -2,12 +2,28 @@
 
 [Husky Maps](https://huskymaps.kevinl.info/) is an educational web app for mapping the world, searching for places, and navigating around Seattle. All these features are powered by data structures and algorithms, programming abstractions designed to represent data and automate processes. In your prior programming experience, you learned how to implement specifications by writing Java programs that used data structures to solve problems. But why was the specification written that way in the first place?
 
-Husky Maps consists of 4 educational programming projects that aim to highlight the relationship between abstractions, implementations, and problems. The purpose of these projects is to help us explore the capabilities and design effort that goes into writing a specification.
+Husky Maps consists of 4 educational programming projects that aim to highlight the relationship between abstractions, implementations, and problems. The purpose of these projects is to help us explore the capabilities and design effort that goes into writing a specification. Under each project are relevant lessons from the [Wiki](https://github.com/kevinlin1/huskymaps/wiki).
 
 1. [**Deques**](src/main/java/deques/)
+   1. [Dynamic Arrays](https://github.com/kevinlin1/huskymaps/wiki/Dynamic-Arrays)
+   1. [Linked Nodes](https://github.com/kevinlin1/huskymaps/wiki/Linked-Nodes)
+   1. [Asymptotic Analysis](https://github.com/kevinlin1/huskymaps/wiki/Asymptotic-Analysis)
+   1. [Iterative Sorts](https://github.com/kevinlin1/huskymaps/wiki/Iterative-Sorts)
 1. [**Autocomplete**](src/main/java/autocomplete/)
+   1. [Binary Search](https://github.com/kevinlin1/huskymaps/wiki/Binary-Search) and [Merge Sort](https://github.com/kevinlin1/huskymaps/wiki/Merge-Sort)
+   1. [Binary Search Trees](https://github.com/kevinlin1/huskymaps/wiki/Binary-Search-Trees) and [Tries](https://github.com/kevinlin1/huskymaps/wiki/Tries)
+   1. [2–3 Trees](https://github.com/kevinlin1/huskymaps/wiki/2%E2%80%933-Trees)
+   1. [Left-Leaning Red-Black Trees](https://github.com/kevinlin1/huskymaps/wiki/Left-Leaning-Red-Black-Trees)
 1. [**Priority Queues**](src/main/java/minpq/)
+   1. [Quicksort](https://github.com/kevinlin1/huskymaps/wiki/Quicksort) and [Counting Sorts](https://github.com/kevinlin1/huskymaps/wiki/Counting-Sorts)
+   1. [Binary Heaps](https://github.com/kevinlin1/huskymaps/wiki/Binary-Heaps)
+   1. [Hash Tables](https://github.com/kevinlin1/huskymaps/wiki/Hash-Tables)
+   1. [Affordance Analysis](https://github.com/kevinlin1/huskymaps/wiki/Affordance-Analysis)
 1. [**Shortest Paths**](src/main/java/seamfinding/)
+   1. [Graph Data Type](https://github.com/kevinlin1/huskymaps/wiki/Graph-Data-Type)
+   1. [Graph Traversals](https://github.com/kevinlin1/huskymaps/wiki/Graph-Traversals)
+   1. [Shortest Paths Trees](https://github.com/kevinlin1/huskymaps/wiki/Shortest-Paths-Trees)
+   1. [Dynamic Programming](https://github.com/kevinlin1/huskymaps/wiki/Shortest-Paths-Trees)
 
 ## Getting started
 
