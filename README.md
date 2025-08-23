@@ -22,8 +22,9 @@ Husky Maps consists of 4 educational programming projects that aim to highlight 
 1. [**Shortest Paths**](src/main/java/seamfinding/)
    1. [Graph Data Type](https://github.com/kevinlin1/huskymaps/wiki/Graph-Data-Type)
    1. [Graph Traversals](https://github.com/kevinlin1/huskymaps/wiki/Graph-Traversals)
-   1. [Shortest Paths Trees](https://github.com/kevinlin1/huskymaps/wiki/Shortest-Paths-Trees)
-   1. [Dynamic Programming](https://github.com/kevinlin1/huskymaps/wiki/Shortest-Paths-Trees)
+   1. [Shortest Paths Trees](https://github.com/kevinlin1/huskymaps/wiki/Shortest-Paths-Trees) and [Problems and Solutions](https://github.com/kevinlin1/huskymaps/wiki/Problems-and-Solutions)
+   1. [Topological Sorting](https://github.com/kevinlin1/huskymaps/wiki/Topological-Sorting) and [Dynamic Programming](https://github.com/kevinlin1/huskymaps/wiki/Dynamic-Programming)
+   1. [Minimum Spanning Trees](https://github.com/kevinlin1/huskymaps/wiki/Minimum-Spanning-Trees) and [Disjoint Sets](https://github.com/kevinlin1/huskymaps/wiki/Disjoint-Sets)
 
 ## Getting started
 
