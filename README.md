@@ -5,8 +5,7 @@
 Husky Maps consists of 4 educational programming projects that aim to highlight the relationship between abstractions, implementations, and problems. The purpose of these projects is to help us explore the capabilities and design effort that goes into writing a specification. Under each project are relevant lessons from the [Wiki](https://github.com/kevinlin1/huskymaps/wiki).
 
 1. [**Deques**](src/main/java/deques/)
-   1. [Dynamic Arrays](https://github.com/kevinlin1/huskymaps/wiki/Dynamic-Arrays)
-   1. [Linked Nodes](https://github.com/kevinlin1/huskymaps/wiki/Linked-Nodes)
+   1. [Dynamic Arrays](https://github.com/kevinlin1/huskymaps/wiki/Dynamic-Arrays) and [Linked Nodes](https://github.com/kevinlin1/huskymaps/wiki/Linked-Nodes)
    1. [Asymptotic Analysis](https://github.com/kevinlin1/huskymaps/wiki/Asymptotic-Analysis)
    1. [Iterative Sorts](https://github.com/kevinlin1/huskymaps/wiki/Iterative-Sorts)
 1. [**Autocomplete**](src/main/java/autocomplete/)
