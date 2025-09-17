@@ -134,11 +134,13 @@
         let currentFocus;
 
         function lonDPP() {
-            return 0.3515625 / Math.pow(2, zoom);
+            // Constant derived from Mercator projection: 360 / (1024 * 2^zoom)
+            return (45 / 128) / Math.pow(2, zoom);
         }
 
         function latDPP() {
-            return 0.23689728184 / Math.pow(2, zoom);
+            // Constant derived from Mercator projection: lonDPP * cos(latitude)
+            return lonDPP() * Math.cos(lat * Math.PI / 180);
         }
 
         function rehash() {
