@@ -274,13 +274,17 @@
             const dy = currentY - startY;
             lon = startLon - (dx * lonDPP());
             lat = startLat + (dy * latDPP());
+            rehash();
             map.style.transform = `translateX(${dx}px) translateY(${dy}px)`;
         }
-        function panEnd() {
+        function cleanupPan() {
             document.removeEventListener('mousemove', panMove);
             document.removeEventListener('mouseup', panEnd);
             document.removeEventListener('touchmove', panMove);
             document.removeEventListener('touchend', panEnd);
+        }
+        function panEnd() {
+            cleanupPan();
             update();
         }
         function panStart(event) {
@@ -288,7 +292,7 @@
                 return; // Ignore non-left clicks.
             }
             // A drag gesture can be interrupted by another touch event.
-            panEnd();
+            cleanupPan();
             startX = event.pageX || event.touches[0].pageX;
             startY = event.pageY || event.touches[0].pageY;
             startLon = lon;
