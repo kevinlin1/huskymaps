@@ -266,34 +266,44 @@
             update();
         });
 
-        document.addEventListener('mousedown', event => {
-            if (event.which !== 1) {
+        let startX, startY, startLon, startLat;
+        function panMove(event) {
+            const currentX = event.pageX || event.touches[0].pageX;
+            const currentY = event.pageY || event.touches[0].pageY;
+            const dx = currentX - startX;
+            const dy = currentY - startY;
+            lon = startLon - (dx * lonDPP());
+            lat = startLat + (dy * latDPP());
+            rehash();
+            map.style.transform = `translateX(${dx}px) translateY(${dy}px)`;
+        }
+        function panEnd() {
+            document.removeEventListener('mousemove', panMove);
+            document.removeEventListener('mouseup', panEnd);
+            document.removeEventListener('touchmove', panMove);
+            document.removeEventListener('touchend', panEnd);
+            update();
+        }
+        function panStart(event) {
+            if (event.type === 'mousedown' && event.which !== 1) {
                 return; // Ignore non-left clicks.
             }
-            const startX = event.pageX;
-            const startY = event.pageY;
-            const startLon = lon;
-            const startLat = lat;
-            let pressed = true;
-
-            document.addEventListener('mousemove', event => {
-                if (pressed) {
-                    const dx = event.pageX - startX;
-                    const dy = event.pageY - startY;
-                    lon = startLon - (dx * lonDPP());
-                    lat = startLat + (dy * latDPP());
-                    rehash();
-                    map.style.transform = `translateX(${dx}px) translateY(${dy}px)`;
-                }
-            });
-
-            document.addEventListener('mouseup', event => {
-                pressed = false;
-                document.removeEventListener('mousemove', () => {});
-                document.removeEventListener('mouseup', () => {});
-                update();
-            });
-        });
+            // A drag gesture can be interrupted by another touch event.
+            panEnd();
+            startX = event.pageX || event.touches[0].pageX;
+            startY = event.pageY || event.touches[0].pageY;
+            startLon = lon;
+            startLat = lat;
+            if (event.type === 'mousedown') {
+                document.addEventListener('mousemove', panMove);
+                document.addEventListener('mouseup', panEnd);
+            } else { // touchstart
+                document.addEventListener('touchmove', panMove);
+                document.addEventListener('touchend', panEnd);
+            }
+        }
+        document.addEventListener('mousedown', panStart);
+        document.addEventListener('touchstart', panStart);
 
         document.addEventListener('dblclick', event => {
             const clickLon = lon + (event.pageX - window.innerWidth / 2) * lonDPP();
