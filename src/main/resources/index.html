@@ -124,6 +124,7 @@
 <script>
         const map = document.getElementById('map');
         map.addEventListener('dragstart', event => event.preventDefault());
+        document.querySelector('nav').addEventListener('mousedown', e => e.stopPropagation());
         const search = document.getElementById('search');
         const clearButton = document.getElementById('clear');
         let updatePending = false;
