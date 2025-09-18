@@ -169,7 +169,7 @@
 
         function debounce(func, wait) {
             let timeout;
-            return function executedFunction(...args) {
+            const debounced = function executedFunction(...args) {
                 const later = () => {
                     clearTimeout(timeout);
                     func(...args);
@@ -177,6 +177,10 @@
                 clearTimeout(timeout);
                 timeout = setTimeout(later, wait);
             };
+            debounced.cancel = () => {
+                clearTimeout(timeout);
+            };
+            return debounced;
         }
 
         function incrementFocus(listOptions) {
@@ -269,9 +273,9 @@
             update();
         });
 
+        const debouncedUpdate = debounce(update, 250);
         let startX, startY, startLon, startLat;
         let isDragging = false;
-        let clickTimeout = null;
         function panMove(event) {
             isDragging = true;
             const currentX = event.pageX || event.touches[0].pageX;
@@ -294,16 +298,17 @@
             if (isDragging) {
                 update();
             } else {
-                clickTimeout = setTimeout(update, 250);
+                debouncedUpdate();
             }
         }
         function panStart(event) {
+            if (params.startLon && !params.goalLon) { return; }
             if (event.type === 'mousedown' && event.which !== 1) {
                 return; // Ignore non-left clicks.
             }
             // A drag gesture can be interrupted by another touch event.
             cleanupPan();
-            clearTimeout(clickTimeout);
+            debouncedUpdate.cancel();
             isDragging = false;
             startX = event.pageX || event.touches[0].pageX;
             startY = event.pageY || event.touches[0].pageY;
@@ -321,9 +326,12 @@
         document.addEventListener('touchstart', panStart);
 
         document.addEventListener('dblclick', event => {
-            clearTimeout(clickTimeout);
+            debouncedUpdate.cancel();
             const clickLon = lon + (event.pageX - window.innerWidth / 2) * lonDPP();
             const clickLat = lat - (event.pageY - window.innerHeight / 2) * latDPP();
+            if (params.goalLon) {
+                params = {};
+            }
             if (params.startLon && params.startLat) {
                 params.goalLon = clickLon;
                 params.goalLat = clickLat;
