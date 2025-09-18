@@ -33,6 +33,12 @@ public class MapServer {
      * Maximum number of autocomplete search results.
      */
     private static final int MAX_MATCHES = 10;
+    /**
+     * The maximum dimension for the map image.
+     *
+     * @see <a href="https://docs.mapbox.com/api/maps/static-images/">Mapbox Static Images API</a>
+     */
+    private static final int MAX_DIMENSION = 1280;
 
     public static void main(String[] args) throws Exception {
         SpatialContext context = SpatialContext.GEO;
@@ -116,6 +122,15 @@ public class MapServer {
             // Replace the trailing comma with a forward slash
             overlay.setCharAt(overlay.length() - 1, '/');
         }
+        // Request image at @2x scale factor for better resolution on high-density displays
+        int reqWidth = (int) Math.ceil(width / 2.);
+        int reqHeight = (int) Math.ceil(height / 2.);
+        if (reqWidth > MAX_DIMENSION || reqHeight > MAX_DIMENSION) {
+            double scale = Math.max(reqWidth / (double) MAX_DIMENSION, reqHeight / (double) MAX_DIMENSION);
+            reqWidth = (int) Math.round(reqWidth / scale);
+            reqHeight = (int) Math.round(reqHeight / scale);
+        }
+
         return new URI(String.format(
                 "https://api.mapbox.com/"
                         // {username}/{style_id} and {overlay} (must include trailing slash)
@@ -128,7 +143,7 @@ public class MapServer {
                 "cj7t3i5yj0unt2rmt3y4b5e32",
                 overlay,
                 center.getLon(), center.getLat(), zoom,
-                (int) Math.ceil(width / 2.), (int) Math.ceil(height / 2.), "@2x",
+                reqWidth, reqHeight, "@2x",
                 System.getenv("TOKEN")
         )).toURL();
     }
