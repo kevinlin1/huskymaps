@@ -270,7 +270,10 @@
         });
 
         let startX, startY, startLon, startLat;
+        let isDragging = false;
+        let clickTimeout = null;
         function panMove(event) {
+            isDragging = true;
             const currentX = event.pageX || event.touches[0].pageX;
             const currentY = event.pageY || event.touches[0].pageY;
             const dx = currentX - startX;
@@ -288,7 +291,11 @@
         }
         function panEnd() {
             cleanupPan();
-            update();
+            if (isDragging) {
+                update();
+            } else {
+                clickTimeout = setTimeout(update, 250);
+            }
         }
         function panStart(event) {
             if (event.type === 'mousedown' && event.which !== 1) {
@@ -296,6 +303,8 @@
             }
             // A drag gesture can be interrupted by another touch event.
             cleanupPan();
+            clearTimeout(clickTimeout);
+            isDragging = false;
             startX = event.pageX || event.touches[0].pageX;
             startY = event.pageY || event.touches[0].pageY;
             startLon = lon;
@@ -312,6 +321,7 @@
         document.addEventListener('touchstart', panStart);
 
         document.addEventListener('dblclick', event => {
+            clearTimeout(clickTimeout);
             const clickLon = lon + (event.pageX - window.innerWidth / 2) * lonDPP();
             const clickLat = lat - (event.pageY - window.innerHeight / 2) * latDPP();
             if (params.startLon && params.startLat) {
