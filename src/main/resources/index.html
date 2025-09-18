@@ -70,6 +70,20 @@
       padding: 1rem;
       vertical-align: middle;
     }
+    #directions-hint {
+      color: #666;
+      font-size: .8em;
+      font-weight: normal;
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 2.5rem;
+      z-index: 100;
+      box-shadow: 0 0.1rem 0.5rem rgb(0 0 0 / 10%);
+      border-radius: 1rem;
+      background: white;
+      padding: .5rem 1rem;
+    }
     #mapbox {
       position: absolute;
       top: 0;
@@ -113,6 +127,7 @@
     <input autocomplete="off" id="search" placeholder="Search places" type="search">
     <a id="clear">✨</a>
 </nav>
+<div id="directions-hint"></div>
 <footer id="mapbox">
     <a class="mapbox-wordmark" href="http://mapbox.com/about/maps" rel="noopener" target="_blank">Mapbox</a>
     <div class="mapbox-attribution-container">
@@ -125,6 +140,7 @@
         const map = document.getElementById('map');
         map.addEventListener('dragstart', event => event.preventDefault());
         const search = document.getElementById('search');
+        const directionsHint = document.getElementById('directions-hint');
         const clearButton = document.getElementById('clear');
         let updatePending = false;
         let lon = -122.3035;
@@ -144,6 +160,20 @@
         function rehash() {
             const hash = `#lon=${lon}&lat=${lat}&zoom=${zoom}`;
             history.replaceState(null, null, document.location.pathname + hash);
+        }
+
+        function updateDirectionsHint() {
+            if (params.startLon && params.startLat) {
+                if (params.goalLon && params.goalLat) {
+                    directionsHint.style.visibility = 'hidden';
+                } else {
+                    directionsHint.innerText = 'Double-click the map to set a destination.';
+                    directionsHint.style.visibility = 'visible';
+                }
+            } else {
+                directionsHint.innerText = 'Double-click the map to set a start point.';
+                directionsHint.style.visibility = 'visible';
+            }
         }
 
         function update() {
@@ -262,6 +292,7 @@
             params = {};
             search.value = '';
             update();
+            updateDirectionsHint();
         });
 
         document.addEventListener('mousedown', event => {
@@ -303,7 +334,9 @@
             } else {
                 params.startLon = clickLon;
                 params.startLat = clickLat;
+                update();
             }
+            updateDirectionsHint();
         });
 
         document.addEventListener('wheel', debounce(event => {
@@ -335,6 +368,7 @@
         }
         document.addEventListener('onhashchange', handleHashParameters);
         handleHashParameters();
+        updateDirectionsHint();
 </script>
 </body>
 </html>
