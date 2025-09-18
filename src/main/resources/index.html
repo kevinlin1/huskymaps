@@ -274,7 +274,6 @@
             const dy = currentY - startY;
             lon = startLon - (dx * lonDPP());
             lat = startLat + (dy * latDPP());
-            rehash();
             map.style.transform = `translateX(${dx}px) translateY(${dy}px)`;
         }
         function panEnd() {
