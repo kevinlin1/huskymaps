@@ -86,10 +86,10 @@
       padding: .5rem 1rem;
     }
     #mapbox {
-      position: absolute;
-      top: 0;
+      position: fixed;
       bottom: 0;
       width: 100%;
+      z-index: 100;
     }
     .mapbox-attribution-container {
       bottom: 0;
@@ -197,7 +197,6 @@
             const vv = window.visualViewport || { width: window.innerWidth, height: window.innerHeight };
             const width = Math.round(vv.width);
             const height = Math.round(vv.height);
-            document.body.style.height = height + 'px';
             fetch(`/map/${lon},${lat},${zoom}/${width}x${height}?`
                 + new URLSearchParams(params))
                 .then(response => response.text())
