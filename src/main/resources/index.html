@@ -19,7 +19,7 @@
       background-color: #f7f3fa;
       font-size: 1.5rem;
       overflow: hidden;
-      height: 100dvh;
+      height: 100%;
       margin: 0;
     }
     main {
@@ -27,6 +27,7 @@
       width: 100%;
     }
     #map {
+      display: block;
       overflow: visible;
       user-select: none;
     }
@@ -193,8 +194,10 @@
         }
 
         function update() {
-            const width = window.innerWidth;
-            const height = window.innerHeight;
+            const vv = window.visualViewport || { width: window.innerWidth, height: window.innerHeight };
+            const width = Math.round(vv.width);
+            const height = Math.round(vv.height);
+            document.body.style.height = height + 'px';
             fetch(`/map/${lon},${lat},${zoom}/${width}x${height}?`
                 + new URLSearchParams(params))
                 .then(response => response.text())
