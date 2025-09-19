@@ -118,10 +118,29 @@
       background-position: 0 0;
       background-size: 65px 20px;
     }
+    #spinner {
+      animation: spin 1s linear infinite;
+      border: 4px solid rgba(0, 0, 0, .1);
+      border-radius: 50%;
+      border-left-color: #4285f4;
+      height: 40px;
+      left: 50%;
+      position: fixed;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 40px;
+      z-index: 101;
+    }
+    @keyframes spin {
+      to {
+        transform: translate(-50%, -50%) rotate(360deg);
+      }
+    }
     </style>
 </head>
 <body>
 <main>
+    <div id="spinner"></div>
     <img alt="" id="map">
 </main>
 <nav>
@@ -139,6 +158,10 @@
 </footer>
 <script>
         const map = document.getElementById('map');
+        const spinner = document.getElementById('spinner');
+        map.onload = () => {
+            spinner.style.display = 'none';
+        };
         map.addEventListener('dragstart', event => event.preventDefault());
         const nav = document.querySelector('nav');
         nav.addEventListener('mousedown', e => e.stopPropagation());
@@ -194,6 +217,7 @@
         }
 
         function update() {
+            spinner.style.display = 'block';
             const vv = window.visualViewport || { width: window.innerWidth, height: window.innerHeight };
             const width = Math.round(vv.width);
             const height = Math.round(vv.height);
