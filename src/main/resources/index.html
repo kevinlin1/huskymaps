@@ -27,6 +27,7 @@
       width: 100%;
     }
     #map {
+      display: block;
       overflow: visible;
       user-select: none;
     }
@@ -85,10 +86,10 @@
       padding: .5rem 1rem;
     }
     #mapbox {
-      position: absolute;
-      top: 0;
+      position: fixed;
       bottom: 0;
       width: 100%;
+      z-index: 100;
     }
     .mapbox-attribution-container {
       bottom: 0;
@@ -180,22 +181,6 @@
             }
         }
 
-        function update() {
-            const width = window.innerWidth;
-            const height = window.innerHeight;
-            fetch(`/map/${lon},${lat},${zoom}/${width}x${height}?`
-                + new URLSearchParams(params))
-                .then(response => response.text())
-                .then(image => {
-                    map.src = 'data:image/png;base64,' + image;
-                    map.width = width;
-                    map.height = height;
-                    rehash();
-                    map.style.transform = '';
-                });
-        }
-        document.addEventListener('onresize', update);
-
         function debounce(func, wait) {
             let timeout;
             return function executedFunction(...args) {
@@ -207,6 +192,24 @@
                 timeout = setTimeout(later, wait);
             };
         }
+
+        function update() {
+            const vv = window.visualViewport || { width: window.innerWidth, height: window.innerHeight };
+            const width = Math.round(vv.width);
+            const height = Math.round(vv.height);
+            fetch(`/map/${lon},${lat},${zoom}/${width}x${height}?`
+                + new URLSearchParams(params))
+                .then(response => response.text())
+                .then(image => {
+                    map.src = 'data:image/png;base64,' + image;
+                    map.width = width;
+                    map.height = height;
+                    rehash();
+                    map.style.transform = '';
+                });
+        }
+        window.addEventListener('resize', debounce(update, 300));
+        window.visualViewport.addEventListener('resize', debounce(update, 300));
 
         function incrementFocus(listOptions) {
             if (currentFocus >= listOptions.length - 1) {
