@@ -194,7 +194,8 @@
                     map.style.transform = '';
                 });
         }
-        document.addEventListener('onresize', update);
+        window.addEventListener('resize', update);
+        window.visualViewport.addEventListener('resize', update);
 
         function debounce(func, wait) {
             let timeout;
