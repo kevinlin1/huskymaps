@@ -180,6 +180,18 @@
             }
         }
 
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
         function update() {
             const width = window.innerWidth;
             const height = window.innerHeight;
@@ -194,20 +206,8 @@
                     map.style.transform = '';
                 });
         }
-        window.addEventListener('resize', update);
-        window.visualViewport.addEventListener('resize', update);
-
-        function debounce(func, wait) {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func(...args);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-            };
-        }
+        window.addEventListener('resize', debounce(update, 300));
+        window.visualViewport.addEventListener('resize', debounce(update, 300));
 
         function incrementFocus(listOptions) {
             if (currentFocus >= listOptions.length - 1) {
