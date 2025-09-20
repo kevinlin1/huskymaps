@@ -1,7 +1,7 @@
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 plugins {
-    id("com.gradleup.shadow") version "9.0.1"
+    id("com.gradleup.shadow") version "9.1.0"
     java
 }
 
