@@ -50,8 +50,6 @@ The focus of this course is not only to build programs that work according to sp
 
 ### Fix [`ArrayDeque.java`](ArrayDeque.java)
 
-The `ArrayDeque` class is a **fixed-size** implementation of `Deque`. The
-
 An **array deque** is like an `ArrayList`, but different in that elements aren't necessarily stored starting at index 0. Instead, their start and end positions are determined by two fields called `front` and `back`.
 
 <details>
