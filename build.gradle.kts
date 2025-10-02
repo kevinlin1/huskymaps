@@ -20,7 +20,7 @@ dependencies {
     implementation("org.locationtech.spatial4j:spatial4j:0.8")
     implementation("org.slf4j:slf4j-simple:2.0.17")
 
-    testImplementation("org.junit.jupiter:junit-jupiter:5.13.4")
+    testImplementation("org.junit.jupiter:junit-jupiter:6.0.0")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
