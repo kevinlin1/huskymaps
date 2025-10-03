@@ -110,11 +110,9 @@ public class ArrayDeque<E> implements Deque<E> {
         }
         StringBuilder result = new StringBuilder();
         result.append('[');
-        int i = increment(front, data.length);
-        while (i != back) {
-            result.append(data[i]);
-            i = increment(i, data.length);
-            if (i != back) {
+        for (int i = 0; i < size; i += 1) {
+            result.append(get(i));
+            if (i < size - 1) {
                 result.append(", ");
             }
         }
