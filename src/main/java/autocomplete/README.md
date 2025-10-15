@@ -237,7 +237,7 @@ It's okay if your `TernarySearchTreeAutocomplete` throws a `StackOverflowError` 
 
 > [!important]
 > Trace through the `simpleTest` with your `TernarySearchTreeAutocomplete`.
-> 1. First, without walking through the code, draw a diagram of the `ArrayList` representation _after_ calling `testing.addAll(terms)`.
+> 1. First, without walking through the code, draw a diagram of the TST representation _after_ calling `testing.addAll(terms)`.
 > 1. Then, using the diagram, explain how your `allMatches` method collects terms into the `actual` (result) list.
 > 1. Finally, explain how the `actual` and `expected` lists compare for each of the 3 assertion tests.
 
