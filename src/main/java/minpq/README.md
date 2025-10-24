@@ -138,7 +138,7 @@ A optimized binary heap priority queue supported by a `HashMap` that associates 
 
 > [!important]
 > Trace through the `simpleTest` with your `OptimizedHeapMinPQ`.
-> 1. First, without walking through the code, draw a diagram of the `PriorityQueue` representation _after_ adding all 6 elements.
+> 1. First, without walking through the code, draw a diagram of the heap data structure and the map ADT _after_ adding all 6 elements.
 > 1. Then, using the diagram, explain how your `changePriority` method changes the representation in response to elements 3 and 1. Justify why your approach works.
 > 1. Finally, explain how the `reference` and `testing` implementations produce the same removal order.
 
