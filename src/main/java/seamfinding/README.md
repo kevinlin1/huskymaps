@@ -60,7 +60,7 @@ An interface for finding a shortest paths tree in a `Graph`. Implementations of 
 
 ## Reference implementation
 
-[`AdjacencyListSeamFinder.java`](../seamfinding/AdjacencyListSeamFinder.java) implements `SeamFinder` by building an _adjacency list graph representation_ of the picture and then running a _single-source shortest paths algorithm_ to find a lowest-cost horizontal seam.
+[`AdjacencyListSeamFinder.java`](../seamfinding/AdjacencyListSeamFinder.java) implements `SeamFinder` by building an _adjacency list graph representation_ of the picture before running a _single-source shortest paths algorithm_ to find a lowest-cost horizontal seam.
 
 ```java
 public List<Integer> findHorizontal(Picture picture, EnergyFunction f) {
@@ -85,7 +85,7 @@ Given a `Picture` and an `EnergyFunction` that defines the way that we want to m
 
 1. `seam = seam.subList(1, seam.size() - 1)` reassigns the `seam` to exclude the `source` and `sink`, which we don't need in our final solution.
 
-1. Finally, the `for` loop iterates through each remaining `Node` (which must represent a `Pixel`) and add its `y` index to the `result` list before returning the final `result`.
+1. Finally, the `for` loop iterates through each remaining `Node` (which must represent a `Pixel`) and adds its `y` index to the `result` list before returning the final `result`.
 
 ### Node interface
 
