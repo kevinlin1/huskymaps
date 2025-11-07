@@ -1,6 +1,6 @@
 # Shortest Paths
 
-In addition to implementing navigation directions in Husky Maps, **shortest paths** is also useful for **seam carving**: a technique for _image resizing_ where the size of an image is reduced by one pixel in height (by removing a horizontal seam) or width (by removing a vertical seam) at a time. Rather than cropping pixels from the edges or scaling the entire image, seam carving is considered _content-aware image resizing_ because it attempts to identify and preserve the most important content in an image.
+In addition to implementing navigation directions in Husky Maps, **shortest paths** is also useful for **seam carving**: a technique for _image resizing_ where the size of an image is reduced by one pixel in height (by removing a horizontal seam) or width (by removing a vertical seam) at a time. Rather than cropping pixels from the edges or scaling the entire image, seam carving is considered _content-aware image resizing_ because it attempts to identify and preserve the most important content in an image. Try out Aryan Naraghi's [Seam Carving Demo](https://www.aryan.app/seam-carving/) to see the algorithm in action.
 
 [![Seam Carving for Content-Aware Image Resizing](https://faculty.runi.ac.il/arik/scweb/imret/teaser.jpg)](https://faculty.runi.ac.il/arik/scweb/imret/)
 
