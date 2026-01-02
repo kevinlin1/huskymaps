@@ -12,4 +12,8 @@ public class ArrayDequeTests extends DequeTests {
     }
 
     // You may write additional tests here if you only want them to run for ArrayDeque
+
+    public static void main(String[] args) {
+        runtimeExperiments(ArrayDeque::new);
+    }
 }
