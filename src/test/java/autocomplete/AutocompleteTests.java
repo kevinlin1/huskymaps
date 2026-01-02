@@ -1,10 +1,13 @@
 package autocomplete;
 
-import org.junit.jupiter.api.*;
+import net.jqwik.api.*;
+import net.jqwik.api.constraints.AlphaChars;
+import net.jqwik.api.constraints.StringLength;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
+import java.util.function.Supplier;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @see Autocomplete
  */
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public abstract class AutocompleteTests {
     /**
      * Maximum number of cities to parse.
@@ -26,58 +28,58 @@ public abstract class AutocompleteTests {
     /**
      * Associating each city name to the importance weight of that city.
      */
-    private final List<String> cities = new ArrayList<>(MAX_CITIES);
+    private static final List<String> CITIES = new ArrayList<>(MAX_CITIES);
+    static {
+        try (Scanner input = new Scanner(new FileInputStream(PATH))) {
+            while (input.hasNextLine() && CITIES.size() < MAX_CITIES) {
+                try (Scanner line = new Scanner(input.nextLine()).useDelimiter("\t")) {
+                    CITIES.add(line.next());
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     /**
      * Reference implementation of the {@link Autocomplete} interface for comparison.
      */
-    private final Autocomplete reference = new TreeSetAutocomplete();
+    private final Autocomplete reference = new TreeSetAutocomplete(CITIES);
     /**
      * Testing implementation of the {@link Autocomplete} interface for comparison.
      */
-    private final Autocomplete testing = createAutocomplete();
+    private final Autocomplete testing = createAutocomplete(CITIES);
 
     /**
      * Returns an empty {@link Autocomplete} instance.
      *
+     * @param terms to add to the new {@link Autocomplete} instance
      * @return an empty {@link Autocomplete} instance
      */
-    public abstract Autocomplete createAutocomplete();
+    public abstract Autocomplete createAutocomplete(Collection<? extends CharSequence> terms);
 
-    @BeforeAll
-    void setup() throws IOException {
-        try (Scanner input = new Scanner(new FileInputStream(PATH))) {
-            while (input.hasNextLine() && cities.size() < MAX_CITIES) {
-                try (Scanner line = new Scanner(input.nextLine()).useDelimiter("\t")) {
-                    cities.add(line.next());
-                }
-            }
-        }
-        reference.addAll(cities);
-        testing.addAll(cities);
+    @Example
+    void compareEmptyPrefix() {
+        assertAllMatches("");
     }
 
-    @Test
-    void comparePrefixSea() {
-        assertAllMatches("Sea");
+    @Property
+    void compareArbitraryPrefix(@ForAll @AlphaChars @StringLength(min = 1, max = 10) String prefix) {
+        assertAllMatches(prefix);
     }
 
-    @Test
-    void compareRandomPrefixes() {
-        Random random = new Random(373);
-        double samplingProportion = 0.0001;
-        for (String city : cities) {
-            if (random.nextDouble() <= samplingProportion) {
-                String prefix = city;
-                if (prefix.length() >= 4) {
-                    int length = random.nextInt(prefix.length() - 2) + 2;
-                    prefix = prefix.substring(0, length);
-                }
-                assertAllMatches(prefix);
-            }
-        }
+    @Property
+    void compareValidPrefix(@ForAll("validPrefix") String prefix) {
+        assertAllMatches(prefix);
     }
 
-    @Test
+    @Provide
+    Arbitrary<String> validPrefix() {
+        Arbitrary<String> city = Arbitraries.of(CITIES);
+        return city.flatMap(s -> Arbitraries.integers().between(1, s.length()).map(i -> s.substring(0, i)));
+    }
+
+    @Example
     void allMatchesMutation() {
         List<CharSequence> results = testing.allMatches("Sea");
         List<CharSequence> expected = new ArrayList<>(results);
@@ -99,61 +101,56 @@ public abstract class AutocompleteTests {
         assertTrue(actual.containsAll(expected));
     }
 
-    @Nested
-    @Disabled
-    class RuntimeExperiments {
-        /**
-         * Number of trials per implementation run. Making this smaller means experiments run faster.
-         */
-        private static final int NUM_TRIALS = 1000;
-        /**
-         * Maximum number of elements to add.
-         */
-        public static final int MAX_SIZE = 20000;
-        /**
-         * Step size increment. Making this smaller means experiments run slower.
-         */
-        private static final int STEP = 1000;
+    /**
+     * Number of trials per implementation run. Making this smaller means experiments run faster.
+     */
+    private static final int NUM_TRIALS = 1000;
+    /**
+     * Maximum number of elements to add.
+     */
+    public static final int MAX_SIZE = 20000;
+    /**
+     * Step size increment. Making this smaller means experiments run slower.
+     */
+    private static final int STEP = 1000;
 
-        @Test
-        void addAllAllMatches() {
-            for (int size = STEP; size <= MAX_SIZE; size += STEP) {
-                System.out.print(size);
-                System.out.print(',');
+    static void runtimeExperiments(Supplier<Autocomplete> constructor) {
+        for (int size = STEP; size <= MAX_SIZE; size += STEP) {
+            System.out.print(size);
+            System.out.print(',');
 
-                // Make a new test input dataset containing the first size cities
-                List<String> dataset = cities.subList(0, size);
+            // Make a new test input dataset containing the first size cities
+            List<String> dataset = CITIES.subList(0, size);
 
-                // Record the total runtimes accumulated across all trials
-                long totalAddAllTime = 0;
+            // Record the total runtimes accumulated across all trials
+            long totalAddAllTime = 0;
 
-                Autocomplete autocomplete = null;
+            Autocomplete autocomplete = null;
+            for (int i = 0; i < NUM_TRIALS; i += 1) {
+                autocomplete = constructor.get();
+                // Measure the time to add all cities
+                long addStart = System.nanoTime();
+                autocomplete.addAll(dataset);
+                long addTime = System.nanoTime() - addStart;
+                totalAddAllTime += addTime;
+            }
+            // Output the average rounded to the closest integer.
+            System.out.printf("%.0f", totalAddAllTime / (double) NUM_TRIALS);
+
+            for (String prefix : new String[]{"Sea"}) {
+                long totalMatchesTime = 0;
                 for (int i = 0; i < NUM_TRIALS; i += 1) {
-                    autocomplete = createAutocomplete();
-                    // Measure the time to add all cities
-                    long addStart = System.nanoTime();
-                    autocomplete.addAll(dataset);
-                    long addTime = System.nanoTime() - addStart;
-                    totalAddAllTime += addTime;
+                    // Measure the time to find all matches
+                    long matchesStart = System.nanoTime();
+                    autocomplete.allMatches(prefix);
+                    long matchesTime = System.nanoTime() - matchesStart;
+                    totalMatchesTime += matchesTime;
                 }
                 // Output the average rounded to the closest integer.
-                System.out.printf("%.0f", totalAddAllTime / (double) NUM_TRIALS);
-
-                for (String prefix : new String[]{"Sea"}) {
-                    long totalMatchesTime = 0;
-                    for (int i = 0; i < NUM_TRIALS; i += 1) {
-                        // Measure the time to find all matches
-                        long matchesStart = System.nanoTime();
-                        autocomplete.allMatches(prefix);
-                        long matchesTime = System.nanoTime() - matchesStart;
-                        totalMatchesTime += matchesTime;
-                    }
-                    // Output the average rounded to the closest integer.
-                    System.out.print(',');
-                    System.out.printf("%.0f", totalMatchesTime / (double) NUM_TRIALS);
-                }
-                System.out.println();
+                System.out.print(',');
+                System.out.printf("%.0f", totalMatchesTime / (double) NUM_TRIALS);
             }
+            System.out.println();
         }
     }
 }

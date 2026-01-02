@@ -20,6 +20,14 @@ public class TreeSetAutocomplete implements Autocomplete {
         elements = new TreeSet<>(CharSequence::compare);
     }
 
+    /**
+     * Constructs an instance containing the given terms.
+     */
+    public TreeSetAutocomplete(Collection<? extends CharSequence> terms) {
+        this();
+        addAll(terms);
+    }
+
     @Override
     public void addAll(Collection<? extends CharSequence> terms) {
         elements.addAll(terms);

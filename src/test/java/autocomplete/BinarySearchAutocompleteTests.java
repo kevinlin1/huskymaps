@@ -1,5 +1,7 @@
 package autocomplete;
 
+import java.util.Collection;
+
 /**
  * Tests for the {@link BinarySearchAutocomplete} class.
  *
@@ -7,7 +9,11 @@ package autocomplete;
  */
 public class BinarySearchAutocompleteTests extends AutocompleteTests {
     @Override
-    public Autocomplete createAutocomplete() {
-        return new BinarySearchAutocomplete();
+    public Autocomplete createAutocomplete(Collection<? extends CharSequence> terms) {
+        return new BinarySearchAutocomplete(terms);
+    }
+
+    public static void main(String[] args) {
+        runtimeExperiments(BinarySearchAutocomplete::new);
     }
 }
