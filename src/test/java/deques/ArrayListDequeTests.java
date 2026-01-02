@@ -1,7 +1,7 @@
 package deques;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for the {@link ArrayListDeque} class.
@@ -36,5 +36,9 @@ public class ArrayListDequeTests extends DequeTests {
         for (int i = 0; i < 100000; i += 1) {
             deque.removeFirst();
         }
+    }
+
+    public static void main(String[] args) {
+        runtimeExperiments(ArrayListDeque::new);
     }
 }

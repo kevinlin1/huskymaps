@@ -12,4 +12,8 @@ public class LinkedDequeTests extends DequeTests {
     }
 
     // You may write additional tests here if you only want them to run for LinkedDeque
+
+    public static void main(String[] args) {
+        runtimeExperiments(LinkedDeque::new);
+    }
 }
