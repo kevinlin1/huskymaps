@@ -21,6 +21,14 @@ public class TernarySearchTreeAutocomplete implements Autocomplete {
         overallRoot = null;
     }
 
+    /**
+     * Constructs an instance containing the given terms.
+     */
+    public TernarySearchTreeAutocomplete(Collection<? extends CharSequence> terms) {
+        this();
+        addAll(terms);
+    }
+
     @Override
     public void addAll(Collection<? extends CharSequence> terms) {
         // TODO: Replace with your code

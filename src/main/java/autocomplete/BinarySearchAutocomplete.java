@@ -22,6 +22,14 @@ public class BinarySearchAutocomplete implements Autocomplete {
         elements = new ArrayList<>();
     }
 
+    /**
+     * Constructs an instance containing the given terms.
+     */
+    public BinarySearchAutocomplete(Collection<? extends CharSequence> terms) {
+        this();
+        addAll(terms);
+    }
+
     @Override
     public void addAll(Collection<? extends CharSequence> terms) {
         // TODO: Replace with your code
