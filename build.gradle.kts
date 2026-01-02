@@ -21,11 +21,14 @@ dependencies {
     implementation("org.slf4j:slf4j-simple:2.0.17")
 
     testImplementation("org.junit.jupiter:junit-jupiter:6.0.1")
+    testImplementation("net.jqwik:jqwik:1.9.3")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 tasks.test {
-    useJUnitPlatform()
+    useJUnitPlatform {
+        includeEngines("jqwik")
+    }
     testLogging {
         events("passed", "skipped", "failed")
         showStandardStreams = true
