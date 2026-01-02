@@ -77,8 +77,9 @@ public class MapGraph implements AStarGraph<Point> {
         importance = new HashMap<>();
         try (Scanner input = new Scanner(fileStream(placesPath))) {
             while (input.hasNextLine()) {
-                Scanner line = new Scanner(input.nextLine()).useDelimiter("\t");
-                importance.put(line.next(), line.nextInt());
+                try (Scanner line = new Scanner(input.nextLine()).useDelimiter("\t")) {
+                    importance.put(line.next(), line.nextInt());
+                }
             }
         }
     }
