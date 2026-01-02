@@ -69,8 +69,12 @@ public class MapServer {
                 route = List.of();
             }
             List<Point> locations = map.getLocations(term);
-            URL staticImageURL = url(center, zoom, width, height, route, locations);
-            ctx.result(new Base64InputStream(staticImageURL.openStream(), true));
+            ctx.result(
+                Base64InputStream.builder()
+                .setInputStream(url(center, zoom, width, height, route, locations).openStream())
+                .setEncode(true)
+                .get()
+            );
         });
         app.get("/search", ctx -> {
             ctx.json(map.getLocationsByPrefix(ctx.queryParam("term"), MAX_MATCHES));
