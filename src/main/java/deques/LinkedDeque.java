@@ -107,6 +107,7 @@ public class LinkedDeque<E> implements Deque<E> {
      *
      * @return null if this deque is valid, or a description of the error
      */
+    @SuppressWarnings("unused")
     private String checkInvariants() {
         if (front.prev != null) {
             return "Unexpected reference: front.prev should be <null> but was <" + front.prev + ">";

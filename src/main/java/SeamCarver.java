@@ -96,12 +96,13 @@ public class SeamCarver {
      * @return          the new dimension to resize to.
      */
     private static int promptForSize(String dimension, int max) {
-        Scanner console = new Scanner(System.in);
-        while (true) {
-            System.out.print("Enter a new " + dimension + " in [3, " + max + "]: ");
-            int size = console.nextInt();
-            if (3 <= size && size <= max) {
-                return size;
+        try (Scanner console = new Scanner(System.in)) {
+            while (true) {
+                System.out.print("Enter a new " + dimension + " in [3, " + max + "]: ");
+                int size = console.nextInt();
+                if (3 <= size && size <= max) {
+                    return size;
+                }
             }
         }
     }

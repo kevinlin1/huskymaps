@@ -45,12 +45,12 @@ public abstract class AutocompleteTests {
 
     @BeforeAll
     void setup() throws IOException {
-        Scanner input = new Scanner(new FileInputStream(PATH));
-        while (input.hasNextLine() && cities.size() < MAX_CITIES) {
-            Scanner line = new Scanner(input.nextLine()).useDelimiter("\t");
-            String city = line.next();
-            // int weight = line.nextInt();
-            cities.add(city);
+        try (Scanner input = new Scanner(new FileInputStream(PATH))) {
+            while (input.hasNextLine() && cities.size() < MAX_CITIES) {
+                try (Scanner line = new Scanner(input.nextLine()).useDelimiter("\t")) {
+                    cities.add(line.next());
+                }
+            }
         }
         reference.addAll(cities);
         testing.addAll(cities);

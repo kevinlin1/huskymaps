@@ -29,13 +29,14 @@ public abstract class MinPQTests {
         File inputFile = new File("data/wcag.tsv");
         MinPQ<String> reference = new DoubleMapMinPQ<>();
         MinPQ<String> testing = createMinPQ();
-        Scanner scanner = new Scanner(inputFile);
-        while (scanner.hasNextLine()) {
-            String[] line = scanner.nextLine().split("\t", 2);
-            int index = Integer.parseInt(line[0].replace(".", ""));
-            String title = line[1];
-            reference.add(title, index);
-            testing.add(title, index);
+        try (Scanner scanner = new Scanner(inputFile)) {
+            while (scanner.hasNextLine()) {
+                String[] line = scanner.nextLine().split("\t", 2);
+                int index = Integer.parseInt(line[0].replace(".", ""));
+                String title = line[1];
+                reference.add(title, index);
+                testing.add(title, index);
+            }
         }
         while (!reference.isEmpty()) {
             assertEquals(reference.removeMin(), testing.removeMin());

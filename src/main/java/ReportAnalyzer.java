@@ -16,14 +16,14 @@ public class ReportAnalyzer {
     public static void main(String[] args) throws IOException {
         File inputFile = new File("data/wcag.tsv");
         Map<String, String> wcagDefinitions = new LinkedHashMap<>();
-        Scanner scanner = new Scanner(inputFile);
-        while (scanner.hasNextLine()) {
-            String[] line = scanner.nextLine().split("\t", 2);
-            String index = "wcag" + line[0].replace(".", "");
-            String title = line[1];
-            wcagDefinitions.put(index, title);
+        try (Scanner scanner = new Scanner(inputFile)) {
+            while (scanner.hasNextLine()) {
+                String[] line = scanner.nextLine().split("\t", 2);
+                String index = "wcag" + line[0].replace(".", "");
+                String title = line[1];
+                wcagDefinitions.put(index, title);
+            }
         }
-
         Pattern re = Pattern.compile("wcag\\d{3,4}");
         List<String> wcagTags = Files.walk(Paths.get("data/reports"))
                 .map(path -> {

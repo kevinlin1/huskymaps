@@ -37,6 +37,7 @@ public class Edge<V> {
     }
 
     @Override
+    @SuppressWarnings("rawtypes")
     public boolean equals(Object o) {
         if (this == o) {
             return true;
