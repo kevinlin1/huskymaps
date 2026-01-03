@@ -89,4 +89,9 @@ public class HeapMinPQ<E> implements MinPQ<E> {
         // TODO: Replace with your code
         throw new UnsupportedOperationException("Not implemented yet");
     }
+
+    @Override
+    public String toString() {
+        return pq.toString();
+    }
 }
