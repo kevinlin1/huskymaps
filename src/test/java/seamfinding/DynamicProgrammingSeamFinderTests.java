@@ -10,4 +10,8 @@ public class DynamicProgrammingSeamFinderTests extends SeamFinderTests {
     public SeamFinder createSeamFinder() {
         return new DynamicProgrammingSeamFinder();
     }
+
+    public static void main(String[] args) {
+        runtimeExperiments(DynamicProgrammingSeamFinder::new);
+    }
 }
