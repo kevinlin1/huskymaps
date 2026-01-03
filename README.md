@@ -34,7 +34,7 @@ Husky Maps consists of 4 educational programming projects that aim to highlight 
 ### Install Java and configure VS Code
 
 > [!note]
-> If you took [CSE 123](https://courses.cs.washington.edu/courses/cse123/) last quarter, skip this step and proceed to [**Install Git**](#install-git). We require at least Java 17 and an up-to-date version of VS Code with the latest version of the CSE 123 VS Code profile installed.
+> If you took [CSE 123](https://courses.cs.washington.edu/courses/cse123/) last quarter, skip this step and proceed to [**Additional VS Code configuration**](#additional-vs-code-configuration).
 
 Let's install the Java Development Kit (JDK), install VS Code, and apply the CSE 123 VS Code profile.
 
@@ -42,12 +42,13 @@ Let's install the Java Development Kit (JDK), install VS Code, and apply the CSE
 
 1. [Download and install VS Code](https://code.visualstudio.com/).
 
-1. Right-click on this [CSE 123 VS Code profile](https://courses.cs.washington.edu/courses/cse123/25au/software/cse123-Java.code-profile) link and **Copy**. Then, open VS Code and apply the profile.
+1. Apply the [CSE 123 VS Code profile](https://courses.cs.washington.edu/courses/cse123/25au/software/cse123-Java.code-profile).
 
-To apply the profile, from the **Manage** icon at the bottom of the Activity Bar (located on the far left side of VS Code), choose **Profiles**. Then, under the dropdown menu next to New Profile, choose **Import Profile...** and paste the link to the CSE 123 VS Code profile. Finally, select **Create Profile** and name it "cse123-Java".
+To apply the profile, first, copy the link to the profile. Then, pull up the **Command Palette** (Show All Commands) with the keyboard shortcut <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>P</kbd> and search for **Preferences: Open Profiles (UI)**. Under the dropdown menu next to New Profile, choose **Import Profile...** and paste the link to the CSE 123 VS Code profile. Finally, select **Create Profile** and name it "cse123-Java".
 
-> [!tip]
-> If you can't find a certain VS Code command, search for it via the **Command Palette** (Show All Commands), which is accessible from anywhere within VS Code using the keyboard shortcut <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>P</kbd>.
+### Additional VS Code configuration
+
+**Open Settings** with the keyboard shortcut <kbd>Ctrl</kbd> <kbd>,</kbd>, search for `debug.console.collapseIdenticalLines`, and uncheck the setting.
 
 ### Install Git
 
