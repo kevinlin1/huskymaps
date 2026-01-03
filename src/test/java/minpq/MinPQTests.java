@@ -3,11 +3,14 @@ package minpq;
 import net.jqwik.api.*;
 import net.jqwik.api.footnotes.EnableFootnotes;
 import net.jqwik.api.footnotes.Footnotes;
+import net.jqwik.api.lifecycle.BeforeTry;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -86,10 +89,26 @@ public abstract class MinPQTests {
     @Provide
     Arbitrary<String> operations() {
         return Arbitraries.oneOf(
-            Combinators.combine(Arbitraries.integers(), Arbitraries.doubles().between(-1000, 1000)).as(
-                (element, priority) -> String.format("addOrChangePriority(%d, %.2f)", element, priority)
-            ),
+            Combinators.combine(Arbitraries.integers(), Arbitraries.doubles().between(-1000, 1000).map((priority) -> String.format("%.2f", priority)))
+                .filter((element, priority) -> {
+                    boolean repeated = priorities.contains(priority);
+                    if (!repeated) {
+                        priorities.add(priority);
+                    }
+                    return !repeated;
+                })
+                .as((element, priority) -> String.format("addOrChangePriority(%d, %s)", element, priority)),
             Arbitraries.just("removeMin()")
         );
+    }
+
+    /**
+     * Records unique priorities to avoid semantic bugs caused by arbitrary handling of duplicate priorities.
+     */
+    private Set<String> priorities = new HashSet<>();
+
+    @BeforeTry
+    void resetPriorities() {
+        priorities.clear();
     }
 }
