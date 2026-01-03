@@ -31,10 +31,7 @@ class PriorityNode<E> {
 
     @Override
     public String toString() {
-        return "PriorityNode{" +
-                "element=" + element +
-                ", priority=" + priority +
-                '}';
+        return "(" + element + ", " + priority + ')';
     }
 
     @Override

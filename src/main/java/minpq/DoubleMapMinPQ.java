@@ -119,6 +119,11 @@ public class DoubleMapMinPQ<E> implements MinPQ<E> {
         return elementToPriority.size();
     }
 
+    @Override
+    public String toString() {
+        return priorityToElement + ", " + elementToPriority;
+    }
+
     /**
      * Returns any one element from the given iterable.
      *
