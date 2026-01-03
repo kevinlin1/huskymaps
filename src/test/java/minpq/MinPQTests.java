@@ -1,11 +1,12 @@
 package minpq;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import net.jqwik.api.*;
+import net.jqwik.api.footnotes.EnableFootnotes;
+import net.jqwik.api.footnotes.Footnotes;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Random;
+import java.util.List;
 import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @see MinPQ
  */
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@EnableFootnotes
 public abstract class MinPQTests {
     /**
      * Returns an empty {@link MinPQ}.
@@ -24,8 +25,8 @@ public abstract class MinPQTests {
      */
     public abstract <E> MinPQ<E> createMinPQ();
 
-    @Test
-    public void wcagIndexAsPriority() throws FileNotFoundException {
+    @Example
+    void wcagIndexAsPriority() throws FileNotFoundException {
         File inputFile = new File("data/wcag.tsv");
         MinPQ<String> reference = new DoubleMapMinPQ<>();
         MinPQ<String> testing = createMinPQ();
@@ -44,85 +45,51 @@ public abstract class MinPQTests {
         assertTrue(testing.isEmpty());
     }
 
-    @Test
-    public void randomPriorities() {
-        int[] elements = new int[1000];
-        for (int i = 0; i < elements.length; i = i + 1) {
-            elements[i] = i;
-        }
-        Random random = new Random(373);
-        int[] priorities = new int[elements.length];
-        for (int i = 0; i < priorities.length; i = i + 1) {
-            priorities[i] = random.nextInt(priorities.length);
-        }
-
+    @Property
+    void addChangeAndRemove(@ForAll List<@From("operations") String> operations, Footnotes footnotes) {
         MinPQ<Integer> reference = new DoubleMapMinPQ<>();
         MinPQ<Integer> testing = createMinPQ();
-        for (int i = 0; i < elements.length; i = i + 1) {
-            reference.add(elements[i], priorities[i]);
-            testing.add(elements[i], priorities[i]);
-        }
 
-        for (int i = 0; i < elements.length; i = i+1) {
-            int expected = reference.removeMin();
-            int actual = testing.removeMin();
+        for (String operation : operations) {
+            footnotes.addFootnote(testing.toString());
 
-            if (expected != actual) {
-                int expectedPriority = priorities[expected];
-                int actualPriority = priorities[actual];
-                assertEquals(expectedPriority, actualPriority);
+            String[] parts = operation.split("[()]");
+            switch (parts[0]) {
+                case "addOrChangePriority" -> {
+                    String[] arguments = parts[1].split(", ");
+                    int element = Integer.parseInt(arguments[0]);
+                    double priority = Double.parseDouble(arguments[1]);
+                    reference.addOrChangePriority(element, priority);
+                    testing.addOrChangePriority(element, priority);
+                }
+                case "removeMin" -> {
+                    if (!reference.isEmpty()) {
+                        // Not checked since peekMin is tested instead
+                        reference.removeMin();
+                        testing.removeMin();
+                    }
+                }
+            }
+            assertEquals(reference.size(), testing.size());
+            if (!reference.isEmpty()) {
+                int referenceElement = reference.peekMin();
+                int testingElement = testing.peekMin();
+                if (referenceElement != testingElement) {
+                    double referencePriority = reference.getPriority(referenceElement);
+                    double testingPriority = testing.getPriority(testingElement);
+                    assertEquals(referencePriority, testingPriority);
+                }
             }
         }
     }
 
-    @Test
-    public void randomIntegersRandomPriorities() {
-        MinPQ<Integer> reference = new DoubleMapMinPQ<>();
-        MinPQ<Integer> testing = createMinPQ();
-
-        int iterations = 10000;
-        int maxElement = 1000;
-        Random random = new Random();
-        for (int i = 0; i < iterations; i += 1) {
-            int element = random.nextInt(maxElement);
-            double priority = random.nextDouble();
-            reference.addOrChangePriority(element, priority);
-            testing.addOrChangePriority(element, priority);
-            assertEquals(reference.peekMin(), testing.peekMin());
-            assertEquals(reference.size(), testing.size());
-            for (int e = 0; e < maxElement; e += 1) {
-                if (reference.contains(e)) {
-                    assertTrue(testing.contains(e));
-                    assertEquals(reference.getPriority(e), testing.getPriority(e));
-                } else {
-                    assertFalse(testing.contains(e));
-                }
-            }
-        }
-        for (int i = 0; i < iterations; i += 1) {
-            boolean shouldRemoveMin = random.nextBoolean();
-            if (shouldRemoveMin && !reference.isEmpty()) {
-                assertEquals(reference.removeMin(), testing.removeMin());
-            } else {
-                int element = random.nextInt(maxElement);
-                double priority = random.nextDouble();
-                reference.addOrChangePriority(element, priority);
-                testing.addOrChangePriority(element, priority);
-            }
-            if (!reference.isEmpty()) {
-                assertEquals(reference.peekMin(), testing.peekMin());
-                assertEquals(reference.size(), testing.size());
-                for (int e = 0; e < maxElement; e += 1) {
-                    if (reference.contains(e)) {
-                        assertTrue(testing.contains(e));
-                        assertEquals(reference.getPriority(e), testing.getPriority(e));
-                    } else {
-                        assertFalse(testing.contains(e));
-                    }
-                }
-            } else {
-                assertTrue(testing.isEmpty());
-            }
-        }
+    @Provide
+    Arbitrary<String> operations() {
+        return Arbitraries.oneOf(
+            Combinators.combine(Arbitraries.integers(), Arbitraries.doubles().between(-1000, 1000)).as(
+                (element, priority) -> String.format("addOrChangePriority(%d, %.2f)", element, priority)
+            ),
+            Arbitraries.just("removeMin()")
+        );
     }
 }
