@@ -90,7 +90,7 @@ public abstract class MinPQTests {
         Set<String> priorities = new HashSet<>();
         Arbitrary<String> uniquePriorities = Arbitraries.doubles()
             .between(-1000, 1000)
-            .map((priority) -> String.format("%.2f", priority))
+            .map(priority -> String.format("%.2f", priority))
             .filter(priority -> {
                 boolean repeated = priorities.contains(priority);
                 if (!repeated) {
