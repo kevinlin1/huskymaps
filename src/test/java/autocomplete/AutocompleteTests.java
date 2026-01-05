@@ -58,13 +58,8 @@ public abstract class AutocompleteTests {
      */
     public abstract Autocomplete createAutocomplete(Collection<? extends CharSequence> terms);
 
-    @Example
-    void compareEmptyPrefix() {
-        assertAllMatches("");
-    }
-
     @Property
-    void compareArbitraryPrefix(@ForAll @AlphaChars @StringLength(min = 1, max = 10) String prefix) {
+    void compareArbitraryPrefix(@ForAll @AlphaChars @StringLength(max = 10) String prefix) {
         assertAllMatches(prefix);
     }
 
