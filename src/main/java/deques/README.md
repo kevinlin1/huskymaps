@@ -66,7 +66,7 @@ We've provided an `ArrayDeque` class that includes a bug, and four failing test 
 
 1. Read the test result and review the stack trace (the chain of calls that caused the exception).
 
-1. Review `ArrayDeque` again, this time focusing on methods most relevant to the failing test. Open [`DequeTests.java`](../../../test/java/deques/DequeTests.java) and [drag the tab for a side-by-side view](https://www.jetbrains.com/idea/guide/tips/drag-and-dock/).
+1. Review `ArrayDeque` again, this time focusing on methods most relevant to the failing test. Open [`DequeTests.java`](../../../test/java/deques/DequeTests.java) and [drag the tab for a side-by-side view](https://code.visualstudio.com/docs/getstarted/userinterface#_side-by-side-editing).
 
 1. Based on what we know about the bug, develop a hypothesis for the cause of the problem.
 
@@ -118,7 +118,7 @@ A `LinkedDeque` should always maintain the following invariants before and after
 To assist in debugging, we've provided a `checkInvariants` method that returns a string describing any problems with invariants (at the time the method is called), or null if there are no problems. Add debugging print statements with this `checkInvariants` method to help verify a hypothesis. Lastly, if the first try goes badly, don't be afraid to try again from scratch.
 
 > [!important]
-> Trace through the `confusingTest` with your `LinkedDeque` starting from [DequeTests.java#L200](../../../test/java/deques/DequeTests.java#L200), "Test that removing and adding back is okay". Explain the arguments and return values of each method call as well as how each line of code changes the `LinkedDeque` representation. For methods that are called more than once, just trace through the method the first time.
+> Trace through the `addAndRemove` test with your `LinkedDeque` starting from the first iteration of the `for` loop. Explain the arguments and return values of each method call as well as how each line of code changes the `LinkedDeque` representation. For methods that are called more than once, just trace through the method the first time.
 
 As before, stage, commit, and push the `LinkedDeque` implementation to GitLab with a descriptive, scoped commit message.
 
