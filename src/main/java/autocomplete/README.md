@@ -57,7 +57,7 @@ When behavior is not defined by the interface, implementations can do anything, 
 Given the terms [alpha, delta, do, cats, dodgy, pilot, dog], `allMatches("do")` should return [do, dodgy, dog] in any order.
 
 ```java
-@Test
+@Example
 void simpleTest() {
     List<CharSequence> terms = List.of(
         "alpha", "delta", "do", "cats", "dodgy", "pilot", "dog"

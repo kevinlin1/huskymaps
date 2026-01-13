@@ -31,7 +31,7 @@ The `java.util` standard library includes a binary heap [`PriorityQueue`](https:
 After adding the numbers 1 to 6 (inclusive) to a `MinPQ`, we can change the priority of the element 3 to 0 and the priority of the element 1 to 7. If we then repeatedly call `removeMin`, the order of elements that appear will be [3, 2, 4, 5, 6, 1].
 
 ```java
-@Test
+@Example
 void simpleTest() {
     MinPQ<String> reference = new DoubleMapMinPQ<>();
     MinPQ<String> testing = createMinPQ();
