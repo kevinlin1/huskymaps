@@ -118,12 +118,12 @@ A `LinkedDeque` should always maintain the following invariants before and after
 To assist in debugging, we've provided a `checkInvariants` method that returns a string describing any problems with invariants (at the time the method is called), or null if there are no problems. Add debugging print statements with this `checkInvariants` method to help verify a hypothesis. Lastly, if the first try goes badly, don't be afraid to try again from scratch.
 
 > [!important]
-> To trace the behavior of your `LinkedDeque`, you will run the `LinkedDequeTests` class, which extends `DequeTests` and provides your `LinkedDeque` implementation via `createDeque()`. Running this test executes the inherited `addAndRemove` test on your `LinkedDeque`. When the test executes, it will output a visualization of the `LinkedDeque` state (produced by the `toString()` method) after each operation.  
+> To trace the behavior of your `LinkedDeque`, you will run the `LinkedDequeTests` class, which extends `DequeTests` and provides your `LinkedDeque` implementation via `createDeque()`. Running this test executes the inherited `addAndRemove` test on your `LinkedDeque`. When the test executes, it will output a visualization of the `LinkedDeque` state (produced by the `toString()` method) after each operation.
 >
-> Trace through the **first 10 lines** of the visualization. For each line:  
-> - Identify which deque method (`addFirst`, `addLast`, `removeFirst`, or `removeLast`) produced that line of output.  
-> - Explain why the deque state appears as it does, referencing the relevant lines in your `LinkedDeque` implementation.  
-> - Describe how the operation updates the internal structure of the deque, including which references or fields (`front`, `back`, `next`, `prev`, `size`) change.  
+> Trace through the **first 10 lines** of the visualization. For each line:
+> - Identify which deque method (`addFirst`, `addLast`, `removeFirst`, or `removeLast`) produced that line of output.
+> - Explain why the deque state appears as it does, referencing the relevant lines in your `LinkedDeque` implementation.
+> - Describe how the operation updates the internal structure of the deque, including which references or fields (`front`, `back`, `next`, `prev`, `size`) change.
 >
 > If the same method occurs multiple times, you only need to explain it the **first time**.
 
