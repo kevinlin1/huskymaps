@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+title: Husky Maps
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Kevin
+    family-names: Lin
+    email: kevinl@cs.uw.edu
+    affiliation: University of Washington
+    orcid: 'https://orcid.org/0000-0001-9946-3635'
+identifiers:
+  - type: doi
+    value: 10.1145/3626252.3630754
+    description: Contextualizing publication
+repository-code: 'https://github.com/kevinlin1/huskymaps/'
+url: 'https://huskymaps.kevinl.info/'
+repository: 'https://courses.cs.washington.edu/courses/cse373/'
+abstract: >-
+  An educational web app for mapping the world, searching
+  for places, and navigating around Seattle.
+keywords:
+  - data-structures
+  - algorithms
+  - education
+  - deques
+  - autocomplete
+  - priority-queues
+  - shortest-paths
+license: MIT
