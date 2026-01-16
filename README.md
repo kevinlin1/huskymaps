@@ -31,34 +31,21 @@ Husky Maps consists of 4 educational programming projects that aim to highlight 
 > [!warning]
 > These instructions are designed for students enrolled in a University of Washington course!
 
-### Install Java and configure VS Code
+### Install Java, VS Code, and Git
 
-> [!note]
-> If you took [CSE 123](https://courses.cs.washington.edu/courses/cse123/) last quarter, skip this step and proceed to [**Additional VS Code configuration**](#additional-vs-code-configuration).
-
-Let's install the Java Development Kit (JDK), install VS Code, and apply the CSE 123 VS Code profile.
+Let's install the Java Development Kit (JDK) and VS Code.
 
 1. [Download and install Eclipse Temurin (JDK)](https://adoptium.net/).
 
 1. [Download and install VS Code](https://code.visualstudio.com/).
 
-1. Apply the [CSE 123 VS Code profile](https://courses.cs.washington.edu/courses/cse123/25au/software/cse123-Java.code-profile).
-
-To apply the profile, first, copy the link to the profile. Then, pull up the **Command Palette** (Show All Commands) with the keyboard shortcut <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>P</kbd> and search for **Preferences: Open Profiles (UI)**. Under the dropdown menu next to New Profile, choose **Import Profile...** and paste the link to the CSE 123 VS Code profile. Finally, select **Create Profile** and name it "cse123-Java".
-
-### Additional VS Code configuration
-
-**Open Settings** with the keyboard shortcut <kbd>Ctrl</kbd> <kbd>,</kbd>, search for `debug.console.collapseIdenticalLines`, and uncheck the setting.
-
-### Install Git
-
-Git is a **version control system** (VCS), a tool for distributing, managing, and sharing code with other people. Install Git by [following the instructions for your computer's operating system](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
+1. [Install Git by following the instructions for your computer's operating system](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
 
 ### Generate SSH keys
 
 Your project code will be stored on CSE GitLab, a service provided by the Allen School to securely and privately store your coursework. CSE GitLab requires **SSH keys**: computer-generated passwords used to securely authenticate your computer to CSE GitLab.
 
-1. From VS Code, open the Terminal with the keyboard shortcut <kbd>Ctrl</kbd> <kbd>`</kbd> (backtick key, which is typically above your tab key).
+1. From VS Code, open the Terminal with the keyboard shortcut <kbd>Ctrl</kbd> <kbd>`</kbd> (backtick key, which is typically above your tab key). If this doesn't work on MacOS, you can instead open the Terminal app.
 
 1. In the terminal, generate an SSH key pair with the command `ssh-keygen -t ed25519`. When asked to enter a file name or a passphrase, just press <kbd>Enter</kbd> to accept the default settings for both questions.
 
@@ -70,18 +57,21 @@ Your project code will be stored on CSE GitLab, a service provided by the Allen 
 
 ### Obtain project code
 
-Now that we've installed the required software and configured our computer so that it can securely communicate with CSE GitLab, let's get the project code! This step requires the project repositories to be setup, which will be ready for enrolled students by the end of the first week of the course.
+Now that you've installed the required software and configured our computer so that it can securely communicate with CSE GitLab, let's get the project code! This step requires the project repositories to be setup, which will be ready for enrolled students by the end of the first week of the course.
 
 1. Visit [CSE GitLab](https://gitlab.cs.washington.edu/) and you'll be greeted by a repository named after your UW NetID.
 
-1. Visit your private repository, press the blue **Code** button and, under the heading **Open in your IDE**, choose **Visual Studio Code (SSH)**. Be sure to choose the SSH option because we are using SSH keys. If this doesn't work, you can copy the **Clone with SSH** address, find the **Git: Clone** tool in the VS Code command palette, and paste the SSH address. You can choose where you would like to store the project.
+1. Visit your private repository, press the blue **Code** button and, under the heading **Open in your IDE**, choose **Visual Studio Code (SSH)**. Be sure to choose the SSH option because you are using SSH keys. If this doesn't work, you can copy the **Clone with SSH** address, find the **Git: Clone** tool in the VS Code command palette, and paste the SSH address. You can choose where you would like to store the project.
 
 1. If you see an **SSH Confirmation** window, check that the fingerprint matches the [CSE GitLab fingerprint](https://gitlab.cs.washington.edu/help/instance_configuration#ssh-host-keys-fingerprints). Compare the value to the table entries, most likely under **SHA256**. If it matches one of the values, accept the connection. If it doesn't match any of the values, do not accept the connection and write an Ed Discussion question with the mismatch.
 
-> [!caution]
-> VS Code may suggest installing Gradle for Java. **Do not install Gradle for Java** as it will conflict with Language Support for Java. If it was accidentally installed, go to the **Extensions** icon in the Activity Bar and uninstall or disable Gradle for Java.
+The first time you open the project, VS Code should prompt for a few permissions:
 
-The first time you open the project, answer the prompt **Yes, I trust the authors** so that VS Code has your permission to run code. Near the very bottom of VS Code, the status bar shows the current state of the Java environment setup. While we wait for it to report "Java: Ready", right-click the file `README.md` in VS Code and choose **Open Preview** to see exactly these instructions in VS Code.
+1. Respond to the prompt **Yes, I trust the authors** so that VS Code has your permission to run code.
+
+1. Respond to the notification in the bottom right to **Install** recommended extensions. (If you already installed them from CSE 123, you won't get this notification.)
+
+After installing extensions, at the very bottom of VS Code, the status bar should show the current state of the Java environment setup. While you wait for it to report "Java: Ready", right-click the file `README.md` in VS Code and choose **Open Preview** to see exactly these instructions in VS Code.
 
 ### Run project code
 
