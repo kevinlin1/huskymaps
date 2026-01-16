@@ -1,0 +1,11 @@
+{
+    "chat.disableAIFeatures": true,
+    "debug.console.collapseIdenticalLines": false,
+    "editor.lightbulb.enabled": "off",
+    "editor.snippets.codeActions.enabled": false,
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.dependency.packagePresentation": "flat",
+    "java.dependency.syncWithFolderExplorer": true,
+    "java.project.explorer.showNonJavaResources": true,
+    "redhat.telemetry.enabled": false,
+}
