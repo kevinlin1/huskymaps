@@ -127,8 +127,11 @@ To assist in debugging, we've provided a `checkInvariants` method that returns a
 >
 > If the same method occurs multiple times, you only need to explain it the **first time**.
 
-
 As before, stage, commit, and push the `LinkedDeque` implementation to GitLab with a descriptive, scoped commit message.
+
+### Optional: Implement other approaches
+
+Optionally, design your own implementations for the `Deque` interface! Can you come up with approaches that rely on other abstract data types like `Stack` or `Map`?
 
 ## Analyze and compare
 
