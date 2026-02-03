@@ -258,15 +258,13 @@ For `allMatches`, consider how the relationship between the added terms and the 
 
 ### Experimental analysis
 
-Now that you've predicted runtimes across the 4 implementations, let's compare results for the `cities.tsv` dataset. `RuntimeExperiments` are disabled by default: remove the `@Disabled` line above the `RuntimeExperiments` class header to enable it.
-
-Run the provided `RuntimeExperiments` in [`AutocompleteTests.java`](../../../test/java/autocomplete/AutocompleteTests.java) to compare the real-world runtime of each implementation. For each implementation, `RuntimeExperiments` constructs an empty instance and records the number of seconds to add _N_ terms to the dataset before computing all matches for the given `prefix`. The output is printed-out in comma-separated values format representing a table with three columns:
+Now that you've predicted runtimes across the 4 implementations, let's compare results for the `cities.tsv` dataset. Run the provided `runtimeExperiments`, which constructs an empty instance and records the number of seconds needed to add _N_ terms before computing all matches for the given `prefix` such as "Sea". The output is printed-out in comma-separated values format representing a table with three columns:
 
 - The first column denotes _N_, the total number of terms.
 - The second column denotes the average runtime for `addAll` in seconds.
 - The third column denotes the average runtime for `allMatches` in seconds.
 
-Copy-paste the text into plotting software such as [Desmos](https://www.desmos.com/calculator). Create one plot containing the runtimes for all 4 implementations on `addAll`, and then create a second plot containing the runtimes for all 4 implementations on `allMatches`. Ensure that your plots are legible by adding a label or legend to your plots.
+Copy-paste the text into plotting software such as [Desmos](https://www.desmos.com/calculator). Create one plot containing the runtimes for all 4 implementations on `addAll`, and then create a second plot containing the runtimes for all 4 implementations on `allMatches`. Ensure that your plots are legible by adding labels or a legend.
 
 > [!important]
 > Display both plots for `addAll` and `allMatches` to compare runtimes across all 4 implementations. Which implementation is the fastest for `addAll`, and why? Which implementation is the slowest for `allMatches`, and why? What are the benefits and drawbacks for tree-based data structures?

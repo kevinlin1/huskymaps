@@ -173,12 +173,12 @@ After generating this table, we can use it to find the shortest path, or the sea
 
 ### Experimental analysis
 
-Run the provided `RuntimeExperiments` to compare the real-world runtime of each implementation. For each implementation, `RuntimeExperiments` constructs an empty instance and records the number of seconds to `findHorizontal` through randomly-generated square-sized pictures of increasing resolution.
+Run the provided `runtimeExperiments`, which constructs an empty instance and records the number of seconds to `findHorizontal` through randomly-generated square-sized pictures of increasing resolution.
 
 - The first column denotes _N_, the image dimensions (resolution) in pixels.
 - The second column denotes the average runtime for `findHorizontal` in seconds.
 
-Copy-paste the text into plotting software such as [Desmos](https://www.desmos.com/calculator). Plot the runtimes of all 5 approaches on the same graph.
+Copy-paste the text into plotting software such as [Desmos](https://www.desmos.com/calculator). Plot the runtimes of all 5 approaches on the same graph. Ensure that your plots are legible by adding labels or a legend.
 
 - `AdjacencyListSeamFinder(DijkstraSolver::new)`
 - `AdjacencyListSeamFinder(ToposortDAGSolver::new)`

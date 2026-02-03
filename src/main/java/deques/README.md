@@ -129,10 +129,6 @@ To assist in debugging, we've provided a `checkInvariants` method that returns a
 
 As before, stage, commit, and push the `LinkedDeque` implementation to GitLab with a descriptive, scoped commit message.
 
-### Optional: Implement other approaches
-
-Optionally, design your own implementations for the `Deque` interface! Can you come up with approaches that rely on other abstract data types like `Stack` or `Map`?
-
 ## Analyze and compare
 
 ### Asymptotic analysis
@@ -144,16 +140,11 @@ In computer science, simpler solutions are typically preferred over more complic
 
 ### Experimental analysis
 
-At the bottom of [`DequeTests.java`](../../../test/java/deques/DequeTests.java) is a nested class called `RuntimeExperiments`. This nested class defines the code that will be used to evaluate the program's runtime by measuring how long it takes to run on your computer.
+At the bottom of [`DequeTests.java`](../../../test/java/deques/DequeTests.java) is a method called `runtimeExperiments` that evaluates the runtime of a `Deque` implementation by measuring how long it takes to run on your computer. By default, the program measures the time it takes to call `addLast` on a deque that already contains `size` elements.
 
-By default, the `RuntimeExperiments` class is annotated with the tag `@Disabled` right above the class header. Remove the `@Disabled` line and run the tests. For each implementation's `RuntimeExperiments`, open it to see the average time it takes to make a single call to `addLast` on a deque that already contains `size` number of elements.
-
-Copy-paste each result into its own [Desmos graphing calculator](https://www.desmos.com/calculator) to plot all the points.
+The `main` method of each testing class like `ArrayListDequeTests` calls `runtimeExperiments` method. Run each testing class and copy-paste each result into its own [Desmos graphing calculator](https://www.desmos.com/calculator) to plot all the points. Ensure that your plots are legible by adding labels or a legend.
 
 > [!important]
 > Compare your plots for the `addLast` method between all three implementations: `ArrayListDeque`, `ArrayDeque`, and `LinkedDeque`. Then, identify an operation that should show a significant difference between `ArrayListDeque` and the `ArrayDeque`, and modify the `RuntimeExperiments` class so that it measures this difference. Compare your new plots to confirm that `ArrayDeque` is more efficient than `ArrayListDeque` for your operation.
 
-To modify the `RuntimeExperiments` class to measure the runtime of a specific operation, change the call to `deque.addLast(size)` in the inner-most loop to the operation. Finally, change the following `deque.removeLast()` call to perform the opposite operation. For example, to measure the runtime of `removeLast`, then the opposite operation would be `addLast`.
-
-> [!caution]
-> Enabling the `RuntimeExperiments` class will significantly increase the overall time it takes to run tests. Be careful about staging changes to avoid mistakenly pushing a commit enabling `RuntimeExperiments`. If that happens, cancel the pipeline in GitLab and correct the situation by making a new commit that re-disables the `RuntimeExperiments` class.
+To modify the `runtimeExperiments` to measure the runtime of a specific operation, change the call to `deque.addLast(size)` in the inner-most loop to the desired operation. Finally, change the following `deque.removeLast()` call to perform the opposite operation. For example, to measure the runtime of `removeLast`, then the opposite operation would be `addLast`.
