@@ -1,9 +1,9 @@
 # Build Your Own Feature
 
-It's time to build your own feature! Unlike prior projects where you were given a feature, interface, and implementation specifications, this project will prepare you to design, orchestrate, and evaluate a new software technology. This project will challenge you to rely on both human intelligence and machine intelligence. Your human intelligence—your data structures and algorithms intuitions, experiences, and reasoning skills—can guide machine intelligence to carry-out lower-level software development tasks. By the end of the project, students will be able to:
+It's time to build your own feature! Unlike prior projects where you were given a feature, interface, and implementation specifications, this project will prepare you to design, orchestrate, and evaluate a new software technology. Your human intelligence—your data structures and algorithms intuitions, experiences, and reasoning skills—can guide artificial intelligence to carry-out lower-level software development tasks. By the end of the project, students will be able to:
 
 - **Design** (specify and prompt) an interface for a feature and multiple specifications for it.
-- **Orchestrate** (coordinate and apply) human and/or machine intelligence to assemble software.
+- **Orchestrate** (coordinate and apply) human and/or artificial intelligence to assemble software.
 - **Evaluate** (verifiy and validate) software using continuous integration and code reviews.
 - Reflect on the process of collaboratively designing, orchestrating, and evaluating code.
 
@@ -13,7 +13,7 @@ In this project, we recommend using **agentic coding tools** in particular as th
 
 1. **Use an agentic coding tool** such as Claude Code, Gemini CLI, GitHub Copilot, or Cursor. In your submission, we will ask for all relevant prompts and conversations, a short explanation of how you contributed to AI output, and which tool you used. We do not license any of these technologies, so your data is subject to each provider's terms of service and privacy policy.
 1. **Use [Microsoft Copilot Chat](https://m365.cloud.microsoft/chat/)** with University of Washington [commercial data protection](https://uwconnect.uw.edu/it?id=kb_article_view&sysparm_article=KB0034403#copilot). In your submission, we will ask for a shareable chat transcript link and a short explanation of how you contributed to AI output.
-1. **Use minimal machine intelligence** such as ordinary internet resources. In your submission, you will indicate "I did not use AI tools for this assignment" and we will ask for all relevant resources that contributed to your final submission.
+1. **Use minimal artificial intelligence** such as ordinary internet resources. In your submission, you will indicate "I did not use AI tools for this assignment" and we will ask for all relevant resources that contributed to your final submission.
 
 We'll first design an interface and write a simple implementation together before branching off to write and test optimized implementations individually.
 
@@ -62,7 +62,7 @@ Make sure your approach is simple enough that it is unambiguously correct. Your 
 
 As with program logic, tests should also primarily use Java programming features and concepts that we have learned before, but you may refer to the [user guide](https://jqwik.net/docs/current/user-guide.html) for examples of how more advanced Java features can be used to reduce the amount of code needed to express testing logic. The user guide also discusses how to [create example-based tests](https://jqwik.net/docs/current/user-guide.html#creating-an-example-based-test). Examples can be found in the tests for [Deques](../../test/java/deques/DequeTests.java), [Autocomplete](../../test/java/autocomplete/AutocompleteTests.java), and [Priority Queues](../../test/java/minpq/MinPQTests.java).
 
-The remaining steps in this project to be completed individually. Each team member will be responsible for submitting their own work beyond this point. You may continue to draw on other sources of human and machine intelligence to support your learning and project work, subject to the course academic honesty policies.
+The remaining steps in this project to be completed individually. Each team member will be responsible for submitting their own work beyond this point. You may continue to draw on other sources of human and artificial intelligence to support your learning and project work, subject to the course academic honesty policies.
 
 ## Individually set up your personal branch
 
