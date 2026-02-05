@@ -46,6 +46,8 @@ If you prefer a feature not on this list, discuss your idea with the course staf
 
 Your interface should build on your chosen feature in a creative way. Provide details about intended behavior, but avoid discussing implementation details. Before proceeding to the next step, consider whether your interface would allow for multiple substantively different approaches, enough so that each team member can [implement their own improved approach](#individually-implement-an-improved-approach).
 
+Agentic coding tools will automatically read the `AGENTS.md` file located in the [project root](../../../AGENTS.md), which will limit the model's ability to generate large amounts of code. Write your own `AGENTS.md` file (or [explore examples](https://agents.md/#examples)) and save it in your new package.
+
 ## Collaboratively describe and implement a simple approach
 
 > [!important]
