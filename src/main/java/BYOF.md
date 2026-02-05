@@ -4,7 +4,7 @@ It's time to build your own feature! Unlike prior projects where you were given 
 
 - **Design** (specify and prompt) an interface for a feature and multiple specifications for it.
 - **Orchestrate** (coordinate and apply) human and/or artificial intelligence to assemble software.
-- **Evaluate** (verifiy and validate) software using continuous integration and code reviews.
+- **Evaluate** (verify and validate) software using continuous integration and code reviews.
 - Reflect on the process of collaboratively designing, orchestrating, and evaluating code.
 
 ## Getting started
