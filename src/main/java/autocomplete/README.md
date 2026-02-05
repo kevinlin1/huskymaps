@@ -65,8 +65,7 @@ void simpleTest() {
     CharSequence prefix = "do";
     List<CharSequence> expected = List.of("do", "dodgy", "dog");
 
-    Autocomplete testing = createAutocomplete();
-    testing.addAll(terms);
+    Autocomplete testing = createAutocomplete(terms);
     List<CharSequence> actual = testing.allMatches(prefix);
     assertEquals(expected.size(), actual.size());
     assertTrue(expected.containsAll(actual));

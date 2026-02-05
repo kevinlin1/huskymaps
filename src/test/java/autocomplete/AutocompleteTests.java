@@ -51,10 +51,10 @@ public abstract class AutocompleteTests {
     private final Autocomplete testing = createAutocomplete(CITIES);
 
     /**
-     * Returns an empty {@link Autocomplete} instance.
+     * Returns an {@link Autocomplete} instance containing the given terms.
      *
      * @param terms to add to the new {@link Autocomplete} instance
-     * @return an empty {@link Autocomplete} instance
+     * @return an {@link Autocomplete} instance containing the given terms
      */
     public abstract Autocomplete createAutocomplete(Collection<? extends CharSequence> terms);
 
