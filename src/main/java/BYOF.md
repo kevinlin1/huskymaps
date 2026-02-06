@@ -1,20 +1,3 @@
-# Build Your Own Feature
-
-It's time to build your own feature! Unlike prior projects where you were given a feature, interface, and implementation specifications, this project will prepare you to design, orchestrate, and evaluate a new software technology. Your human intelligence—your data structures and algorithms intuitions, experiences, and reasoning skills—can guide artificial intelligence to carry-out lower-level software development tasks. By the end of the project, students will be able to:
-
-- **Design** (specify and prompt) an interface for a feature and multiple specifications for it.
-- **Orchestrate** (coordinate and apply) human and/or artificial intelligence to assemble software.
-- **Evaluate** (verify and validate) software using continuous integration and code reviews.
-- Reflect on the process of collaboratively designing, orchestrating, and evaluating code.
-
-## Getting started
-
-In this project, we recommend using **agentic coding tools** in particular as they have substantially better programming capabilities than chatbots. Work with your team to agree on one of the following approaches:
-
-1. **Use an agentic coding tool** such as Claude Code, Gemini CLI, GitHub Copilot, or Cursor. In your submission, we will ask for all relevant prompts and conversations, a short explanation of how you contributed to AI output, and which tool you used. We do not license any of these technologies, so your data is subject to each provider's terms of service and privacy policy.
-1. **Use [Microsoft Copilot Chat](https://m365.cloud.microsoft/chat/)** with University of Washington [commercial data protection](https://uwconnect.uw.edu/it?id=kb_article_view&sysparm_article=KB0034403#copilot). In your submission, we will ask for a shareable chat transcript link and a short explanation of how you contributed to AI output.
-1. **Use minimal artificial intelligence** such as ordinary internet resources. In your submission, you will indicate "I did not use AI tools for this assignment" and we will ask for all relevant resources that contributed to your final submission.
-
 We'll first design an interface and write a simple implementation together before branching off to write and test optimized implementations individually.
 
 ## Collaboratively identify a feature
@@ -46,7 +29,12 @@ If you prefer a feature not on this list, discuss your idea with the course staf
 
 Your interface should build on your chosen feature in a creative way. Provide details about intended behavior, but avoid discussing implementation details. Before proceeding to the next step, consider whether your interface would allow for multiple substantively different approaches, enough so that each team member can [implement their own improved approach](#individually-implement-an-improved-approach).
 
-Agentic coding tools will automatically read the `AGENTS.md` file located in the [project root](../../../AGENTS.md), which will limit the model's ability to generate large amounts of code. Write your own `AGENTS.md` file (or [explore examples](https://agents.md/#examples)) and save it in your new package.
+Agentic coding tools will automatically read the `AGENTS.md` file located in the [project root](../../../AGENTS.md), which will limit the model's ability to generate large amounts of code. Write your own `AGENTS.md` file (or [explore examples](https://agents.md/#examples)) and save it in your new package to enable code generation for your feature.
+
+> [!TIP]
+> **Engineer the Harness**: Adopt the mindset of "Harness Engineering" described in [My AI Adoption Journey](https://mitchellh.com/writing/my-ai-adoption-journey).
+> 1. **Iterate on Prompts**: Whenever the AI makes a mistake, don't just fix the code. Update your `AGENTS.md` to prevent that specific mistake from happening again.
+> 2. **Automated Verification**: Your tests act as the "Programmed Tools" of the harness. Use them to instantly verify the AI's work.
 
 ## Collaboratively describe and implement a simple approach
 
@@ -61,6 +49,8 @@ Make sure your approach is simple enough that it is unambiguously correct. Your 
 > Commit and push property-based or example-based testing methods that together achieve at least 85% [test coverage](https://code.visualstudio.com/docs/debugtest/testing#_test-coverage) for the simple implementation. Add your tests to a new package under `src/test/java`. Provide screenshots of your test coverage panel and links to your test files.
 
 As with program logic, tests should also primarily use Java programming features and concepts that we have learned before, but you may refer to the [user guide](https://jqwik.net/docs/current/user-guide.html) for examples of how more advanced Java features can be used to reduce the amount of code needed to express testing logic. The user guide also discusses how to [create example-based tests](https://jqwik.net/docs/current/user-guide.html#creating-an-example-based-test). Examples can be found in the tests for [Deques](../../test/java/deques/DequeTests.java), [Autocomplete](../../test/java/autocomplete/AutocompleteTests.java), and [Priority Queues](../../test/java/minpq/MinPQTests.java).
+
+These tests serve as the "Harness" for your future work. By establishing a verified simple implementation and comprehensive tests now, you create a safety net that allows you to confidently delegate complex optimization tasks to the AI later.
 
 The remaining steps in this project to be completed individually. Each team member will be responsible for submitting their own work beyond this point. You may continue to draw on other sources of human and artificial intelligence to support your learning and project work, subject to the course academic honesty policies.
 
@@ -77,6 +67,8 @@ From your group's GitLab repository, create a new branch named after yourself. S
 > Commit and push your improved implementation to your personal feature branch.
 
 Develop an improved implementation of your interface that improves upon the simple approach. This improved implementation must still satisfy the exact same interface and produce the same outputs as the simple approach for all inputs, but it should be substantively different in its use of data structures and algorithms and, ideally, asymptotic runtime analysis. Each team member should develop their own substantively different approach. Consider using a more efficient data structure such as a tree or a heap instead of a list, adding caching or indexing to carefully save information, or applying algorithmic optimizations that we studied.
+
+With your "Harness" (tests and simple implementation) in place, you can apply the "Outsource the Slam Dunks" or "Always Have an Agent Running" strategies. Delegate the implementation of complex data structures or algorithms to the AI, using your harness to verify correctness. If the AI fails, refine your `AGENTS.md` instructions (Harness Engineering) rather than just fixing the code manually.
 
 ## Individually test your improved implementation
 
@@ -125,6 +117,10 @@ _Give the best and worst-case runtime for each method._
 ## Testing
 
 _Which new tests did you add? Show your test coverage too._
+
+## Harness Engineering
+
+_What instructions did you add to AGENTS.md to fix AI mistakes?_
 
 ## Limitations
 ```
