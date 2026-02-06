@@ -15,8 +15,6 @@ In this project, we recommend using **agentic coding tools** in particular as th
 1. **Use [Microsoft Copilot Chat](https://m365.cloud.microsoft/chat/)** with University of Washington [commercial data protection](https://uwconnect.uw.edu/it?id=kb_article_view&sysparm_article=KB0034403#copilot). In your submission, we will ask for a shareable chat transcript link and a short explanation of how you contributed to AI output.
 1. **Use minimal artificial intelligence** such as ordinary internet resources. In your submission, you will indicate "I did not use AI tools for this assignment" and we will ask for all relevant resources that contributed to your final submission.
 
-We'll first design an interface and write a simple implementation together before branching off to write and test optimized implementations individually.
-
 ## Collaboratively identify a feature
 
 > [!important]
@@ -46,7 +44,9 @@ If you prefer a feature not on this list, discuss your idea with the course staf
 
 Your interface should build on your chosen feature in a creative way. Provide details about intended behavior, but avoid discussing implementation details. Before proceeding to the next step, consider whether your interface would allow for multiple substantively different approaches, enough so that each team member can [implement their own improved approach](#individually-implement-an-improved-approach).
 
-Agentic coding tools will automatically read the `AGENTS.md` file located in the [project root](../../../AGENTS.md), which will limit the model's ability to generate large amounts of code. Write your own `AGENTS.md` file (or [explore examples](https://agents.md/#examples)) and save it in your new package.
+Agentic coding tools will automatically read the `AGENTS.md` file located in the [project root](../../../AGENTS.md), which will limit the model's ability to generate large amounts of code. Write your own `AGENTS.md` file (or [explore examples](https://agents.md/#examples)) and save it in your new package to enable code generation for your feature.
+
+When working with AI agents, adopt the mindset of "Harness Engineering" described in [My AI Adoption Journey](https://mitchellh.com/writing/my-ai-adoption-journey). Instead of manually fixing code when the AI makes a mistake, update your `AGENTS.md` to prevent that specific mistake from happening again. Treat your tests as "Programmed Tools" that instantly verify the AI's work.
 
 ## Collaboratively describe and implement a simple approach
 
@@ -61,6 +61,8 @@ Make sure your approach is simple enough that it is unambiguously correct. Your 
 > Commit and push property-based or example-based testing methods that together achieve at least 85% [test coverage](https://code.visualstudio.com/docs/debugtest/testing#_test-coverage) for the simple implementation. Add your tests to a new package under `src/test/java`. Provide screenshots of your test coverage panel and links to your test files.
 
 As with program logic, tests should also primarily use Java programming features and concepts that we have learned before, but you may refer to the [user guide](https://jqwik.net/docs/current/user-guide.html) for examples of how more advanced Java features can be used to reduce the amount of code needed to express testing logic. The user guide also discusses how to [create example-based tests](https://jqwik.net/docs/current/user-guide.html#creating-an-example-based-test). Examples can be found in the tests for [Deques](../../test/java/deques/DequeTests.java), [Autocomplete](../../test/java/autocomplete/AutocompleteTests.java), and [Priority Queues](../../test/java/minpq/MinPQTests.java).
+
+These tests serve as the "Harness" for your future work. By establishing a verified simple implementation and comprehensive tests now, you create a safety net that allows you to confidently delegate complex optimization tasks to the AI later.
 
 The remaining steps in this project to be completed individually. Each team member will be responsible for submitting their own work beyond this point. You may continue to draw on other sources of human and artificial intelligence to support your learning and project work, subject to the course academic honesty policies.
 
