@@ -44,6 +44,37 @@ We've provided a reference implementation that will help us evaluate the perform
 `ArrayListDeque` uses an `ArrayList` to implement the `Deque` functionality. But it's an implementation detail: since any programmer using `ArrayListDeque` will not be able to access this underlying `ArrayList` because it is _encapsulated_ with private fields.
 </details>
 
+### Example Usage
+After adding a list of elements [-1, 0, 1, 2, 3, 4] to a `Deque`, we perform a sequence of add and remove operations at both ends. After those operations, the elements remaining in the `Deque` will be [-2, -1, 0].
+```java
+@Example
+void confusingTest() {
+    Deque<Integer> deque = createDeque();
+
+    for (int x : List.of(-1, 0, 1, 2, 3, 4)) {
+        deque.addLast(x);
+    }
+
+    assertEquals(-1, deque.removeFirst());
+    deque.addFirst(-1);
+    assertEquals(-1, deque.get(0));
+
+    deque.addLast(5);
+    deque.addFirst(-2);
+    deque.addFirst(-3);
+
+    // Test a tricky sequence of removes
+    assertEquals(-3, deque.removeFirst());
+    assertEquals(5, deque.removeLast());
+    assertEquals(4, deque.removeLast());
+    assertEquals(3, deque.removeLast());
+    assertEquals(2, deque.removeLast());
+
+    int actual = deque.removeLast();
+    assertEquals(1, actual);
+}
+```
+
 ## Design and implement
 
 The focus of this course is not only to build programs that work according to specifications but also to compare different approaches and evaluate the consequences of our designs. In this project, we'll compare the `ArrayListDeque` reference implementation against two other ways to implement the `Deque` interface.
@@ -78,8 +109,7 @@ For example, we might _hypothesize_ that the problem is caused by the `newIndex`
 To develop a hypothesis, we can use the debugger to pause the program at any point in time. At each step, we can compare our thinking to the state of the debugger.
 
 > [!important]
-> State your hypothesis for the bug in the `ArrayDeque` class and the lines of code that you changed to address the hypothesis. Explain why this change was necessary to help maintain the integrity of the codebase.
-
+> State your hypothesis about the bug in the ArrayDeque class. Identify the specific line(s) of code you changed to address the hypothesis, including the line number(s). Explain why this change was necessary to help maintain the integrity of the codebase.
 ### Stage, commit, and push changes to GitLab
 
 Unlike collaboration tools like Google Docs that automatically save changes as we make them, Git requires us to manually version our code. This is helpful for programming because we often want to try-out a change, but we might not be immediately ready to share it with others until we've fully-tested the change and ensure it works as intended.
@@ -118,12 +148,11 @@ A `LinkedDeque` should always maintain the following invariants before and after
 To assist in debugging, we've provided a `checkInvariants` method that returns a string describing any problems with invariants (at the time the method is called), or null if there are no problems. Add debugging print statements with this `checkInvariants` method to help verify a hypothesis. Lastly, if the first try goes badly, don't be afraid to try again from scratch.
 
 > [!important]
-> To trace the behavior of your `LinkedDeque`, you will run the `LinkedDequeTests` class, which extends `DequeTests` and provides your `LinkedDeque` implementation via `createDeque()`. Running this test executes the inherited `addAndRemove` test on your `LinkedDeque`. When the test executes, it will output a visualization of the `LinkedDeque` state (produced by the `toString()` method) after each operation.
+> Trace through the `confusingTest` with your `LinkedDeque`.
 >
-> Trace through the **first 10 lines** of the visualization. For each line:
-> - Identify which deque method (`addFirst`, `addLast`, `removeFirst`, or `removeLast`) produced that line of output.
-> - Explain why the deque state appears as it does, referencing the relevant lines in your `LinkedDeque` implementation.
-> - Describe how the operation updates the internal structure of the deque, including which references or fields (`front`, `back`, `next`, `prev`, `size`) change.
+> 1. While walking through the code, draw a diagram of the `LinkedDeque` representation.
+> 1. Using the diagram, describe how each operation updates the internal structure of the `LinkedDeque`, including which references or fields (`front`, `back`, `next`, `prev`, `size`) change.
+> 1. Explain the arguments and return values of each method call.
 >
 > If the same method occurs multiple times, you only need to explain it the **first time**.
 
