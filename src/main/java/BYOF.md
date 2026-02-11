@@ -1,13 +1,13 @@
 # Build Your Own Feature
 
-It's time to build your own feature! Unlike prior projects where you were given a feature, interface, and implementation specifications, this project will prepare you to design, orchestrate, and evaluate a new software technology. Your human intelligence—your data structures and algorithms intuitions, experiences, and reasoning skills—can guide artificial intelligence to carry-out lower-level software development tasks. By the end of the project, students will be able to:
+It's time to build your own feature! Unlike prior projects where you were given a feature, interface, and implementation specifications, this project will prepare you to design, orchestrate, and evaluate a new software technology. Your human intelligence—your data structures and algorithms intuitions, experiences, and reasoning skills—can guide artificial intelligence to carry-out lower-level software development tasks. Simon Willison calls this form of AI-accelerated software engineering that amplifies existing software development expertise [**vibe engineering**](https://simonwillison.net/2025/Oct/7/vibe-engineering/).
+
+By the end of the project, students will be able to:
 
 - **Design** (specify and prompt) an interface for a feature and multiple specifications for it.
 - **Orchestrate** (coordinate and apply) human and/or artificial intelligence to assemble software.
 - **Evaluate** (verify and validate) software using peer code reviews and test coverage metrics.
 - Reflect on the process of collaboratively designing, orchestrating, and evaluating code.
-
-Simon Willison calls this form of AI-accelerated software engineering [**vibe engineering**](https://simonwillison.net/2025/Oct/7/vibe-engineering/).
 
 ## Getting started
 
@@ -46,9 +46,7 @@ If you prefer a feature not on this list, discuss your idea with the course staf
 
 Your interface should build on your chosen feature in a creative way. Provide details about intended behavior, but avoid discussing implementation details. Before proceeding to the next step, consider whether your interface would allow for multiple substantively different approaches, enough so that each team member can [implement their own improved approach](#individually-implement-an-improved-approach).
 
-Agentic coding tools will automatically read the `AGENTS.md` file located in the [project root](../../../AGENTS.md), which will limit the model's ability to generate large amounts of code. Write your own `AGENTS.md` file (such as [Jesse Vincent's configuration](https://github.com/obra/dotfiles/blob/main/.claude/CLAUDE.md) or [other public examples](https://agents.md/#examples)) and save it in your new package to enable code generation for your feature.
-
-When working with AI agents, adopt the mindset of "Harness Engineering" described in [My AI Adoption Journey](https://mitchellh.com/writing/my-ai-adoption-journey). Instead of manually fixing code when the AI makes a mistake, update your `AGENTS.md` to prevent that specific mistake from happening again. Treat your tests as "Programmed Tools" that instantly verify the AI's work.
+Agentic coding tools will automatically read the `AGENTS.md` file located in the [project root](../../../AGENTS.md), which will limit the model's ability to generate large amounts of code. Write your own `AGENTS.md` file (such as [Jesse Vincent's configuration](https://github.com/obra/dotfiles/blob/main/.claude/CLAUDE.md) or [other public examples](https://agents.md/#examples)) and save it in your new package to enable code generation for your feature. Mitchell Hashimoto describes [harness engineering](https://mitchellh.com/writing/my-ai-adoption-journey#step-5-engineer-the-harness) as key skill for working with agentic coding tools: instead of manually fixing code when the AI makes a mistake, update your `AGENTS.md` to prevent that specific mistake from happening again. Agent skills such as [test-driven development](https://agentskills.so/agent-skills/testing-quality-assurance/test-driven-development-agent-skill) can be useful to adopt too.
 
 ## Collaboratively describe and implement a simple approach
 
@@ -64,7 +62,7 @@ Make sure your approach is simple enough that it is unambiguously correct. Your 
 
 As with program logic, tests should also primarily use Java programming features and concepts that we have learned before, but you may refer to the [user guide](https://jqwik.net/docs/current/user-guide.html) for examples of how more advanced Java features can be used to reduce the amount of code needed to express testing logic. The user guide also discusses how to [create example-based tests](https://jqwik.net/docs/current/user-guide.html#creating-an-example-based-test). Examples can be found in the tests for [Deques](../../test/java/deques/DequeTests.java), [Autocomplete](../../test/java/autocomplete/AutocompleteTests.java), and [Priority Queues](../../test/java/minpq/MinPQTests.java).
 
-These tests serve as the "Harness" for your future work. By establishing a verified simple implementation and comprehensive tests now, you create a safety net that allows you to confidently delegate complex optimization tasks to the AI later.
+These tests serve as the harness for your future work. By establishing a verified simple implementation and comprehensive tests now, you create a safety net that allows you to confidently delegate complex optimization tasks to the agentic coding tool later.
 
 The remaining steps in this project to be completed individually. Each team member will be responsible for submitting their own work beyond this point. You may continue to draw on other sources of human and artificial intelligence to support your learning and project work, subject to the course academic honesty policies.
 
