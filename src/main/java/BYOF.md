@@ -7,6 +7,8 @@ It's time to build your own feature! Unlike prior projects where you were given 
 - **Evaluate** (verify and validate) software using peer code reviews and test coverage metrics.
 - Reflect on the process of collaboratively designing, orchestrating, and evaluating code.
 
+Simon Willison calls this form of AI-accelerated software engineering [**vibe engineering**](https://simonwillison.net/2025/Oct/7/vibe-engineering/).
+
 ## Getting started
 
 In this project, we recommend using **agentic coding tools** in particular as they have substantially better programming capabilities than chatbots. Work with your team to agree on one of the following approaches:
