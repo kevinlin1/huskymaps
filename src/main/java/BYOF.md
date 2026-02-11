@@ -44,7 +44,7 @@ If you prefer a feature not on this list, discuss your idea with the course staf
 
 Your interface should build on your chosen feature in a creative way. Provide details about intended behavior, but avoid discussing implementation details. Before proceeding to the next step, consider whether your interface would allow for multiple substantively different approaches, enough so that each team member can [implement their own improved approach](#individually-implement-an-improved-approach).
 
-Agentic coding tools will automatically read the `AGENTS.md` file located in the [project root](../../../AGENTS.md), which will limit the model's ability to generate large amounts of code. Write your own `AGENTS.md` file (or [explore examples](https://agents.md/#examples)) and save it in your new package to enable code generation for your feature.
+Agentic coding tools will automatically read the `AGENTS.md` file located in the [project root](../../../AGENTS.md), which will limit the model's ability to generate large amounts of code. Write your own `AGENTS.md` file (such as [Jesse Vincent's configuration](https://github.com/obra/dotfiles/blob/main/.claude/CLAUDE.md) or [other public examples](https://agents.md/#examples)) and save it in your new package to enable code generation for your feature.
 
 When working with AI agents, adopt the mindset of "Harness Engineering" described in [My AI Adoption Journey](https://mitchellh.com/writing/my-ai-adoption-journey). Instead of manually fixing code when the AI makes a mistake, update your `AGENTS.md` to prevent that specific mistake from happening again. Treat your tests as "Programmed Tools" that instantly verify the AI's work.
 
