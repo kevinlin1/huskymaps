@@ -11,7 +11,7 @@ By the end of the project, students will be able to:
 
 ## Getting started
 
-In this project, we recommend using **agentic coding tools** in particular as they have substantially better programming capabilities than chatbots. Work with your team to agree on one of the following approaches:
+In this project, we recommend using **agentic coding tools** in particular as they have substantially better programming capabilities than chatbots because they can directly run the code they are writing, address errors and test case failures, and learn from the entire project codebase. Work with your team to agree on one of the following approaches:
 
 1. **Use an agentic coding tool** such as Claude Code, Gemini Code Assist, OpenAI Codex, GitHub Copilot, or Cursor. In your submission, we will ask for all relevant prompts and conversations, a short explanation of how you contributed to AI output, and which tool you used. We do not license any of these technologies, so your data is subject to each provider's terms of service and privacy policy.
 1. **Use [Microsoft Copilot Chat](https://m365.cloud.microsoft/chat/)** with University of Washington [commercial data protection](https://uwconnect.uw.edu/it?id=kb_article_view&sysparm_article=KB0034403#copilot). In your submission, we will ask for a shareable chat transcript link and a short explanation of how you contributed to AI output.
