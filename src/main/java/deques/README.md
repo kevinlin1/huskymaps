@@ -116,6 +116,14 @@ Unlike collaboration tools like Google Docs that automatically save changes as w
 
 Once we're satisfied with our implementations, the last step is to [stage and commit code changes](https://code.visualstudio.com/docs/sourcecontrol/intro-to-git#_staging-and-committing-code-changes). Provide a descriptive commit message that follows the scoped message style, such as "src: Fixed ArrayDeque.resize bug". You may choose a more specific scope, such as "deques: Fixed ArrayDeque.resize bug" to make the messages more useful for yourself in the future.
 
+> [!tip]
+> The first time you commit, Git may require you to configure your name and email in the terminal first.
+>
+> ```sh
+> git config --global user.name "YOUR NAME"
+> git config --global user.email email@uw.edu
+> ```
+
 After committing your changes, [push the commit](https://code.visualstudio.com/docs/sourcecontrol/intro-to-git#_pushing-and-pulling-remote-changes) to GitLab.
 
 ### Check your GitLab pipeline
