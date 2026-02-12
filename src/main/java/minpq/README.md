@@ -144,7 +144,7 @@ A optimized binary heap priority queue supported by a `HashMap` that associates 
 
 ### Optional: Randomized testing
 
-Optionally, write a randomized test in [`MinPQTests.java`](../../../test/java/minpq/MinPQTests.java) that simulates a large-scale version of the `ReportAnalyzer`. Read the `data/wcag.tsv` file and use randomness to sample WCAG tags until about 10000 tags have been counted by the reference and testing implementations. Then, remove all the tags from both implementations and check that the remove orders are consistent. Use the provided `randomIntegersRandomPriorities` method and the `ReportAnalyzer` that you implemented earlier to aid in writing your random test with WCAG tags. Your random test will likely be simpler than the sample `randomIntegersRandomPriorities` method.
+Optionally, write a randomized test in [`MinPQTests.java`](../../../test/java/minpq/MinPQTests.java) that simulates a large-scale version of the `ReportAnalyzer`. Read the `data/wcag.tsv` file and use randomness to sample WCAG tags until about 10000 tags have been counted by the reference and testing implementations. Then, remove all the tags from both implementations and check that the remove orders are consistent.
 
 After you have a functioning random test, modify it to better simulate our `data/reports` sample by upweighting the occurrence of the top 3 most commonly-reported tags.
 
