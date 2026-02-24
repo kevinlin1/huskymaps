@@ -102,7 +102,7 @@ AdjacencyListSeamFinderTests:
     - changes:
         - src/main/java/graphs/**/*.java
         - src/main/java/seamfinding/**/*.java
-  script: ./gradlew --warning-mode=all test --tests "seamfinding.AdjacencyListSeamFinderTests"
+  script: ./gradlew --warning-mode=all test --tests "seamfinding.AdjacencyListSeamFinder*Tests"
   when: always
 
 GenerativeSeamFinderTests:
@@ -111,7 +111,7 @@ GenerativeSeamFinderTests:
     - changes:
         - src/main/java/graphs/**/*.java
         - src/main/java/seamfinding/**/*.java
-  script: ./gradlew --warning-mode=all test --tests "seamfinding.GenerativeSeamFinderTests"
+  script: ./gradlew --warning-mode=all test --tests "seamfinding.GenerativeSeamFinder*Tests"
   when: always
 
 DynamicProgrammingSeamFinderTests:
