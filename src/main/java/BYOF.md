@@ -146,3 +146,10 @@ In GitLab, navigate to a teammate's merge request. Open the "**Changes**" tab to
 Use **Add to review** rather than **Add comment now** when leaving comments to batch your comments together for easier review. Finally, approve the merge request when you believe it is correct and complete, or leave it unapproved if you believe the merge request is missing any previous step or if further changes are needed.
 
 If you're worried about completing this task due to unresponsive teammates, bring this up to the course staff so that we can assign a different team's merge request for you to review.
+
+## Individually reflect on the process
+
+Reflect on the collaborative and individual process of designing, coordinating, and evaluating code for this project. Describe what aspects of teamwork and individual work were effective, what challenges or breakdowns occurred, and how code quality, testing, or evaluation were impacted.
+
+> [!important]
+> Identify at least one thing you learned from the process and at least one challenge you encountered, and explain how you would approach similar coding work differently in the future.
