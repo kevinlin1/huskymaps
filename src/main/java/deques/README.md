@@ -179,7 +179,7 @@ In computer science, simpler solutions are typically preferred over more complic
 
 At the bottom of [`DequeTests.java`](../../../test/java/deques/DequeTests.java) is a method called `runtimeExperiments` that evaluates the runtime of a `Deque` implementation by measuring how long it takes to run on your computer. By default, the program measures the time it takes to call `addLast` on a deque that already contains `size` elements.
 
-The `main` method of each testing class like `ArrayListDequeTests` calls `runtimeExperiments` method. Run each testing class and copy-paste each result into its own [Desmos graphing calculator](https://www.desmos.com/calculator) to plot all the points. Ensure that your plots are legible by adding labels or a legend.
+The `main` method of each testing class like `ArrayListDequeTests` calls `runtimeExperiments` for the corresponding implementation. Run each testing class and copy-paste each result into its own [Desmos graphing calculator](https://www.desmos.com/calculator) to plot all the points. Ensure that your plots are legible by adding labels or a legend.
 
 > [!important]
 > Compare your plots for the `addLast` method between all three implementations: `ArrayListDeque`, `ArrayDeque`, and `LinkedDeque`. Then, identify an operation that should show a significant difference between `ArrayListDeque` and the `ArrayDeque`, and modify the `RuntimeExperiments` class so that it measures this difference. Compare your new plots to confirm that `ArrayDeque` is more efficient than `ArrayListDeque` for your operation.

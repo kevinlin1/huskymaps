@@ -178,7 +178,7 @@ Run the provided `runtimeExperiments`, which constructs an empty instance and re
 - The first column denotes _N_, the image dimensions (resolution) in pixels.
 - The second column denotes the average runtime for `findHorizontal` in seconds.
 
-Copy-paste the text into plotting software such as [Desmos](https://www.desmos.com/calculator). Plot the runtimes of all 5 approaches on the same graph. Ensure that your plots are legible by adding labels or a legend.
+The `main` method of each testing class calls `runtimeExperiments` for the corresponding implementation. Copy-paste the text into plotting software such as [Desmos](https://www.desmos.com/calculator). Plot the runtimes of all 5 approaches on the same graph. Ensure that your plots are legible by adding labels or a legend.
 
 - `AdjacencyListSeamFinder(DijkstraSolver::new)`
 - `AdjacencyListSeamFinder(ToposortDAGSolver::new)`

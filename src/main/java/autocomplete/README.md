@@ -263,9 +263,9 @@ Now that you've predicted runtimes across the 4 implementations, let's compare r
 - The second column denotes the average runtime for `addAll` in seconds.
 - The third column denotes the average runtime for `allMatches` in seconds.
 
-Copy-paste the text into plotting software such as [Desmos](https://www.desmos.com/calculator). Create one plot containing the runtimes for all 4 implementations on `addAll`, and then create a second plot containing the runtimes for all 4 implementations on `allMatches`. Ensure that your plots are legible by adding labels or a legend.
+The `main` method of each testing class calls `runtimeExperiments` method for the corresponding implementation. Copy-paste the text into plotting software such as [Desmos](https://www.desmos.com/calculator). Create one plot containing the runtimes for all 4 implementations on `addAll`, and then create a second plot containing the runtimes for all 4 implementations on `allMatches`. Ensure that your plots are legible by adding labels or a legend.
 
 > [!important]
 > Display both plots for `addAll` and `allMatches` to compare runtimes across all 4 implementations. Which implementation is the fastest for `addAll`, and why? Which implementation is the slowest for `allMatches`, and why? What are the benefits and drawbacks for tree-based data structures?
 >
-> There are apparent disagreements between the runtimes you hypothesized in asymptotic analysis and the runtimes you observed in your experimental analysis. Explain how the settings for the `RuntimeExperiments` differs from the asymptotic analysis assumptions.
+> There are apparent disagreements between the runtimes you hypothesized in asymptotic analysis and the runtimes you observed in your experimental analysis. Explain how the settings for the `runtimeExperiments` differs from the asymptotic analysis assumptions.
