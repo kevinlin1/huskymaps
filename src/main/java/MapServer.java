@@ -5,6 +5,8 @@ import org.locationtech.spatial4j.context.SpatialContext;
 import org.locationtech.spatial4j.shape.Point;
 import org.locationtech.spatial4j.shape.ShapeFactory;
 
+import graphs.MapGraph;
+
 import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.util.List;

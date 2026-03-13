@@ -1,7 +1,7 @@
+package graphs;
+
 import autocomplete.Autocomplete;
 import autocomplete.TreeSetAutocomplete;
-import graphs.AStarGraph;
-import graphs.Edge;
 import graphs.shortestpaths.AStarSolver;
 import minpq.DoubleMapMinPQ;
 import org.locationtech.spatial4j.context.SpatialContext;
@@ -22,7 +22,6 @@ import java.util.zip.GZIPInputStream;
  * {@link AStarGraph} of places as {@link Point} vertices and streets edges weighted by physical distance.
  *
  * @see AStarGraph
- * @see MapServer
  */
 public class MapGraph implements AStarGraph<Point> {
     private final String osmPath;
