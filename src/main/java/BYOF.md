@@ -1,6 +1,6 @@
 # Build Your Own Feature
 
-It's time to build your own feature! Unlike prior projects where you were given a feature, interface, and implementation specifications, this project will prepare you to design, orchestrate, and evaluate a new software technology. Your human intelligence—your data structures and algorithms intuitions, experiences, and reasoning skills—can guide artificial intelligence to carry-out lower-level software development tasks. Simon Willison calls this form of AI-accelerated software engineering that amplifies existing software development expertise [**vibe engineering**](https://simonwillison.net/2025/Oct/7/vibe-engineering/).
+It's time to build your own feature! Unlike prior projects where you were given a feature, interface, and implementation specifications, this project will prepare you to design, orchestrate, and evaluate a new software technology. Your human intelligence—your data structures and algorithms intuitions, experiences, and reasoning skills—can guide artificial intelligence to carry-out lower-level software development tasks. Simon Willison calls this form of AI-accelerated software engineering that amplifies existing software development expertise [**agentic engineering**](https://simonwillison.net/tags/agentic-engineering/).
 
 By the end of the project, students will be able to:
 
