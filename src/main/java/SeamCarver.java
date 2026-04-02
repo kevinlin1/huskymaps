@@ -66,8 +66,12 @@ public class SeamCarver {
         int originalWidth = seamCarver.picture.width();
         int originalHeight = seamCarver.picture.height();
         System.out.println("Current size is " + originalWidth + "x" + originalHeight);
-        int newWidth = promptForSize("width", originalWidth);
-        int newHeight = promptForSize("height", originalHeight);
+        int newWidth;
+        int newHeight;
+        try (Scanner console = new Scanner(System.in)) {
+            newWidth = promptForSize(console, "width", originalWidth);
+            newHeight = promptForSize(console, "height", originalHeight);
+        }
 
         System.out.print("Reducing width... ");
         for (int i = 0; i < originalWidth - newWidth; i++) {
@@ -91,18 +95,17 @@ public class SeamCarver {
     /**
      * Gets new size for resizing image.
      *
+     * @param console   the Scanner to use for input.
      * @param dimension the type of dimension ("width" or "height").
      * @param max       the current dimension of this type.
      * @return          the new dimension to resize to.
      */
-    private static int promptForSize(String dimension, int max) {
-        try (Scanner console = new Scanner(System.in)) {
-            while (true) {
-                System.out.print("Enter a new " + dimension + " in [3, " + max + "]: ");
-                int size = console.nextInt();
-                if (3 <= size && size <= max) {
-                    return size;
-                }
+    private static int promptForSize(Scanner console, String dimension, int max) {
+        while (true) {
+            System.out.print("Enter a new " + dimension + " in [3, " + max + "]: ");
+            int size = console.nextInt();
+            if (3 <= size && size <= max) {
+                return size;
             }
         }
     }
