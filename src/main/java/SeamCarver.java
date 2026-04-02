@@ -116,10 +116,11 @@ public class SeamCarver {
         List<Integer> seam = seamFinder.findHorizontal(picture, f);
         Picture result = new Picture(picture.width(), picture.height() - 1);
         for (int x = 0; x < picture.width(); x += 1) {
-            for (int y = 0; y < seam.get(x); y += 1) {
+            int seamY = seam.get(x);
+            for (int y = 0; y < seamY; y += 1) {
                 result.set(x, y, picture.get(x, y));
             }
-            for (int y = seam.get(x); y < picture.height() - 1; y += 1) {
+            for (int y = seamY; y < picture.height() - 1; y += 1) {
                 result.set(x, y, picture.get(x, y + 1));
             }
         }
@@ -136,10 +137,11 @@ public class SeamCarver {
         List<Integer> seam = seamFinder.findVertical(picture, f);
         Picture result = new Picture(picture.width() - 1, picture.height());
         for (int y = 0; y < picture.height(); y += 1) {
-            for (int x = 0; x < seam.get(y); x += 1) {
+            int seamX = seam.get(y);
+            for (int x = 0; x < seamX; x += 1) {
                 result.set(x, y, picture.get(x, y));
             }
-            for (int x = seam.get(y); x < picture.width() - 1; x += 1) {
+            for (int x = seamX; x < picture.width() - 1; x += 1) {
                 result.set(x, y, picture.get(x + 1, y));
             }
         }
