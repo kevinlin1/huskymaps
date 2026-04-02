@@ -96,12 +96,12 @@ Now that you're able to run the simple `BrowserHistory` class, let's try running
 [main] INFO org.eclipse.jetty.server.handler. ...
 [main] INFO org.eclipse.jetty.server.Abstract ...
 [main] INFO org.eclipse.jetty.server.Server - ...
-[main] INFO io.javalin.Javalin - 
-       __                  ___           _____
-      / /___ __   ______ _/ (_)___      / ___/
- __  / / __ `/ | / / __ `/ / / __ \    / __ \
-/ /_/ / /_/ /| |/ / /_/ / / / / / /   / /_/ /
-\____/\__,_/ |___/\__,_/_/_/_/ /_/    \____/
+[main] INFO io.javalin.Javalin -
+       __                  ___          _____
+      / /___ __   ______ _/ (_)___     /__  /
+ __  / / __ `/ | / / __ `/ / / __ \      / /
+/ /_/ / /_/ /| |/ / /_/ / / / / / /     / /
+\____/\__,_/ |___/\__,_/_/_/_/ /_/     /_/
 
        https://javalin.io/documentation
 
