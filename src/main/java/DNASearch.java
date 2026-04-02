@@ -132,11 +132,7 @@ public class DNASearch {
 
             @Override
             public String toString() {
-                StringBuilder result = new StringBuilder(length());
-                for (int i = 0; i < length(); i += 1) {
-                    result.append(charAt(i));
-                }
-                return result.toString();
+                return data.subSequence(offset, offset + length()).toString();
             }
         }
 
