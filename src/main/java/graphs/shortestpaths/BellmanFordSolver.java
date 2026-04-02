@@ -26,18 +26,42 @@ public class BellmanFordSolver<V> implements ShortestPathSolver<V> {
         distTo = new HashMap<>();
         edgeTo.put(start, null);
         distTo.put(start, 0.0);
-        List<V> vertices = vertices(graph, start);
-        for (int i = 1; i < vertices.size(); i += 1) {
-            for (V from : vertices) {
-                for (Edge<V> e : graph.neighbors(from)) {
-                    V to = e.to;
-                    double oldDist = distTo.getOrDefault(to, Double.POSITIVE_INFINITY);
-                    double newDist = distTo.get(from) + e.weight;
-                    if (newDist < oldDist) {
-                        edgeTo.put(to, e);
-                        distTo.put(to, newDist);
-                    }
+
+        List<Edge<V>> allEdges = new ArrayList<>();
+        int numVertices = 0;
+
+        Queue<V> queue = new ArrayDeque<>();
+        Set<V> visited = new HashSet<>();
+        queue.add(start);
+        visited.add(start);
+
+        while (!queue.isEmpty()) {
+            V from = queue.remove();
+            numVertices++;
+            for (Edge<V> e : graph.neighbors(from)) {
+                allEdges.add(e);
+                V to = e.to;
+                if (visited.add(to)) {
+                    queue.add(to);
                 }
+            }
+        }
+
+        for (int i = 1; i < numVertices; i += 1) {
+            boolean changed = false;
+            for (Edge<V> e : allEdges) {
+                V from = e.from;
+                V to = e.to;
+                double oldDist = distTo.getOrDefault(to, Double.POSITIVE_INFINITY);
+                double newDist = distTo.get(from) + e.weight;
+                if (newDist < oldDist) {
+                    edgeTo.put(to, e);
+                    distTo.put(to, newDist);
+                    changed = true;
+                }
+            }
+            if (!changed) {
+                break;
             }
         }
     }
@@ -53,25 +77,5 @@ public class BellmanFordSolver<V> implements ShortestPathSolver<V> {
         }
         Collections.reverse(path);
         return path;
-    }
-
-    private List<V> vertices(Graph<V> graph, V start) {
-        List<V> result = new ArrayList<>();
-        Queue<V> queue = new ArrayDeque<>();
-        Set<V> visited = new HashSet<>();
-        queue.add(start);
-        visited.add(start);
-        while (!queue.isEmpty()) {
-            V from = queue.remove();
-            result.add(from);
-            for (Edge<V> e : graph.neighbors(from)) {
-                V to = e.to;
-                if (!visited.contains(to)) {
-                    queue.add(to);
-                    visited.add(to);
-                }
-            }
-        }
-        return result;
     }
 }
