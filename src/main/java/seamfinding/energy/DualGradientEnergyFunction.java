@@ -53,9 +53,9 @@ public class DualGradientEnergyFunction implements EnergyFunction {
      * @return the central difference between the two pixels' colors.
      */
     private static double centralDiff(int rgb1, int rgb2) {
-        return Math.pow(red(rgb1) - red(rgb2), 2)
-                + Math.pow(green(rgb1) - green(rgb2), 2)
-                + Math.pow(blue(rgb1) - blue(rgb2), 2);
+        return sq(red(rgb1) - red(rgb2))
+                + sq(green(rgb1) - green(rgb2))
+                + sq(blue(rgb1) - blue(rgb2));
     }
 
     /**
@@ -67,9 +67,9 @@ public class DualGradientEnergyFunction implements EnergyFunction {
      * @return the forward/backward difference for the three adjacent pixels' colors.
      */
     private static double forwardDiff(int rgb1, int rgb2, int rgb3) {
-        return Math.pow(-3 * red(rgb1) + 4 * red(rgb2) - red(rgb3), 2)
-                + Math.pow(-3 * green(rgb1) + 4 * green(rgb2) - green(rgb3), 2)
-                + Math.pow(-3 * blue(rgb1) + 4 * blue(rgb2) - blue(rgb3), 2);
+        return sq(-3 * red(rgb1) + 4 * red(rgb2) - red(rgb3))
+                + sq(-3 * green(rgb1) + 4 * green(rgb2) - green(rgb3))
+                + sq(-3 * blue(rgb1) + 4 * blue(rgb2) - blue(rgb3));
     }
 
     /**
@@ -100,6 +100,10 @@ public class DualGradientEnergyFunction implements EnergyFunction {
      */
     private static int blue(int rgb) {
         return rgb & 0xFF;
+    }
+
+    private static double sq(double x) {
+        return x * x;
     }
 
     @Override
