@@ -48,39 +48,39 @@ public class MapServer {
         MapGraph map = new MapGraph(OSM_DB_PATH, PLACES_PATH, context);
         Javalin app = Javalin.create(config -> {
             config.spaRoot.addFile("/", "index.html");
-        }).start(port());
-        app.get("/map/{lon},{lat},{zoom}/{width}x{height}", ctx -> {
-            double lon = ctx.pathParamAsClass("lon", Double.class).get();
-            double lat = ctx.pathParamAsClass("lat", Double.class).get();
-            int zoom = ctx.pathParamAsClass("zoom", Integer.class).get();
-            int width = ctx.pathParamAsClass("width", Integer.class).get();
-            int height = ctx.pathParamAsClass("height", Integer.class).get();
-            String term = ctx.queryParam("term");
+            config.routes.get("/map/{lon},{lat},{zoom}/{width}x{height}", ctx -> {
+                double lon = ctx.pathParamAsClass("lon", Double.class).get();
+                double lat = ctx.pathParamAsClass("lat", Double.class).get();
+                int zoom = ctx.pathParamAsClass("zoom", Integer.class).get();
+                int width = ctx.pathParamAsClass("width", Integer.class).get();
+                int height = ctx.pathParamAsClass("height", Integer.class).get();
+                String term = ctx.queryParam("term");
 
-            Point center = factory.pointLatLon(lat, lon);
-            List<Point> route;
-            try {
-                double startLon = ctx.queryParamAsClass("startLon", Double.class).get();
-                double startLat = ctx.queryParamAsClass("startLat", Double.class).get();
-                double goalLon = ctx.queryParamAsClass("goalLon", Double.class).get();
-                double goalLat = ctx.queryParamAsClass("goalLat", Double.class).get();
-                Point start = factory.pointLatLon(startLat, startLon);
-                Point goal = factory.pointLatLon(goalLat, goalLon);
-                route = map.shortestPath(start, goal);
-            } catch (ValidationException e) {
-                route = List.of();
-            }
-            List<Point> locations = map.getLocations(term);
-            ctx.result(
-                Base64InputStream.builder()
-                .setInputStream(url(center, zoom, width, height, route, locations).openStream())
-                .setEncode(true)
-                .get()
-            );
-        });
-        app.get("/search", ctx -> {
-            ctx.json(map.getLocationsByPrefix(ctx.queryParam("term"), MAX_MATCHES));
-        });
+                Point center = factory.pointLatLon(lat, lon);
+                List<Point> route;
+                try {
+                    double startLon = ctx.queryParamAsClass("startLon", Double.class).get();
+                    double startLat = ctx.queryParamAsClass("startLat", Double.class).get();
+                    double goalLon = ctx.queryParamAsClass("goalLon", Double.class).get();
+                    double goalLat = ctx.queryParamAsClass("goalLat", Double.class).get();
+                    Point start = factory.pointLatLon(startLat, startLon);
+                    Point goal = factory.pointLatLon(goalLat, goalLon);
+                    route = map.shortestPath(start, goal);
+                } catch (ValidationException e) {
+                    route = List.of();
+                }
+                List<Point> locations = map.getLocations(term);
+                ctx.result(
+                    Base64InputStream.builder()
+                    .setInputStream(url(center, zoom, width, height, route, locations).openStream())
+                    .setEncode(true)
+                    .get()
+                );
+            });
+            config.routes.get("/search", ctx -> {
+                ctx.json(map.getLocationsByPrefix(ctx.queryParam("term"), MAX_MATCHES));
+            });
+        }).start(port());
     }
 
     /**
