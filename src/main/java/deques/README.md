@@ -109,7 +109,7 @@ For example, we might _hypothesize_ that the problem is caused by the `newIndex`
 To develop a hypothesis, we can use the debugger to pause the program at any point in time. At each step, we can compare our thinking to the state of the debugger.
 
 > [!important]
-> State your hypothesis about the bug in the ArrayDeque class. Identify the specific line(s) of code you changed to address the hypothesis, including the line number(s). Explain why this change was necessary to help maintain the integrity of the codebase.
+> State your hypothesis about the bug in the `ArrayDeque` class. Identify the specific line(s) of code you changed to address the hypothesis, including the line number(s). Explain why this change was necessary to help maintain the integrity of the codebase.
 ### Stage, commit, and push changes to GitLab
 
 Unlike collaboration tools like Google Docs that automatically save changes as we make them, Git requires us to manually version our code. This is helpful for programming because we often want to try-out a change, but we might not be immediately ready to share it with others until we've fully-tested the change and ensure it works as intended.
