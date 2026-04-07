@@ -56,7 +56,7 @@ Your project code will be stored on CSE GitLab, a service provided by the Allen 
 
 Now that you've installed the required software and configured our computer so that it can securely communicate with CSE GitLab, let's get the project code! This step requires the project repositories to be setup, which will be ready for enrolled students by the end of the first week of the course.
 
-1. Visit [CSE GitLab](https://gitlab.cs.washington.edu/) and you'll be greeted by a repository named after your UW NetID.
+1. Visit [CSE GitLab](https://gitlab.cs.washington.edu/) and you'll be greeted by a private repository with your personal copy of the project.
 
 1. Visit your private repository, press the blue **Code** button and, under the heading **Open in your IDE**, choose **Visual Studio Code (SSH)**. Be sure to choose the SSH option because you are using SSH keys. If this doesn't work, you can copy the **Clone with SSH** address, find the **Git: Clone** tool in the VS Code command palette, and paste the SSH address. You can choose where you would like to store the project.
 
