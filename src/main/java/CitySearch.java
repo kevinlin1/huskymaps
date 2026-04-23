@@ -43,7 +43,9 @@ public class CitySearch {
                 }
                 List<CharSequence> matches = autocomplete.allMatches(prefix);
                 System.out.println(matches.size() + " matches");
-                PriorityQueue<CharSequence> pq = new PriorityQueue<>(Comparator.comparingInt(cities::get).reversed());
+                PriorityQueue<CharSequence> pq = new PriorityQueue<>(
+                    Comparator.comparingInt(cities::get).reversed()
+                );
                 pq.addAll(matches);
                 for (int i = 0; i < Math.min(matches.size(), MAX_MATCHES); i += 1) {
                     System.out.println(pq.poll());
