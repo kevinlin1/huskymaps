@@ -118,24 +118,24 @@ public class MapGraph implements AStarGraph<Point> {
         List<CharSequence> matches = autocomplete.allMatches(prefix);
         if (matches.size() <= maxMatches) {
             List<CharSequence> result = new ArrayList<>(matches);
-            result.sort(Comparator.comparingInt((CharSequence match) -> importance.getOrDefault(match, 0)).reversed());
+            result.sort(Comparator.comparingInt(importance::get).reversed());
             return result;
         }
 
         PriorityQueue<CharSequence> pq = new PriorityQueue<>(
-            Comparator.comparingInt((CharSequence match) -> importance.getOrDefault(match, 0))
+            Comparator.comparingInt(importance::get)
         );
 
         for (CharSequence match : matches) {
             if (pq.size() < maxMatches) {
                 pq.offer(match);
-            } else if (importance.getOrDefault(match, 0) > importance.getOrDefault(pq.peek(), 0)) {
+            } else if (importance.get(match) > importance.get(pq.peek())) {
                 pq.poll();
                 pq.offer(match);
             }
         }
 
-        LinkedList<CharSequence> result = new LinkedList<>();
+        List<CharSequence> result = new ArrayList<>();
         while (!pq.isEmpty()) {
             result.addFirst(pq.poll());
         }
