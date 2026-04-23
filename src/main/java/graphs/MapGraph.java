@@ -137,8 +137,9 @@ public class MapGraph implements AStarGraph<Point> {
 
         List<CharSequence> result = new ArrayList<>();
         while (!pq.isEmpty()) {
-            result.addFirst(pq.poll());
+            result.addLast(pq.poll());
         }
+        Collections.reverse(result);
         return result;
     }
 
