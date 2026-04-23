@@ -167,25 +167,30 @@ public class MapServer {
         long lastLon = 0;
         for (Point point : route) {
             long lat = Math.round(point.getLat() * 1e5);
-            long diffLat = lat - lastLat;
-            diffLat = diffLat < 0 ? ~(diffLat << 1) : diffLat << 1;
-            while (diffLat >= 0x20) {
-                result.append(Character.toChars((int) ((0x20 | (diffLat & 0x1f)) + 63)));
-                diffLat >>= 5;
-            }
-            result.append(Character.toChars((int) (diffLat + 63)));
+            encodeValue(lat, lastLat, result);
             lastLat = lat;
 
             long lon = Math.round(point.getLon() * 1e5);
-            long diffLon = lon - lastLon;
-            diffLon = diffLon < 0 ? ~(diffLon << 1) : diffLon << 1;
-            while (diffLon >= 0x20) {
-                result.append(Character.toChars((int) ((0x20 | (diffLon & 0x1f)) + 63)));
-                diffLon >>= 5;
-            }
-            result.append(Character.toChars((int) (diffLon + 63)));
+            encodeValue(lon, lastLon, result);
             lastLon = lon;
         }
         return result.toString();
+    }
+
+    /**
+     * Encodes a single value (latitude or longitude) into the result string builder.
+     *
+     * @param value     the value to encode.
+     * @param lastValue the previous value for delta encoding.
+     * @param result    the string builder to append the encoded value to.
+     */
+    private static void encodeValue(long value, long lastValue, StringBuilder result) {
+        long diff = value - lastValue;
+        diff = diff < 0 ? ~(diff << 1) : diff << 1;
+        while (diff >= 0x20) {
+            result.append(Character.toChars((int) ((0x20 | (diff & 0x1f)) + 63)));
+            diff >>= 5;
+        }
+        result.append(Character.toChars((int) (diff + 63)));
     }
 }
