@@ -116,11 +116,30 @@ public class MapGraph implements AStarGraph<Point> {
      */
     public List<CharSequence> getLocationsByPrefix(String prefix, int maxMatches) {
         List<CharSequence> matches = autocomplete.allMatches(prefix);
-        Map<CharSequence, Double> elementsAndPriorities = new HashMap<>(matches.size());
-        for (CharSequence match : matches) {
-            elementsAndPriorities.put(match, (double) importance.get(match));
+        if (matches.size() <= maxMatches) {
+            List<CharSequence> result = new ArrayList<>(matches);
+            result.sort(Comparator.comparingInt((CharSequence match) -> importance.getOrDefault(match, 0)).reversed());
+            return result;
         }
-        return new DoubleMapMinPQ<>(elementsAndPriorities).removeMin(maxMatches);
+
+        PriorityQueue<CharSequence> pq = new PriorityQueue<>(
+            Comparator.comparingInt((CharSequence match) -> importance.getOrDefault(match, 0))
+        );
+
+        for (CharSequence match : matches) {
+            if (pq.size() < maxMatches) {
+                pq.offer(match);
+            } else if (importance.getOrDefault(match, 0) > importance.getOrDefault(pq.peek(), 0)) {
+                pq.poll();
+                pq.offer(match);
+            }
+        }
+
+        LinkedList<CharSequence> result = new LinkedList<>();
+        while (!pq.isEmpty()) {
+            result.addFirst(pq.poll());
+        }
+        return result;
     }
 
     /**
