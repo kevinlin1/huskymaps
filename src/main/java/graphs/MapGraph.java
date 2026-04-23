@@ -3,7 +3,6 @@ package graphs;
 import autocomplete.Autocomplete;
 import autocomplete.TreeSetAutocomplete;
 import graphs.shortestpaths.AStarSolver;
-import minpq.DoubleMapMinPQ;
 import org.locationtech.spatial4j.context.SpatialContext;
 import org.locationtech.spatial4j.shape.Point;
 import org.xml.sax.Attributes;
@@ -118,24 +117,24 @@ public class MapGraph implements AStarGraph<Point> {
         List<CharSequence> matches = autocomplete.allMatches(prefix);
         if (matches.size() <= maxMatches) {
             List<CharSequence> result = new ArrayList<>(matches);
-            result.sort(Comparator.comparingInt(importance::get).reversed());
+            result.sort(Comparator.comparingInt((CharSequence match) -> importance.getOrDefault(match, 0)).reversed());
             return result;
         }
 
         PriorityQueue<CharSequence> pq = new PriorityQueue<>(
-            Comparator.comparingInt(importance::get)
+            Comparator.comparingInt((CharSequence match) -> importance.getOrDefault(match, 0))
         );
 
         for (CharSequence match : matches) {
             if (pq.size() < maxMatches) {
                 pq.offer(match);
-            } else if (importance.get(match) > importance.get(pq.peek())) {
+            } else if (importance.getOrDefault(match, 0) > importance.getOrDefault(pq.peek(), 0)) {
                 pq.poll();
                 pq.offer(match);
             }
         }
 
-        List<CharSequence> result = new ArrayList<>();
+        List<CharSequence> result = new ArrayList<>(maxMatches);
         while (!pq.isEmpty()) {
             result.addLast(pq.poll());
         }
