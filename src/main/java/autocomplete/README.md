@@ -30,12 +30,6 @@ Then, we'll [**analyze and compare**](#analyze-and-compare) the performance of t
 
 Review [`Autocomplete.java`](Autocomplete.java) to see the interface and its methods.
 
-<details>
-<summary><strong>What can implementations do when behavior is not defined?</strong></summary>
-
-When behavior is not defined by the interface, implementations can do anything, including throwing exceptions or otherwise causing an error.
-</details>
-
 ### Collections and generic types
 
 [`Collection`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Collection.html) is the parent interface to lists and sets in Java. Using `Collection` rather than `List` lets clients use _any_ list or set or other collection that they've already created in their program.
