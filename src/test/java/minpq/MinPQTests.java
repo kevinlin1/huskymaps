@@ -60,7 +60,7 @@ public abstract class MinPQTests {
                 case "addOrChangePriority" -> {
                     String[] arguments = parts[1].split(", ");
                     int element = Integer.parseInt(arguments[0]);
-                    double priority = Double.parseDouble(arguments[1]);
+                    double priority = Double.valueOf(arguments[1]);
                     reference.addOrChangePriority(element, priority);
                     testing.addOrChangePriority(element, priority);
                 }

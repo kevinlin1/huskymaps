@@ -228,8 +228,8 @@ public class MapGraph implements AStarGraph<Point> {
                 state = "node";
                 id = Long.parseLong(attributes.getValue("id"));
                 location = context.getShapeFactory().pointLatLon(
-                        Double.parseDouble(attributes.getValue("lat")),
-                        Double.parseDouble(attributes.getValue("lon"))
+                        Double.valueOf(attributes.getValue("lat")),
+                        Double.valueOf(attributes.getValue("lon"))
                 );
             } else if (qName.equals("way")) {
                 state = "way";
