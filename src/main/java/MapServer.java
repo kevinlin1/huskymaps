@@ -78,7 +78,10 @@ public class MapServer {
                 );
             });
             config.routes.get("/search", ctx -> {
-                ctx.json(map.getLocationsByPrefix(ctx.queryParam("term"), MAX_MATCHES));
+                double lon = ctx.queryParamAsClass("lon", Double.class).get();
+                double lat = ctx.queryParamAsClass("lat", Double.class).get();
+                Point center = factory.pointLatLon(lat, lon);
+                ctx.json(map.getLocationsByPrefix(ctx.queryParam("term"), MAX_MATCHES, center));
             });
         }).start(port());
     }

@@ -262,7 +262,7 @@
         search.addEventListener('input', debounce(event => {
             const text = event.target.value;
             if (text) {
-                fetch('/search?term=' + text)
+                fetch(`/search?term=${text}&lon=${lon}&lat=${lat}`)
                 .then(response => response.json())
                 .then(items => {
                     if (items) {

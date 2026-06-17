@@ -108,17 +108,23 @@ public class MapGraph implements AStarGraph<Point> {
     }
 
     /**
-     * Return up to the given number of location names that match the prefix string by greatest importance.
+     * Return up to the given number of location names that match the prefix string by distance to the center.
      *
      * @param prefix prefix string that could be any case with or without punctuation.
      * @param maxMatches the maximum number of results to return.
+     * @param center the center of the map.
      * @return a list of full names of locations matching the prefix.
      */
-    public List<CharSequence> getLocationsByPrefix(String prefix, int maxMatches) {
+    public List<CharSequence> getLocationsByPrefix(String prefix, int maxMatches, Point center) {
         List<CharSequence> matches = autocomplete.allMatches(prefix);
         Map<CharSequence, Double> elementsAndPriorities = new HashMap<>(matches.size());
         for (CharSequence match : matches) {
-            elementsAndPriorities.put(match, (double) importance.get(match));
+            List<Point> points = locations.get(match.toString());
+            double minDistance = Double.POSITIVE_INFINITY;
+            for (Point point : points) {
+                minDistance = Math.min(minDistance, estimatedDistance(center, point));
+            }
+            elementsAndPriorities.put(match, minDistance);
         }
         return new DoubleMapMinPQ<>(elementsAndPriorities).removeMin(maxMatches);
     }
