@@ -25,26 +25,22 @@ import java.util.zip.GZIPInputStream;
  */
 public class MapGraph implements AStarGraph<Point> {
     private final String osmPath;
-    private final String placesPath;
     private final SpatialContext context;
     private final Map<Point, List<Edge<Point>>> neighbors;
     private final Map<String, List<Point>> locations;
     private final Autocomplete autocomplete;
-    private final Map<CharSequence, Integer> importance;
 
     /**
      * Constructs a new map graph from the path to an OSM GZ file and a places TSV.
      *
      * @param osmPath    The path to a gzipped OSM (XML) file.
-     * @param placesPath The path to a TSV file representing places and importance.
      * @throws ParserConfigurationException if a parser cannot be created.
      * @throws SAXException                 for SAX errors.
      * @throws IOException                  if a file is not found or if the file is not gzipped.
      */
-    public MapGraph(String osmPath, String placesPath, SpatialContext context)
+    public MapGraph(String osmPath, SpatialContext context)
             throws ParserConfigurationException, SAXException, IOException {
         this.osmPath = osmPath;
-        this.placesPath = placesPath;
         this.context = context;
 
         // Parse the OpenStreetMap (OSM) data using the SAXParser XML tree walker.
@@ -71,16 +67,6 @@ public class MapGraph implements AStarGraph<Point> {
         locations = handler.byName;
         autocomplete = new TreeSetAutocomplete();
         autocomplete.addAll(locations.keySet());
-
-        // Parse the place-importance data.
-        importance = new HashMap<>();
-        try (Scanner input = new Scanner(fileStream(placesPath))) {
-            while (input.hasNextLine()) {
-                try (Scanner line = new Scanner(input.nextLine()).useDelimiter("\t")) {
-                    importance.put(line.next(), line.nextInt());
-                }
-            }
-        }
     }
 
     /**
@@ -164,7 +150,6 @@ public class MapGraph implements AStarGraph<Point> {
     public String toString() {
         return "MapGraph{" +
                 "osmPath='" + osmPath + '\'' +
-                ", placesPath='" + placesPath + '\'' +
                 ", context='" + context + '\'' +
                 '}';
     }

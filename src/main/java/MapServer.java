@@ -28,10 +28,6 @@ public class MapServer {
      */
     private static final String OSM_DB_PATH = "seattle.osm.gz";
     /**
-     * The place-importance TSV data file path from OpenStreetMap.
-     */
-    private static final String PLACES_PATH = "places.tsv";
-    /**
      * Maximum number of autocomplete search results.
      */
     private static final int MAX_MATCHES = 10;
@@ -45,7 +41,7 @@ public class MapServer {
     public static void main(String[] args) throws Exception {
         SpatialContext context = SpatialContext.GEO;
         ShapeFactory factory = context.getShapeFactory();
-        MapGraph map = new MapGraph(OSM_DB_PATH, PLACES_PATH, context);
+        MapGraph map = new MapGraph(OSM_DB_PATH, context);
         Javalin app = Javalin.create(config -> {
             config.spaRoot.addFile("/", "index.html");
             config.routes.get("/map/{lon},{lat},{zoom}/{width}x{height}", ctx -> {
